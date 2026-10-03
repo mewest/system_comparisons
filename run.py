@@ -3,8 +3,8 @@
 
     python run.py --start 2026-07-02 --end 2026-07-11T00:00:00
 
-For each of onsite, offsite, dev: catalog map, preferred/first origin latency plots, and a column in
-systems_stats.csv. Then onsite is compared against USGS ComCat (CSV + map).
+For each of onsite, offsite, dev: catalog map, first-origin latency plot, and a column in
+systems_stats.csv. Then onsite is compared against USGS ComCat (CSV).
 Outputs go to output/<start>_<end>/.
 """
 
@@ -38,10 +38,7 @@ def system_metrics(system, start, end, out):
 
     sysb = f"$\\bf{{{system}}}$"
     plots.catalog_map(pref, f"{sysb} {start} to {end} (agency=AK)", out / f"{system}_rtmap.png")
-    plots.latency_plot(pref, "preferred", f"{sysb} Preferred Origin Latency (agency=AK)",
-                       out / f"{system}_preferred_latency.png")
-    plots.latency_plot(pref, "first", f"{sysb} First Origin Latency (agency=AK)",
-                       out / f"{system}_first_latency.png")
+    plots.latency_plot(pref, f"{sysb} First Origin Latency (agency=AK)", out / f"{system}_first_latency.png")
     return metrics.stats(pref)
 
 
@@ -63,11 +60,6 @@ def comcat_comparison(system, start, end, out):
     print(f"\n{system}-to-USGS matches with differing evids (total: {len(diff)})\n")
     if len(diff):
         print(diff[["root_time", "root_evid", "test_evid", "root_magnitude", "test_magnitude"]].to_string(index=False))
-
-    thresh = (f"mag floor: {config.MAG_FLOOR}\n   time tol: {config.TIME_TOL_S}s\n"
-              f"    dist tol: {config.DIST_TOL_KM}km")
-    plots.comparison_map(comcat.for_map(comp), f"root:{system} – to – test:USGS\ncomparison {start} to {end}",
-                         thresh, out / "aec-to-usgs-map.png")
 
 
 def main():

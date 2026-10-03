@@ -128,9 +128,3 @@ def clean(comp):
     drop = ((mt == "root_only") & rev) | ((mt == "test_only") & av) | ((mt == "matched") & rev & av)
     return comp.loc[~drop]
 
-
-def for_map(comp):
-    """Additionally drop unmatched automatic-confirmed root events outside the ANSS authoritative region."""
-    auth = in_region(comp.root_longitude.astype(float), comp.root_latitude.astype(float), "authoritative")
-    drop = (comp.match_type == "root_only") & ~auth & (comp.root_eval == "auto_confirm")
-    return comp.loc[~drop]

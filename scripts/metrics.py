@@ -35,7 +35,6 @@ def classify(df):
 
 def preferred_with_latency(all_origins):
     """From the all-origins query, return one row per event (its preferred origin) with:
-      detection_residual_s          preferred origin creationTime - origin time
       minimum_detection_residual_s  earliest (first) origin latency over all the event's origins
       mission                       inside mission region
       classify                      evaluation class
@@ -49,8 +48,6 @@ def preferred_with_latency(all_origins):
     pref = df.loc[df.origin_id == df.preferredOriginID].reset_index(drop=True)
     pref["minimum_detection_residual_s"] = pref.event_id.map(first)
     pref["mission"] = in_region(pref.longitude, pref.latitude)
-    pref["detection_time"] = pref.creationInfo_creationTime - pref.time_value
-    pref["detection_residual_s"] = pref.detection_time.dt.total_seconds()
     return classify(pref)
 
 

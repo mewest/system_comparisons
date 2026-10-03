@@ -14,9 +14,8 @@ import matplotlib.patches as patches  # noqa: E402
 import matplotlib.path as mplPath  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.ticker as mticker  # noqa: E402
-from matplotlib.lines import Line2D  # noqa: E402
 
-from .config import AUTHORITATIVE_POLY, DPI, MISSION_POLY  # noqa: E402
+from .config import DPI, MISSION_POLY  # noqa: E402
 
 warnings.filterwarnings("ignore", message="facecolor will have no effect")
 logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)
@@ -50,7 +49,7 @@ def _save(fig, path):
     plt.close(fig)
 
 
-def _basemap(authoritative=False):
+def _basemap():
     fig = plt.figure(figsize=(10, 8))
     ax = plt.axes(projection=ccrs.LambertConformal(central_longitude=-150, central_latitude=64))
     ax.set_extent([-192, -130, 70.5, 47], crs=ccrs.PlateCarree())
@@ -68,9 +67,6 @@ def _basemap(authoritative=False):
     pc = ccrs.PlateCarree()
     ax.add_patch(patches.PathPatch(mplPath.Path(MISSION_POLY), transform=pc, facecolor="none",
                                    edgecolor="0.50", lw=1.0))
-    if authoritative:
-        ax.add_patch(patches.PathPatch(mplPath.Path(AUTHORITATIVE_POLY), transform=pc, facecolor="none",
-                                       edgecolor="0.25", lw=1.0, linestyle=":"))
     return fig, ax
 
 
@@ -103,10 +99,9 @@ def catalog_map(pref, title, path):
     _save(fig, path)
 
 
-def latency_plot(pref, which, title, path):
-    """Origin time vs detection latency (log). which = 'preferred' or 'first'. Latencies > 60 min
-    are drawn at 70 min."""
-    col = {"preferred": "detection_residual_s", "first": "minimum_detection_residual_s"}[which]
+def latency_plot(pref, title, path):
+    """Origin time vs first-origin detection latency (log). Latencies > 60 min are drawn at 70 min."""
+    col = "minimum_detection_residual_s"
     data = pref.loc[(pref.agency == "AK") & pref.mission].copy()
     data[col] = data[col].where(data[col] <= 3600, 4200)
 
@@ -146,38 +141,3 @@ def latency_plot(pref, which, title, path):
     ax.set_title(title)
     _save(fig, path)
 
-
-MATCH_STYLE = {
-    "root_only": dict(marker="v", facecolor="firebrick", edgecolor="darkred", alpha=1.0),
-    "matched": dict(marker="o", facecolor="forestgreen", edgecolor="darkgreen", alpha=0.4),
-    "test_only": dict(marker="^", facecolor="mediumblue", edgecolor="darkblue", alpha=0.75),
-}
-
-
-def comparison_map(comp, title, thresh_text, path):
-    """Matched (at root location), test-only and root-only events."""
-    if comp.empty:
-        print("No comparison rows; skipping comparison map.")
-        return
-    fig, ax = _basemap(authoritative=True)
-    handles = []
-    for mt in ("matched", "test_only", "root_only"):  # draw order
-        d = comp.loc[comp.match_type == mt]
-        pre = "test" if mt == "test_only" else "root"
-        st = MATCH_STYLE[mt]
-        if len(d):
-            ax.scatter(d[f"{pre}_longitude"].astype(float), d[f"{pre}_latitude"].astype(float),
-                       s=(2.5 * d[f"{pre}_magnitude"].astype(float)) ** 2, linewidth=0.75, zorder=10,
-                       transform=ccrs.PlateCarree(), **st)
-    for mt in ("root_only", "matched", "test_only"):  # legend order
-        st = MATCH_STYLE[mt]
-        handles.append(Line2D([0], [0], marker=st["marker"], color=st["edgecolor"],
-                              markerfacecolor=st["facecolor"], alpha=st["alpha"], linestyle="none",
-                              markersize=4, label=f"{mt} (n={int((comp.match_type == mt).sum())})"))
-    ax.legend(handles=handles, loc="upper left", edgecolor="black", framealpha=1, labelspacing=0.45,
-              handletextpad=0.15, markerscale=2)
-    ax.text(0.014, 0.83, thresh_text, ha="left", va="top", fontsize=11, transform=ax.transAxes,
-            bbox=dict(boxstyle="round", facecolor="white", edgecolor="black"))
-    _stamp(fig, 0.165, size=8)
-    ax.set_title(title)
-    _save(fig, path)

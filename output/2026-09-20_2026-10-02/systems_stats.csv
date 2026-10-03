@@ -1,0 +1,9 @@
+idx,onsite,offsite,dev
+total_events,1967,2111,2307
+in_mission,1882,2023,2220
+auto_confirm,354,721,741
+auto_reject,164,560,447
+auto_uneval,238,570,496
+man_confirm,759,0,8
+man_reject,141,0,0
+generated,2026-10-03 00:58:13 UTC,2026-10-03 00:58:18 UTC,2026-10-03 00:58:21 UTC

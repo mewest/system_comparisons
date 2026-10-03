@@ -42,16 +42,15 @@ def _load_regions():
 
 REGIONS = _load_regions()
 MISSION_POLY = REGIONS["mission_region"]
-AUTHORITATIVE_POLY = REGIONS["anss_region"]
-_PATHS = {"mission": mplPath.Path(MISSION_POLY), "authoritative": mplPath.Path(AUTHORITATIVE_POLY)}
+_MISSION_PATH = mplPath.Path(MISSION_POLY)
 
 
-def in_region(lon, lat, region="mission"):
-    """Boolean array: points inside the mission or authoritative (ANSS) polygon.
+def in_region(lon, lat):
+    """Boolean array: points inside the mission region polygon.
     NaN coordinates return False."""
     import numpy as np
     lon = np.asarray(lon, dtype=float)
     lat = np.asarray(lat, dtype=float)
     pts = np.column_stack([lon % 360, lat])
-    inside = _PATHS[region].contains_points(pts) if len(pts) else np.zeros(0, bool)
+    inside = _MISSION_PATH.contains_points(pts) if len(pts) else np.zeros(0, bool)
     return inside & ~np.isnan(pts).any(axis=1)

@@ -17,9 +17,9 @@ Outputs go to `output/<start>_<end>/`:
 | File | Source in review_and_adjust |
 |---|---|
 | `{onsite,offsite,dev}_rtmap.png` | rt_metrics.py |
-| `{system}_preferred_latency.png`, `{system}_first_latency.png` | rt_metrics.py |
+| `{system}_first_latency.png` | rt_metrics.py |
 | `systems_stats.csv` (one column per system) | rt_metrics.py |
-| `aec-to-usgs-data.csv`, `aec-to-usgs-map.png`, `usgs_data.qml` | system_to_usgs.py (onsite only) |
+| `aec-to-usgs-data.csv`, `usgs_data.qml` | system_to_usgs.py (onsite only) |
 | `{system}_all_origins.csv`, `onsite_pref_origins.csv` | new: raw query results, for tracing differences |
 
 If one system's database is unreachable, it is skipped and the rest still run.
@@ -34,7 +34,7 @@ scripts/db.py       SQL + connection (FQDN, then IP)
 scripts/metrics.py  classification, latencies, stats
 scripts/comcat.py   QuakeML parsing, catalog matching, cleaning filters
 scripts/plots.py    figures
-scripts/regions.geojson mission and ANSS authoritative region polygons
+scripts/regions.geojson mission region polygon (also holds the unused ANSS region)
 ```
 
 Fixed settings (in `config.py`) are those used by `generate_rt_metrics.sh`: ComCat comparison for onsite with
@@ -60,6 +60,7 @@ Results (CSV contents) are intended to be identical. Deliberate changes:
 - Vectorized pandas; works with pandas 2.x and 3.x (the original fails on pandas 3).
 - No crash when an event's preferred origin is outside the window, or when no events are in the mission region.
 - Paths no longer depend on the working directory.
+- Dropped (2026-10-03): preferred-origin latency plots and the ComCat comparison map. The comparison CSV is unchanged.
 
 Behaviour kept on purpose (worth knowing when benchmarking):
 
