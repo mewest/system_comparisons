@@ -5,7 +5,7 @@
 
 For each of onsite, offsite, dev: catalog map, first-origin latency plot, and a column in
 systems_stats.csv. Then onsite is compared against USGS ComCat (CSV).
-Outputs go to output/<start>_<end>/.
+Outputs go to output/<start>_<end>/. The web page data (docs/data/*.json) is overwritten with this window.
 """
 
 import argparse
@@ -15,7 +15,7 @@ from datetime import datetime
 
 import pandas as pd
 
-from scripts import comcat, config, db, metrics, plots
+from scripts import comcat, config, db, metrics, plots, web
 
 warnings.simplefilter("ignore", FutureWarning)
 
@@ -39,6 +39,7 @@ def system_metrics(system, start, end, out):
     sysb = f"$\\bf{{{system}}}$"
     plots.catalog_map(pref, f"{sysb} {start} to {end} (agency=AK)", out / f"{system}_rtmap.png")
     plots.latency_plot(pref, f"{sysb} First Origin Latency (agency=AK)", out / f"{system}_first_latency.png")
+    web.write_latency(system, start, end, pref)
     return metrics.stats(pref)
 
 
@@ -78,6 +79,7 @@ def main():
             stats[system] = system_metrics(system, a.start, a.end, out)
         except RuntimeError as e:
             print(e)
+            web.write_latency(system, a.start, a.end, error=str(e).splitlines()[0])
     if stats:
         pd.DataFrame(stats).to_csv(out / "systems_stats.csv", index_label="idx")
 

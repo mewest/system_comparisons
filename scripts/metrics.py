@@ -37,6 +37,7 @@ def preferred_with_latency(all_origins):
     """From the all-origins query, return one row per event (its preferred origin) with:
       minimum_detection_residual_s  earliest (first) origin latency over all the event's origins
       mission                       inside mission region
+      n_origins                     number of origins for the event in the window
       classify                      evaluation class
     """
     df = all_origins.copy()
@@ -47,6 +48,7 @@ def preferred_with_latency(all_origins):
 
     pref = df.loc[df.origin_id == df.preferredOriginID].reset_index(drop=True)
     pref["minimum_detection_residual_s"] = pref.event_id.map(first)
+    pref["n_origins"] = pref.event_id.map(df.event_id.value_counts())
     pref["mission"] = in_region(pref.longitude, pref.latitude)
     return classify(pref)
 

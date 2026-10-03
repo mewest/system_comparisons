@@ -20,9 +20,18 @@ Outputs go to `output/<start>_<end>/`:
 | `{system}_first_latency.png` | rt_metrics.py |
 | `systems_stats.csv` (one column per system) | rt_metrics.py |
 | `aec-to-usgs-data.csv`, `usgs_data.qml` | system_to_usgs.py (onsite only) |
+| `docs/data/{system}.json` (not in output/) | new: data for the web page, replaced every run |
 | `{system}_all_origins.csv`, `onsite_pref_origins.csv` | new: raw query results, for tracing differences |
 
 If one system's database is unreachable, it is skipped and the rest still run.
+
+## Web page (GitHub Pages)
+
+`docs/` is a static site: `docs/index.html` shows the first-origin latency plot for onsite, offsite or dev
+(radio buttons), with zoom/hover and a click-for-details panel (event ID, time, latency, magnitude, location,
+class, origin info, link to the origin locator view). Each run overwrites `docs/data/{onsite,offsite,dev}.json`,
+so the site always shows the latest window only; push to publish. GitHub Pages: Settings → Pages →
+Deploy from branch `main`, folder `/docs`. Plotly is loaded from jsDelivr.
 
 ## Layout
 
@@ -34,6 +43,8 @@ scripts/db.py       SQL + connection (FQDN, then IP)
 scripts/metrics.py  classification, latencies, stats
 scripts/comcat.py   QuakeML parsing, catalog matching, cleaning filters
 scripts/plots.py    figures
+scripts/web.py      web page data (docs/data/*.json)
+docs/index.html     web page
 scripts/regions.geojson mission region polygon (also holds the unused ANSS region)
 ```
 

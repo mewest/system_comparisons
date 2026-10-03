@@ -23,6 +23,7 @@ COMCAT_URL = ("https://earthquake.usgs.gov/fdsnws/event/1/query.quakeml"
 
 CONNECT_FILE = ROOT_DIR / "connect.json"
 OUTPUT_DIR = ROOT_DIR / "output"
+DOCS_DIR = ROOT_DIR / "docs"          # GitHub Pages site
 DPI = 300
 
 

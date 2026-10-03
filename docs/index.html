@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First Origin Latency</title>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@3/plotly.min.js"></script>
+<style>
+  :root { --fg:#1a1a1a; --muted:#666; --line:#d0d0d0; --bg:#fff; --panel:#f6f6f6; --accent:#1f4fbf; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font-family:"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif; font-size:16px; }
+  header { padding:20px 24px 8px; }
+  h1 { margin:0 0 4px; font-size:24px; font-weight:600; }
+  .meta { color:var(--muted); font-size:14px; }
+  .systems { display:flex; gap:8px; padding:8px 24px 0; flex-wrap:wrap; }
+  .systems label { border:1px solid var(--line); border-radius:6px; padding:8px 16px; cursor:pointer;
+                   font-size:16px; user-select:none; }
+  .systems input { position:absolute; opacity:0; pointer-events:none; }
+  .systems input:checked + span { font-weight:600; color:var(--accent); }
+  .systems label:has(input:checked) { border-color:var(--accent); background:#eef3ff; }
+  .systems label:has(input:focus-visible) { outline:2px solid var(--accent); outline-offset:2px; }
+  main { display:flex; gap:16px; padding:12px 24px 24px; align-items:flex-start; }
+  #plot { flex:1 1 auto; min-width:0; height:640px; }
+  aside { flex:0 0 300px; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
+  aside h2 { margin:0 0 10px; font-size:18px; }
+  aside .hint { color:var(--muted); font-size:14px; }
+  dl { display:grid; grid-template-columns:auto 1fr; gap:4px 12px; margin:0; font-size:14px; }
+  dt { color:var(--muted); }
+  dd { margin:0; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+  aside a { color:var(--accent); }
+  .error { color:#b00020; padding:4px 24px; }
+  @media (max-width: 860px) {
+    main { flex-direction:column; padding:12px 16px 24px; }
+    header, .systems { padding-left:16px; padding-right:16px; }
+    aside { flex:none; width:100%; }
+    #plot { width:100%; height:540px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>First Origin Latency</h1>
+  <div class="meta" id="meta">Loading…</div>
+</header>
+<div class="systems" role="radiogroup" aria-label="SeisComP system">
+  <label><input type="radio" name="sys" value="onsite" checked><span>onsite</span></label>
+  <label><input type="radio" name="sys" value="offsite"><span>offsite</span></label>
+  <label><input type="radio" name="sys" value="dev"><span>dev</span></label>
+</div>
+<div class="error" id="error" hidden></div>
+<main>
+  <div id="plot"></div>
+  <aside id="info">
+    <h2>Event</h2>
+    <p class="hint">Click a symbol to see its details. Click legend entries to hide or show a class.</p>
+  </aside>
+</main>
+<script>
+// Classes and symbols match the PNG figures (scripts/plots.py).
+const CLASSES = [
+  {key:"auto_reject",  abbr:"aR", name:"auto reject",  symbol:"x-thin-open",     color:"firebrick"},
+  {key:"man_reject",   abbr:"mR", name:"man. reject",  symbol:"x",               color:"firebrick"},
+  {key:"auto_uneval",  abbr:"aU", name:"auto uneval",  symbol:"cross-thin-open", color:"black"},
+  {key:"auto_confirm", abbr:"aC", name:"auto confirm", symbol:"circle-open",     color:"forestgreen"},
+  {key:"man_confirm",  abbr:"mC", name:"man. confirm", symbol:"circle-open",     color:"mediumblue"},
+];
+const CLIP = 3600, CLIP_Y = 4200;            // > 60 min drawn in the 60+ band, as in the PNG
+const cache = {};
+const plotEl = document.getElementById("plot");
+
+const size = m => Math.min(30, Math.max(4, 3 * (m ?? 0) + 3));
+const fmtLat = s => s == null ? "–" : s < 120 ? `${s.toFixed(1)} s` : `${(s / 60).toFixed(1)} min (${Math.round(s)} s)`;
+const esc = s => String(s ?? "–").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+async function load(sys) {
+  if (!cache[sys]) {
+    const r = await fetch(`data/${sys}.json`, {cache: "no-store"});
+    if (!r.ok) throw new Error(`data/${sys}.json: HTTP ${r.status}`);
+    cache[sys] = await r.json();
+  }
+  return cache[sys];
+}
+
+function traces(events) {
+  return CLASSES.map(c => {
+    const ev = events.filter(e => e.class === c.key);
+    return {
+      type: "scattergl", mode: "markers", name: `${c.abbr}=${ev.length}`,
+      x: ev.map(e => e.time), y: ev.map(e => e.latency_s > CLIP ? CLIP_Y : e.latency_s),
+      customdata: ev, hovertemplate: "%{customdata.evid}<br>M%{customdata.mag}<extra></extra>",
+      marker: {symbol: c.symbol, color: c.color, size: ev.map(e => size(e.mag)),
+               line: {color: c.color, width: c.symbol === "x" ? 0 : 1.3}},
+    };
+  });
+}
+
+function layout(d) {
+  const narrow = plotEl.clientWidth < 600;
+  const line = (y, color, dash, width) => ({type:"line", xref:"paper", x0:0, x1:1, y0:y, y1:y,
+                                            line:{color, dash, width}});
+  const label = (y, text, color, opacity = 1) => ({xref:"paper", x:1.01, xanchor:"left", y:Math.log10(y),
+                                                   text:`<i>${text}</i>`, showarrow:false,
+                                                   font:{color, size:14}, opacity});
+  return {
+    title: {text: `<b>${d.system}</b> First Origin Latency (agency=AK)`, font: {size: 20}},
+    font: {family: '"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif', size: 14, color: "#1a1a1a"},
+    margin: narrow ? {l: 60, r: 70, t: 50, b: 50} : {l: 70, r: 80, t: 60, b: 60},
+    xaxis: {title: {text: "Origin time (UTC)"}, showgrid: true, gridcolor: "#ccc", zeroline: false,
+            nticks: narrow ? 4 : 10, tickangle: 0},
+    yaxis: {title: {text: "Detection Latency (s)"}, type: "log", range: [1, Math.log10(4800)],
+            tickvals: [10, 20, 50, 100, 200, 500, 1000, 2000],
+            showgrid: true, gridcolor: "#ccc", zeroline: false},
+    legend: narrow
+      ? {orientation: "h", x: 0, y: -0.18, yanchor: "top", font: {size: 13}}
+      : {x: 1.01, xanchor: "left", y: 0, yanchor: "bottom", bordercolor: "#000", borderwidth: 1, font: {size: 13}},
+    shapes: [
+      {type:"rect", xref:"paper", x0:0, x1:1, y0:3600, y1:4800, fillcolor:"indigo", opacity:0.1, line:{width:0}, layer:"below"},
+      line(120, "black", "solid", 1), line(300, "black", "solid", 1), line(900, "black", "solid", 1),
+      line(3600, "indigo", "dash", 1.5),
+    ],
+    annotations: [label(120, "2 min", "black"), label(300, "5 min", "black"), label(900, "15 min", "black"),
+                  label(3300, "60 min", "indigo"), label(4300, "60+ min", "indigo", 0.6)],
+    hovermode: "closest", plot_bgcolor: "white", paper_bgcolor: "white",
+  };
+}
+
+function showEvent(e) {
+  const row = (k, v) => `<dt>${k}</dt><dd>${v}</dd>`;
+  const loc = e.lat == null ? "–" : `${e.lat.toFixed(3)}, ${e.lon.toFixed(3)}`;
+  document.getElementById("info").innerHTML = `
+    <h2>${esc(e.evid)}</h2>
+    <dl>
+      ${row("Origin time", esc(e.time.replace("T", " ").replace("Z", " UTC")))}
+      ${row("First-origin latency", fmtLat(e.latency_s))}
+      ${row("Magnitude", e.mag == null ? "–" : `${e.mag} ${esc(e.mag_type ?? "")}`)}
+      ${row("Lat, lon", loc)}
+      ${row("Depth", e.depth_km == null ? "–" : `${e.depth_km} km`)}
+      ${row("Class", esc(CLASSES.find(c => c.key === e.class)?.name))}
+      ${row("Mode / status", `${esc(e.mode)} / ${esc(e.status)}`)}
+      ${row("Event type", esc(e.event_type))}
+      ${row("Author", esc(e.author))}
+      ${row("Phases used", esc(e.phases))}
+      ${row("Azimuthal gap", e.gap == null ? "–" : `${e.gap}°`)}
+      ${row("Origins", esc(e.n_origins))}
+    </dl>
+    <p><a href="${esc(e.url)}" target="_blank" rel="noopener">Open in origin locator view</a></p>`;
+}
+
+async function draw(sys, keepInfo = false) {
+  const err = document.getElementById("error");
+  err.hidden = true;
+  try {
+    const d = await load(sys);
+    document.getElementById("meta").textContent =
+      `${d.start} to ${d.end} · ${d.events.length} AK events in the mission region · generated ${d.generated}`;
+    if (d.error) { err.textContent = `${sys}: ${d.error}`; err.hidden = false; }
+    await Plotly.react(plotEl, traces(d.events), layout(d), {responsive: true, displaylogo: false});
+    if (!plotEl._clickBound) { plotEl.on("plotly_click", ev => showEvent(ev.points[0].customdata)); plotEl._clickBound = true; }
+    if (!keepInfo) document.getElementById("info").innerHTML =
+      '<h2>Event</h2><p class="hint">Click a symbol to see its details. Click legend entries to hide or show a class.</p>';
+  } catch (e) {
+    err.textContent = `Could not load ${sys}: ${e.message}`;
+    err.hidden = false;
+  }
+}
+
+let current = "onsite";
+window.addEventListener("resize", () => { clearTimeout(window._rt); window._rt = setTimeout(() => draw(current, true), 250); });
+document.querySelectorAll('input[name="sys"]').forEach(r => r.addEventListener("change", () => draw(current = r.value)));
+draw("onsite");
+</script>
+</body>
+</html>

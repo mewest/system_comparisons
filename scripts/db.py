@@ -1,4 +1,5 @@
-"""SeisComP database queries (MySQL via SQLAlchemy/PyMySQL). SQL is unchanged from review_and_adjust."""
+"""SeisComP database queries (MySQL via SQLAlchemy/PyMySQL). SQL as in review_and_adjust, plus origin depth
+in ALL_ORIGINS (for the web page)."""
 
 import pandas as pd
 from sqlalchemy import create_engine, text
@@ -16,6 +17,7 @@ SELECT
     Origin.time_value,
     Origin.longitude_value AS longitude,
     Origin.latitude_value AS latitude,
+    Origin.depth_value AS depth,
     Origin.depth_uncertainty,
     Origin.depthType,
     Origin.creationInfo_creationTime,
