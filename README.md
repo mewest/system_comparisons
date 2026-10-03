@@ -18,6 +18,7 @@ Outputs go to `output/<start>_<end>/`:
 |---|---|
 | `{onsite,offsite,dev}_rtmap.png` | rt_metrics.py |
 | `{system}_first_latency.png` | rt_metrics.py |
+| `{system}_mag_latency.png` | new: first-origin latency vs magnitude (same symbols, fixed size) |
 | `systems_stats.csv` (one column per system) | rt_metrics.py |
 | `aec-to-usgs-data.csv`, `usgs_data.qml` | system_to_usgs.py (onsite only) |
 | `docs/data/{system}.json` (not in output/) | new: data for the web page, replaced every run |

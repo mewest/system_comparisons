@@ -21,7 +21,7 @@
   .systems label:has(input:checked) { border-color:var(--accent); background:#eef3ff; }
   .systems label:has(input:focus-visible) { outline:2px solid var(--accent); outline-offset:2px; }
   main { display:flex; gap:16px; padding:12px 24px 24px; align-items:flex-start; }
-  #plot { flex:1 1 auto; min-width:0; height:640px; }
+  .plot { flex:1 1 auto; min-width:0; height:640px; }
   aside { flex:0 0 300px; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
   aside h2 { margin:0 0 10px; font-size:18px; }
   aside .hint { color:var(--muted); font-size:14px; }
@@ -30,11 +30,14 @@
   dd { margin:0; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
   aside a { color:var(--accent); }
   .error { color:#b00020; padding:4px 24px; }
+  section { border-top:1px solid var(--line); padding-top:12px; }
+  section h2.sec { margin:0; padding:4px 24px 0; font-size:20px; font-weight:600; }
   @media (max-width: 860px) {
     main { flex-direction:column; padding:12px 16px 24px; }
-    header, .systems { padding-left:16px; padding-right:16px; }
+    header, .systems, .error { padding-left:16px; padding-right:16px; }
     aside { flex:none; width:100%; }
-    #plot { width:100%; height:540px; }
+    .plot { width:100%; height:540px; }
+    section h2.sec { padding-left:16px; }
   }
 </style>
 </head>
@@ -43,19 +46,22 @@
   <h1>First Origin Latency</h1>
   <div class="meta" id="meta">Loading…</div>
 </header>
-<div class="systems" role="radiogroup" aria-label="SeisComP system">
-  <label><input type="radio" name="sys" value="onsite" checked><span>onsite</span></label>
-  <label><input type="radio" name="sys" value="offsite"><span>offsite</span></label>
-  <label><input type="radio" name="sys" value="dev"><span>dev</span></label>
-</div>
-<div class="error" id="error" hidden></div>
-<main>
-  <div id="plot"></div>
-  <aside id="info">
-    <h2>Event</h2>
-    <p class="hint">Click a symbol to see its details. Click legend entries to hide or show a class.</p>
-  </aside>
-</main>
+<template id="section-tpl">
+  <section>
+    <h2 class="sec"></h2>
+    <div class="systems" role="radiogroup" aria-label="SeisComP system">
+      <label><input type="radio" value="onsite" checked><span>onsite</span></label>
+      <label><input type="radio" value="offsite"><span>offsite</span></label>
+      <label><input type="radio" value="dev"><span>dev</span></label>
+    </div>
+    <div class="error" hidden></div>
+    <main>
+      <div class="plot"></div>
+      <aside></aside>
+    </main>
+  </section>
+</template>
+<div id="sections"></div>
 <script>
 // Classes and symbols match the PNG figures (scripts/plots.py).
 const CLASSES = [
@@ -66,10 +72,18 @@ const CLASSES = [
   {key:"man_confirm",  abbr:"mC", name:"man. confirm", symbol:"circle-open",     color:"mediumblue"},
 ];
 const CLIP = 3600, CLIP_Y = 4200;            // > 60 min drawn in the 60+ band, as in the PNG
-const cache = {};
-const plotEl = document.getElementById("plot");
+const HINT = '<h2>Event</h2><p class="hint">Click a symbol to see its details. Click legend entries to hide or show a class.</p>';
+const magSize = m => Math.min(30, Math.max(4, 3 * (m ?? 0) + 3));
 
-const size = m => Math.min(30, Math.max(4, 3 * (m ?? 0) + 3));
+// One entry per plot section; each has its own system buttons and event panel.
+const PLOTS = [
+  {title: "First Origin Latency", heading: "First origin latency vs time",
+   x: e => e.time, size: e => magSize(e.mag), xaxis: {title: {text: "Origin time (UTC)"}}},
+  {title: "First Origin Latency vs Magnitude", heading: "First origin latency vs magnitude",
+   x: e => e.mag, size: () => 9, xaxis: {title: {text: "Magnitude"}}},
+];
+
+const cache = {};
 const fmtLat = s => s == null ? "–" : s < 120 ? `${s.toFixed(1)} s` : `${(s / 60).toFixed(1)} min (${Math.round(s)} s)`;
 const esc = s => String(s ?? "–").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
@@ -82,32 +96,31 @@ async function load(sys) {
   return cache[sys];
 }
 
-function traces(events) {
+function traces(p, events) {
   return CLASSES.map(c => {
     const ev = events.filter(e => e.class === c.key);
     return {
       type: "scattergl", mode: "markers", name: `${c.abbr}=${ev.length}`,
-      x: ev.map(e => e.time), y: ev.map(e => e.latency_s > CLIP ? CLIP_Y : e.latency_s),
+      x: ev.map(p.x), y: ev.map(e => e.latency_s > CLIP ? CLIP_Y : e.latency_s),
       customdata: ev, hovertemplate: "%{customdata.evid}<br>M%{customdata.mag}<extra></extra>",
-      marker: {symbol: c.symbol, color: c.color, size: ev.map(e => size(e.mag)),
+      marker: {symbol: c.symbol, color: c.color, size: ev.map(p.size),
                line: {color: c.color, width: c.symbol === "x" ? 0 : 1.3}},
     };
   });
 }
 
-function layout(d) {
-  const narrow = plotEl.clientWidth < 600;
+function layout(p, d, el) {
+  const narrow = el.clientWidth < 600;
   const line = (y, color, dash, width) => ({type:"line", xref:"paper", x0:0, x1:1, y0:y, y1:y,
                                             line:{color, dash, width}});
   const label = (y, text, color, opacity = 1) => ({xref:"paper", x:1.01, xanchor:"left", y:Math.log10(y),
                                                    text:`<i>${text}</i>`, showarrow:false,
                                                    font:{color, size:14}, opacity});
   return {
-    title: {text: `<b>${d.system}</b> First Origin Latency (agency=AK)`, font: {size: 20}},
+    title: {text: `<b>${d.system}</b> ${p.title} (agency=AK)`, font: {size: 20}},
     font: {family: '"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif', size: 14, color: "#1a1a1a"},
     margin: narrow ? {l: 60, r: 70, t: 50, b: 50} : {l: 70, r: 80, t: 60, b: 60},
-    xaxis: {title: {text: "Origin time (UTC)"}, showgrid: true, gridcolor: "#ccc", zeroline: false,
-            nticks: narrow ? 4 : 10, tickangle: 0},
+    xaxis: {showgrid: true, gridcolor: "#ccc", zeroline: false, nticks: narrow ? 4 : 10, tickangle: 0, ...p.xaxis},
     yaxis: {title: {text: "Detection Latency (s)"}, type: "log", range: [1, Math.log10(4800)],
             tickvals: [10, 20, 50, 100, 200, 500, 1000, 2000],
             showgrid: true, gridcolor: "#ccc", zeroline: false},
@@ -125,10 +138,10 @@ function layout(d) {
   };
 }
 
-function showEvent(e) {
+function eventHtml(e) {
   const row = (k, v) => `<dt>${k}</dt><dd>${v}</dd>`;
   const loc = e.lat == null ? "–" : `${e.lat.toFixed(3)}, ${e.lon.toFixed(3)}`;
-  document.getElementById("info").innerHTML = `
+  return `
     <h2>${esc(e.evid)}</h2>
     <dl>
       ${row("Origin time", esc(e.time.replace("T", " ").replace("Z", " UTC")))}
@@ -147,28 +160,37 @@ function showEvent(e) {
     <p><a href="${esc(e.url)}" target="_blank" rel="noopener">Open in origin locator view</a></p>`;
 }
 
-async function draw(sys, keepInfo = false) {
-  const err = document.getElementById("error");
-  err.hidden = true;
-  try {
-    const d = await load(sys);
-    document.getElementById("meta").textContent =
-      `${d.start} to ${d.end} · ${d.events.length} AK events in the mission region · generated ${d.generated}`;
-    if (d.error) { err.textContent = `${sys}: ${d.error}`; err.hidden = false; }
-    await Plotly.react(plotEl, traces(d.events), layout(d), {responsive: true, displaylogo: false});
-    if (!plotEl._clickBound) { plotEl.on("plotly_click", ev => showEvent(ev.points[0].customdata)); plotEl._clickBound = true; }
-    if (!keepInfo) document.getElementById("info").innerHTML =
-      '<h2>Event</h2><p class="hint">Click a symbol to see its details. Click legend entries to hide or show a class.</p>';
-  } catch (e) {
-    err.textContent = `Could not load ${sys}: ${e.message}`;
-    err.hidden = false;
+function makeSection(p, i) {
+  const node = document.getElementById("section-tpl").content.cloneNode(true);
+  const sec = node.querySelector("section");
+  sec.querySelector("h2.sec").textContent = p.heading;
+  sec.querySelectorAll("input").forEach(r => r.name = `sys${i}`);
+  document.getElementById("sections").appendChild(node);
+  const el = sec.querySelector(".plot"), info = sec.querySelector("aside"), err = sec.querySelector(".error");
+  info.innerHTML = HINT;
+  let current = "onsite";
+
+  async function draw(sys, keepInfo = false) {
+    err.hidden = true;
+    try {
+      const d = await load(sys);
+      document.getElementById("meta").textContent =
+        `${d.start} to ${d.end} · generated ${d.generated} · AK-agency events in the mission region`;
+      if (d.error) { err.textContent = `${sys}: ${d.error}`; err.hidden = false; }
+      await Plotly.react(el, traces(p, d.events), layout(p, d, el), {responsive: true, displaylogo: false});
+      if (!el._clickBound) { el.on("plotly_click", ev => info.innerHTML = eventHtml(ev.points[0].customdata)); el._clickBound = true; }
+      if (!keepInfo) info.innerHTML = HINT;
+    } catch (e) {
+      err.textContent = `Could not load ${sys}: ${e.message}`;
+      err.hidden = false;
+    }
   }
+  sec.querySelectorAll("input").forEach(r => r.addEventListener("change", () => draw(current = r.value)));
+  window.addEventListener("resize", () => { clearTimeout(el._rt); el._rt = setTimeout(() => draw(current, true), 250); });
+  draw(current);
 }
 
-let current = "onsite";
-window.addEventListener("resize", () => { clearTimeout(window._rt); window._rt = setTimeout(() => draw(current, true), 250); });
-document.querySelectorAll('input[name="sys"]').forEach(r => r.addEventListener("change", () => draw(current = r.value)));
-draw("onsite");
+PLOTS.forEach(makeSection);
 </script>
 </body>
 </html>

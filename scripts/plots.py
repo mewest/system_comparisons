@@ -99,8 +99,11 @@ def catalog_map(pref, title, path):
     _save(fig, path)
 
 
-def latency_plot(pref, title, path):
-    """Origin time vs first-origin detection latency (log). Latencies > 60 min are drawn at 70 min."""
+MAG_LATENCY_SIZE = 30  # fixed symbol area (pt^2) when magnitude is on the x axis
+
+
+def _latency_plot(pref, xcol, sized_by_mag, xlabel, title, path):
+    """Shared first-origin latency figure: x = xcol, y = first-origin latency (log, >60 min at 70 min)."""
     col = "minimum_detection_residual_s"
     data = pref.loc[(pref.agency == "AK") & pref.mission].copy()
     data[col] = data[col].where(data[col] <= 3600, 4200)
@@ -108,18 +111,19 @@ def latency_plot(pref, title, path):
     fig, ax = plt.subplots(figsize=(6, 6))
     for cls, st in STYLE.items():
         d = data.loc[data.classify == cls]
-        ax.scatter(d.time_value, d[col], s=(2 * d.magnitude) ** 2, linewidths=1.0, zorder=10,
-                   **_kw(cls), label=f"{st['abbr']}={len(d)}")
+        size = (2 * d.magnitude) ** 2 if sized_by_mag else MAG_LATENCY_SIZE
+        ax.scatter(d[xcol], d[col], s=size, linewidths=1.0, zorder=10, **_kw(cls), label=f"{st['abbr']}={len(d)}")
     leg = ax.legend(loc="upper right", bbox_to_anchor=(1.28, 0.2), edgecolor="black", framealpha=1,
                     handletextpad=0.1, fontsize=10)
     for h in leg.legend_handles:
         h.set_sizes([60])
 
-    loc = mdates.AutoDateLocator(minticks=4, maxticks=8)
-    ax.xaxis.set_major_locator(loc)
-    ax.xaxis.set_major_formatter(mdates.ConciseDateFormatter(loc, show_offset=True))
+    if xcol == "time_value":
+        loc = mdates.AutoDateLocator(minticks=4, maxticks=8)
+        ax.xaxis.set_major_locator(loc)
+        ax.xaxis.set_major_formatter(mdates.ConciseDateFormatter(loc, show_offset=True))
     ax.tick_params(labelsize=10)
-    ax.set_xlabel("Origin time (UTC)")
+    ax.set_xlabel(xlabel)
     ax.set_ylabel("Detection Latency (s)")
     ax.set_yscale("log")
     ax.set_ylim(10, 4800)
@@ -141,3 +145,12 @@ def latency_plot(pref, title, path):
     ax.set_title(title)
     _save(fig, path)
 
+
+def latency_plot(pref, title, path):
+    """Origin time vs first-origin detection latency; symbol size by magnitude."""
+    _latency_plot(pref, "time_value", True, "Origin time (UTC)", title, path)
+
+
+def mag_latency_plot(pref, title, path):
+    """Magnitude vs first-origin detection latency; all symbols the same size."""
+    _latency_plot(pref, "magnitude", False, "Magnitude", title, path)
