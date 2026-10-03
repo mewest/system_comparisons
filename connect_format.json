@@ -1,0 +1,32 @@
+{
+    "onsite":{
+        "user":"databse_user",
+        "password":"database_password",
+        "port":"database_port",
+        "database": "database_name",
+        "assess_ip":"assess_ip",
+        "assess_fqdn":"assess_fqdn",
+        "dispatch_ip":"dispatch_ip",
+        "dispatch_fqdn":"dispatch_fqdn"
+    },
+    "offsite":{
+        "user":"databse_user",
+        "password":"database_password",
+        "port":"database_port",
+        "database": "database_name",
+        "assess_ip":"assess_ip",
+        "assess_fqdn":"assess_fqdn",
+        "dispatch_ip":"dispatch_ip",
+        "dispatch_fqdn":"dispatch_fqdn"
+    },
+    "dev":{
+        "user":"databse_user",
+        "password":"database_password",
+        "port":"database_port",
+        "database": "database_name",
+        "assess_ip":"assess_ip",
+        "assess_fqdn":"assess_fqdn",
+        "dispatch_ip":"dispatch_ip",
+        "dispatch_fqdn":"dispatch_fqdn"
+    }
+}

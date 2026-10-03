@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.DS_Store
+connect.json
+syscomp/
+
+# raw/regenerable outputs (plots and summary CSVs are kept)
+output/*/*_origins.csv
+output/*/usgs_data.qml
