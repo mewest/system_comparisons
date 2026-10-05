@@ -22,13 +22,16 @@
   .systems label:has(input:focus-visible) { outline:2px solid var(--accent); outline-offset:2px; }
   main { display:flex; gap:16px; padding:12px 24px 24px; align-items:flex-start; }
   .plot { flex:1 1 auto; min-width:0; height:640px; }
-  aside { flex:0 0 300px; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
+  aside { flex:0 0 340px; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
   aside h2 { margin:0 0 10px; font-size:18px; }
   aside .hint { color:var(--muted); font-size:14px; }
   dl { display:grid; grid-template-columns:auto 1fr; gap:4px 12px; margin:0; font-size:14px; }
   dt { color:var(--muted); }
   dd { margin:0; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
   aside a { color:var(--accent); }
+  ul.links { list-style:none; padding:0; margin:12px 0 0; font-size:14px; }
+  ul.links li { padding:2px 0; font-variant-numeric:tabular-nums; }
+  ul.links li.self { font-weight:600; }
   .error { color:#b00020; padding:4px 24px; }
   section { border-top:1px solid var(--line); padding-top:12px; }
   section h2.sec { margin:0; padding:4px 24px 0; font-size:20px; font-weight:600; }
@@ -65,11 +68,11 @@
 <script>
 // Classes and symbols match the PNG figures (scripts/plots.py).
 const CLASSES = [
-  {key:"auto_reject",  abbr:"aR", name:"auto reject",  symbol:"x-thin-open",     color:"firebrick"},
-  {key:"man_reject",   abbr:"mR", name:"man. reject",  symbol:"x",               color:"firebrick"},
-  {key:"auto_uneval",  abbr:"aU", name:"auto uneval",  symbol:"cross-thin-open", color:"black"},
-  {key:"auto_confirm", abbr:"aC", name:"auto confirm", symbol:"circle-open",     color:"forestgreen"},
-  {key:"man_confirm",  abbr:"mC", name:"man. confirm", symbol:"circle-open",     color:"mediumblue"},
+  {key:"auto_reject",  name:"rejected (auto)",    symbol:"x-thin-open",     color:"firebrick"},
+  {key:"man_reject",   name:"rejected (manual)",  symbol:"x",               color:"firebrick"},
+  {key:"auto_uneval",  name:"not evaluated",      symbol:"cross-thin-open", color:"black"},
+  {key:"auto_confirm", name:"confirmed (auto)",   symbol:"circle-open",     color:"forestgreen"},
+  {key:"man_confirm",  name:"confirmed (manual)", symbol:"circle-open",     color:"mediumblue"},
 ];
 const CLIP = 3600, CLIP_Y = 4200;            // > 60 min drawn in the 60+ band, as in the PNG
 const HINT = '<h2>Event</h2><p class="hint">Click a symbol to see its details. Click legend entries to hide or show a class.</p>';
@@ -91,7 +94,10 @@ async function load(sys) {
   if (!cache[sys]) {
     const r = await fetch(`data/${sys}.json`, {cache: "no-store"});
     if (!r.ok) throw new Error(`data/${sys}.json: HTTP ${r.status}`);
-    cache[sys] = await r.json();
+    const d = await r.json();
+    d.events.forEach(e => e.t = Date.parse(e.time));
+    d.sorted = d.events.filter(e => e.class).sort((a, b) => b.t - a.t);   // latest first
+    cache[sys] = d;
   }
   return cache[sys];
 }
@@ -100,7 +106,7 @@ function traces(p, events) {
   return CLASSES.map(c => {
     const ev = events.filter(e => e.class === c.key);
     return {
-      type: "scattergl", mode: "markers", name: `${c.abbr}=${ev.length}`,
+      type: "scattergl", mode: "markers", name: `${c.name} = ${ev.length}`,
       x: ev.map(p.x), y: ev.map(e => e.latency_s > CLIP ? CLIP_Y : e.latency_s),
       customdata: ev, hovertemplate: "%{customdata.evid}<br>M%{customdata.mag}<extra></extra>",
       marker: {symbol: c.symbol, color: c.color, size: ev.map(p.size),
@@ -138,7 +144,24 @@ function layout(p, d, el) {
   };
 }
 
-function eventHtml(e) {
+// Links to this event and to other plotted events on the same system within +-3 min of its origin time.
+// Later events are listed above this event, earlier ones below.
+const NEAR_S = 180;
+const link = (url, text) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)}</a>`;
+function nearbyHtml(e, d) {
+  e.t = e.t ?? Date.parse(e.time);
+  const near = d.sorted.filter(o => Math.abs(o.t - e.t) <= NEAR_S * 1000);
+  if (!near.some(o => o.evid === e.evid)) near.push(e);
+  near.sort((a, b) => b.t - a.t);
+  return near.map(o => {
+    if (o.evid === e.evid) return `<li class="self">${link(e.url, `this event at ${e.time.slice(11, 19)}`)}</li>`;
+    const dt = Math.round((o.t - e.t) / 1000);
+    const name = CLASSES.find(c => c.key === o.class)?.name ?? "–";
+    return `<li>${link(o.url, `${dt}, ${o.mag ?? "–"}, ${name}, ${o.author ?? "–"}`)}</li>`;
+  }).join("");
+}
+
+function eventHtml(e, d) {
   const row = (k, v) => `<dt>${k}</dt><dd>${v}</dd>`;
   const loc = e.lat == null ? "–" : `${e.lat.toFixed(3)}, ${e.lon.toFixed(3)}`;
   return `
@@ -157,7 +180,7 @@ function eventHtml(e) {
       ${row("Azimuthal gap", e.gap == null ? "–" : `${e.gap}°`)}
       ${row("Origins", esc(e.n_origins))}
     </dl>
-    <p><a href="${esc(e.url)}" target="_blank" rel="noopener">Open in origin locator view</a></p>`;
+    <ul class="links">${nearbyHtml(e, d)}</ul>`;
 }
 
 function makeSection(p, i) {
@@ -178,7 +201,7 @@ function makeSection(p, i) {
         `${d.start} to ${d.end} · generated ${d.generated} · AK-agency events in the mission region`;
       if (d.error) { err.textContent = `${sys}: ${d.error}`; err.hidden = false; }
       await Plotly.react(el, traces(p, d.events), layout(p, d, el), {responsive: true, displaylogo: false});
-      if (!el._clickBound) { el.on("plotly_click", ev => info.innerHTML = eventHtml(ev.points[0].customdata)); el._clickBound = true; }
+      if (!el._clickBound) { el.on("plotly_click", ev => info.innerHTML = eventHtml(ev.points[0].customdata, cache[current])); el._clickBound = true; }
       if (!keepInfo) info.innerHTML = HINT;
     } catch (e) {
       err.textContent = `Could not load ${sys}: ${e.message}`;

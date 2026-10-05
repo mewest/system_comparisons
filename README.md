@@ -30,7 +30,9 @@ If one system's database is unreachable, it is skipped and the rest still run.
 
 `docs/` is a static site: `docs/index.html` shows the first-origin latency plot for onsite, offsite or dev
 (radio buttons), with zoom/hover and a click-for-details panel (event ID, time, latency, magnitude, location,
-class, origin info, link to the origin locator view). Each run overwrites `docs/data/{onsite,offsite,dev}.json`,
+class, origin info). The panel links to the origin locator view for this event and for every other plotted event
+on the same system within ±3 min (later events above, earlier below; text = seconds offset, magnitude, class, author).
+A second section plots first-origin latency against magnitude. Each run overwrites `docs/data/{onsite,offsite,dev}.json`,
 so the site always shows the latest window only; push to publish. GitHub Pages: Settings → Pages →
 Deploy from branch `main`, folder `/docs`. Plotly is loaded from jsDelivr.
 

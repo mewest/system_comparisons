@@ -27,16 +27,16 @@ plt.rcParams.update({
 
 # symbol per evaluation class; plotted in this order
 STYLE = {
-    "auto_reject": dict(marker="x", color="firebrick", label="auto reject", abbr="aR"),
-    "man_reject": dict(marker="X", facecolor="firebrick", edgecolor="firebrick", label="man. reject", abbr="mR"),
-    "auto_uneval": dict(marker="+", color="black", label="auto uneval", abbr="aU"),
-    "auto_confirm": dict(marker="o", facecolor="none", edgecolor="forestgreen", label="auto confirm", abbr="aC"),
-    "man_confirm": dict(marker="o", facecolor="none", edgecolor="mediumblue", label="man. confirm", abbr="mC"),
+    "auto_reject": dict(marker="x", color="firebrick", label="rejected (auto)"),
+    "man_reject": dict(marker="X", facecolor="firebrick", edgecolor="firebrick", label="rejected (manual)"),
+    "auto_uneval": dict(marker="+", color="black", label="not evaluated"),
+    "auto_confirm": dict(marker="o", facecolor="none", edgecolor="forestgreen", label="confirmed (auto)"),
+    "man_confirm": dict(marker="o", facecolor="none", edgecolor="mediumblue", label="confirmed (manual)"),
 }
 
 
 def _kw(cls):
-    return {k: v for k, v in STYLE[cls].items() if k not in ("label", "abbr")}
+    return {k: v for k, v in STYLE[cls].items() if k != "label"}
 
 
 def _stamp(fig, y, size=9):
@@ -83,7 +83,7 @@ def catalog_map(pref, title, path):
         d = data.loc[data.classify == cls]
         ax.scatter(d.longitude, d.latitude, s=(2 * d.magnitude) ** 2, linewidths=1.0, zorder=10,
                    transform=ccrs.PlateCarree(), **_kw(cls),
-                   label=f"{st['label']} ({st['abbr']}) = {len(d)}, {len(d) / n * 100:.0f}%")
+                   label=f"{st['label']} = {len(d)}, {len(d) / n * 100:.0f}%")
     fixed = data.depthType == "operator assigned"
     txt = (f" total events: {len(ak)}\n    in mission: $\\bf{{{len(data)}}}$\n"
            f" man. fixed depth: {int((fixed & (data.evaluationMode == 'manual')).sum())}\n"
@@ -112,8 +112,8 @@ def _latency_plot(pref, xcol, sized_by_mag, xlabel, title, path):
     for cls, st in STYLE.items():
         d = data.loc[data.classify == cls]
         size = (2 * d.magnitude) ** 2 if sized_by_mag else MAG_LATENCY_SIZE
-        ax.scatter(d[xcol], d[col], s=size, linewidths=1.0, zorder=10, **_kw(cls), label=f"{st['abbr']}={len(d)}")
-    leg = ax.legend(loc="upper right", bbox_to_anchor=(1.28, 0.2), edgecolor="black", framealpha=1,
+        ax.scatter(d[xcol], d[col], s=size, linewidths=1.0, zorder=10, **_kw(cls), label=f"{st['label']} = {len(d)}")
+    leg = ax.legend(loc="upper right", bbox_to_anchor=(1.47, 0.2), edgecolor="black", framealpha=1,
                     handletextpad=0.1, fontsize=10)
     for h in leg.legend_handles:
         h.set_sizes([60])
