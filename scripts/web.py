@@ -29,15 +29,17 @@ def _txt(x):
 def write_latency(system, start, end, pref=None, error=None):
     """Write docs/data/<system>.json with the events shown on the first-origin latency plot
     (AK agency, mission region). Pass error instead of pref if the system could not be queried."""
-    events = []
+    events, n_total, n_mission = [], None, None
     if pref is not None:
-        d = pref.loc[(pref.agency == "AK") & pref.mission]
+        ak = pref.agency == "AK"
+        n_total, n_mission = int(ak.sum()), int((ak & pref.mission).sum())   # as on the PNG map
+        d = pref.loc[ak & pref.mission]
         for r in d.itertuples(index=False):
             events.append({
                 "evid": r.event_id,
                 "time": r.time_value.strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "latency_s": _num(r.minimum_detection_residual_s, 1),
-                "mag": _num(r.magnitude, 1),
+                "mag": _num(r.magnitude, 2),   # full precision for plotting; the page prints 1 decimal
                 "mag_type": _txt(r.type),
                 "lat": _num(r.latitude, 3),
                 "lon": _num(r.longitude, 3),
@@ -54,7 +56,7 @@ def write_latency(system, start, end, pref=None, error=None):
             })
     doc = {"system": system, "start": start, "end": end,
            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
-           "error": error, "events": events}
+           "error": error, "n_total": n_total, "n_mission": n_mission, "events": events}
     path = DOCS_DIR / "data" / f"{system}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(doc, separators=(",", ":")))

@@ -34,6 +34,8 @@ any plot rings it in orange on all three and fills a side panel (event ID, time,
 class, origin info) with links to the origin locator view for this event and for every other plotted event within
 ±3 min (later events above, earlier below; text = `±seconds s, M magnitude, distance km, author`).
 Latencies over 15 min are drawn in a band at the top (same in the PNGs); reference lines at 30 s, 1, 2, 5, 10 min.
+The map legend also shows total AK events (any region) and in-mission events, as on the PNG map.
+Magnitudes are stored and plotted with 2 decimals; text (hover, panel, links) shows 1 decimal.
 Each run overwrites `docs/data/{onsite,offsite,dev}.json` and `docs/data/region.json`, so the site always shows the
 latest window only; push to publish. GitHub Pages: Settings → Pages → Deploy from branch `main`, folder `/docs`.
 Plotly is loaded from jsDelivr; map coastlines come from `docs/topojson/world_50m.json` (sane-topojson).

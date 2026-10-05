@@ -37,9 +37,9 @@ def system_metrics(system, start, end, out):
     pref = metrics.preferred_with_latency(origins)
 
     sysb = f"$\\bf{{{system}}}$"
-    plots.catalog_map(pref, f"{sysb} {start} to {end} (agency=AK)", out / f"{system}_rtmap.png")
-    plots.latency_plot(pref, f"{sysb} First Origin Latency (agency=AK)", out / f"{system}_first_latency.png")
-    plots.mag_latency_plot(pref, f"{sysb} First Origin Latency vs Magnitude (agency=AK)",
+    plots.catalog_map(pref, f"{sysb} {start} to {end}", out / f"{system}_rtmap.png")
+    plots.latency_plot(pref, f"{sysb} First Origin Latency", out / f"{system}_first_latency.png")
+    plots.mag_latency_plot(pref, f"{sysb} First Origin Latency vs Magnitude",
                            out / f"{system}_mag_latency.png")
     web.write_latency(system, start, end, pref)
     return metrics.stats(pref)

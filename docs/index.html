@@ -167,7 +167,7 @@ function latencyLayout(p, d, narrow) {
                                                    text: `<i>${text}</i>`, showarrow: false,
                                                    font: {color, size: 14}, opacity});
   return {
-    title: {text: `<b>${d.system}</b> ${p.title} (agency=AK)`, font: {size: 20}},
+    title: {text: `<b>${d.system}</b> ${p.title}`, font: {size: 20}},
     font: {family: FONT, size: 14, color: "#1a1a1a"},
     margin: narrow ? {l: 60, r: 70, t: 50, b: 150} : {l: 70, r: 80, t: 60, b: 60},
     xaxis: {...GRID, nticks: narrow ? 4 : 10, tickangle: 0, ...p.xaxis},
@@ -186,13 +186,17 @@ function latencyLayout(p, d, narrow) {
   };
 }
 function mapLayout(p, d, narrow) {
+  const counts = d.n_total == null ? null
+    : `total events (any region): ${d.n_total}<br><b>in mission: ${d.n_mission}</b>`;
+  const legend = narrow ? legendFor(true)
+    : {x: 0.01, xanchor: "left", y: 0.99, yanchor: "top", bgcolor: "rgba(255,255,255,0.9)",
+       bordercolor: "#000", borderwidth: 1, font: {size: 13}};
+  if (counts) legend.title = {text: counts, font: {size: 13}, side: "top"};
   return {
-    title: {text: `<b>${d.system}</b> ${d.start} to ${d.end} (agency=AK)`, font: {size: 20}},
+    title: {text: `<b>${d.system}</b> ${d.start} to ${d.end}`, font: {size: 20}},
     font: {family: FONT, size: 14, color: "#1a1a1a"},
     margin: narrow ? {l: 10, r: 10, t: 50, b: 120} : {l: 10, r: 10, t: 60, b: 10},
-    legend: narrow ? legendFor(true)
-                   : {x: 0.01, xanchor: "left", y: 0.99, yanchor: "top", bgcolor: "rgba(255,255,255,0.9)",
-                      bordercolor: "#000", borderwidth: 1, font: {size: 13}},
+    legend,
     geo: {
       projection: {type: "conic conformal", parallels: [55, 65], rotation: {lon: -155}},
       resolution: 50,
