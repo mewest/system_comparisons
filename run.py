@@ -74,6 +74,7 @@ def main():
     out = config.OUTPUT_DIR / f"{a.start}_{a.end}".replace(":", "")
     out.mkdir(parents=True, exist_ok=True)
 
+    web.write_region()
     stats = {}
     for system in config.SYSTEMS:
         print(f"{system}: querying and plotting")

@@ -100,13 +100,17 @@ def catalog_map(pref, title, path):
 
 
 MAG_LATENCY_SIZE = 30  # fixed symbol area (pt^2) when magnitude is on the x axis
+CLIP_S = 900           # latencies above 15 min are drawn in a band at the top
+CLIP_Y = 1040          # ...at this value
+Y_TOP = 1200           # top of the latency axis
+REF_LINES = ((30, "30 s"), (60, "1 min"), (120, "2 min"), (300, "5 min"), (600, "10 min"))
 
 
 def _latency_plot(pref, xcol, sized_by_mag, xlabel, title, path):
-    """Shared first-origin latency figure: x = xcol, y = first-origin latency (log, >60 min at 70 min)."""
+    """Shared first-origin latency figure: x = xcol, y = first-origin latency (log; >15 min drawn in a top band)."""
     col = "minimum_detection_residual_s"
     data = pref.loc[(pref.agency == "AK") & pref.mission].copy()
-    data[col] = data[col].where(data[col] <= 3600, 4200)
+    data[col] = data[col].where(data[col] <= CLIP_S, CLIP_Y)
 
     fig, ax = plt.subplots(figsize=(6, 6))
     for cls, st in STYLE.items():
@@ -126,20 +130,20 @@ def _latency_plot(pref, xcol, sized_by_mag, xlabel, title, path):
     ax.set_xlabel(xlabel)
     ax.set_ylabel("Detection Latency (s)")
     ax.set_yscale("log")
-    ax.set_ylim(10, 4800)
+    ax.set_ylim(10, Y_TOP)
     ax.grid(which="major")
     ax.grid(which="minor", color=".84", linewidth=0.5)
     ax.margins(x=0.02)
 
     tr = ax.get_yaxis_transform()  # x in axes fraction, y in data
-    ax.add_patch(patches.Rectangle((0, 3600), 1.04, 1200, facecolor="indigo", edgecolor="none",
+    ax.add_patch(patches.Rectangle((0, CLIP_S), 1.04, Y_TOP - CLIP_S, facecolor="indigo", edgecolor="none",
                                    alpha=0.1, zorder=1, transform=tr, clip_on=False))
-    ax.text(1.03, 4500, "60+ min", va="center", fontstyle="italic", color="indigo", alpha=0.5, transform=tr)
-    for sec, lab in ((120, "2 min"), (300, "5 min"), (900, "15 min")):
+    ax.text(1.03, CLIP_Y * 1.06, "15+ min", va="center", fontstyle="italic", color="indigo", alpha=0.5, transform=tr)
+    for sec, lab in REF_LINES:
         ax.axhline(sec, color="black", linewidth=1.0)
         ax.text(1.03, sec, lab, va="center", fontstyle="italic", transform=tr)
-    ax.axhline(3600, color="indigo", linestyle="--", linewidth=1.5)
-    ax.text(1.03, 3600, "60 min", va="center", fontstyle="italic", color="indigo", transform=tr)
+    ax.axhline(CLIP_S, color="indigo", linestyle="--", linewidth=1.5)
+    ax.text(1.03, CLIP_S * 0.95, "15 min", va="center", fontstyle="italic", color="indigo", transform=tr)
 
     _stamp(fig, 0.111, size=7)
     ax.set_title(title)

@@ -4,7 +4,7 @@ import json
 import math
 from datetime import datetime, timezone
 
-from .config import DOCS_DIR
+from .config import DOCS_DIR, MISSION_POLY
 
 EVENT_URL = "http://dispatch{host}.aec.alaska.edu/gaps/originlocatorview/#/event/{evid}"
 HOSTS = {"onsite": "on", "offsite": "off", "dev": "dev"}
@@ -37,7 +37,7 @@ def write_latency(system, start, end, pref=None, error=None):
                 "evid": r.event_id,
                 "time": r.time_value.strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "latency_s": _num(r.minimum_detection_residual_s, 1),
-                "mag": _num(r.magnitude, 2),
+                "mag": _num(r.magnitude, 1),
                 "mag_type": _txt(r.type),
                 "lat": _num(r.latitude, 3),
                 "lon": _num(r.longitude, 3),
@@ -58,4 +58,13 @@ def write_latency(system, start, end, pref=None, error=None):
     path = DOCS_DIR / "data" / f"{system}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(doc, separators=(",", ":")))
+    return path
+
+
+def write_region():
+    """docs/data/region.json: mission region outline (lon in -180..180) for the web map."""
+    pts = [[round((lon + 180) % 360 - 180, 4), lat] for lon, lat in MISSION_POLY]
+    path = DOCS_DIR / "data" / "region.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"mission": pts}))
     return path

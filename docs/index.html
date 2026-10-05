@@ -13,18 +13,23 @@
   header { padding:20px 24px 8px; }
   h1 { margin:0 0 4px; font-size:24px; font-weight:600; }
   .meta { color:var(--muted); font-size:14px; }
-  .systems { display:flex; gap:8px; padding:8px 24px 0; flex-wrap:wrap; }
+  .systems { display:flex; gap:8px; padding:8px 24px 4px; flex-wrap:wrap; }
   .systems label { border:1px solid var(--line); border-radius:6px; padding:8px 16px; cursor:pointer;
                    font-size:16px; user-select:none; }
   .systems input { position:absolute; opacity:0; pointer-events:none; }
   .systems input:checked + span { font-weight:600; color:var(--accent); }
   .systems label:has(input:checked) { border-color:var(--accent); background:#eef3ff; }
   .systems label:has(input:focus-visible) { outline:2px solid var(--accent); outline-offset:2px; }
-  main { display:flex; gap:16px; padding:12px 24px 24px; align-items:flex-start; }
-  .plot { flex:1 1 auto; min-width:0; height:640px; }
-  aside { flex:0 0 340px; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
+  .error { color:#b00020; padding:4px 24px; }
+  .layout { display:flex; gap:16px; padding:8px 24px 24px; align-items:flex-start; }
+  .plots { flex:1 1 auto; min-width:0; }
+  section { border-top:1px solid var(--line); padding-top:10px; margin-bottom:8px; }
+  section h2 { margin:0; font-size:20px; font-weight:600; }
+  .plot { width:100%; height:640px; }
+  aside { flex:0 0 340px; position:sticky; top:12px; max-height:calc(100vh - 24px); overflow:auto;
+          background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
   aside h2 { margin:0 0 10px; font-size:18px; }
-  aside .hint { color:var(--muted); font-size:14px; }
+  aside .hint { color:var(--muted); font-size:14px; margin:0; }
   dl { display:grid; grid-template-columns:auto 1fr; gap:4px 12px; margin:0; font-size:14px; }
   dt { color:var(--muted); }
   dd { margin:0; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
@@ -32,15 +37,13 @@
   ul.links { list-style:none; padding:0; margin:12px 0 0; font-size:14px; }
   ul.links li { padding:2px 0; font-variant-numeric:tabular-nums; }
   ul.links li.self { font-weight:600; }
-  .error { color:#b00020; padding:4px 24px; }
-  section { border-top:1px solid var(--line); padding-top:12px; }
-  section h2.sec { margin:0; padding:4px 24px 0; font-size:20px; font-weight:600; }
   @media (max-width: 860px) {
-    main { flex-direction:column; padding:12px 16px 24px; }
     header, .systems, .error { padding-left:16px; padding-right:16px; }
-    aside { flex:none; width:100%; }
-    .plot { width:100%; height:540px; }
-    section h2.sec { padding-left:16px; }
+    .layout { flex-direction:column; padding:8px 16px 0; }
+    .plots { width:100%; }
+    .plot { height:600px; }
+    aside { flex:none; width:100%; top:auto; bottom:0; max-height:45vh;
+            box-shadow:0 -4px 12px rgba(0,0,0,.12); border-radius:8px 8px 0 0; }
   }
 </style>
 </head>
@@ -49,22 +52,20 @@
   <h1>First Origin Latency</h1>
   <div class="meta" id="meta">Loading…</div>
 </header>
-<template id="section-tpl">
-  <section>
-    <h2 class="sec"></h2>
-    <div class="systems" role="radiogroup" aria-label="SeisComP system">
-      <label><input type="radio" value="onsite" checked><span>onsite</span></label>
-      <label><input type="radio" value="offsite"><span>offsite</span></label>
-      <label><input type="radio" value="dev"><span>dev</span></label>
-    </div>
-    <div class="error" hidden></div>
-    <main>
-      <div class="plot"></div>
-      <aside></aside>
-    </main>
-  </section>
-</template>
-<div id="sections"></div>
+<div class="systems" role="radiogroup" aria-label="SeisComP system">
+  <label><input type="radio" name="sys" value="onsite" checked><span>onsite</span></label>
+  <label><input type="radio" name="sys" value="offsite"><span>offsite</span></label>
+  <label><input type="radio" name="sys" value="dev"><span>dev</span></label>
+</div>
+<div class="error" id="error" hidden></div>
+<div class="layout">
+  <div class="plots">
+    <section><h2>First origin latency vs time</h2><div class="plot" id="p-time"></div></section>
+    <section><h2>Map</h2><div class="plot" id="p-map"></div></section>
+    <section><h2>First origin latency vs magnitude</h2><div class="plot" id="p-mag"></div></section>
+  </div>
+  <aside id="info"></aside>
+</div>
 <script>
 // Classes and symbols match the PNG figures (scripts/plots.py).
 const CLASSES = [
@@ -74,93 +75,150 @@ const CLASSES = [
   {key:"auto_confirm", name:"confirmed (auto)",   symbol:"circle-open",     color:"forestgreen"},
   {key:"man_confirm",  name:"confirmed (manual)", symbol:"circle-open",     color:"mediumblue"},
 ];
-const CLIP = 3600, CLIP_Y = 4200;            // > 60 min drawn in the 60+ band, as in the PNG
-const HINT = '<h2>Event</h2><p class="hint">Click a symbol to see its details. Click legend entries to hide or show a class.</p>';
-const magSize = m => Math.min(30, Math.max(4, 3 * (m ?? 0) + 3));
+const CLIP = 900, CLIP_Y = 1040, Y_TOP = 1200;   // > 15 min drawn in the 15+ band
+const REF = [[30, "30 s"], [60, "1 min"], [120, "2 min"], [300, "5 min"], [600, "10 min"]];
+const NEAR_S = 180;                               // panel lists events within +-3 min
+const HL = {symbol: "circle-open", color: "#ff7f0e", size: 26, width: 3};   // selection ring
+const FONT = '"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif';
+const HINT = '<h2>Event</h2><p class="hint">Click a symbol on any plot to see its details; it is ringed in orange on all three plots. Click legend entries to hide or show a class.</p>';
+const GRID = {showgrid: true, gridcolor: "#eeeeee", gridwidth: 0.5, zeroline: false,
+              showline: true, mirror: true, linecolor: "#9a9a9a", linewidth: 1};
 
-// One entry per plot section; each has its own system buttons and event panel.
+const magSize = m => Math.min(30, Math.max(4, 3 * (m ?? 0) + 3));
+const fmtMag = m => m == null ? "–" : m.toFixed(1);
+const fmtLat = s => s == null ? "–" : s < 120 ? `${s.toFixed(1)} s` : `${(s / 60).toFixed(1)} min (${Math.round(s)} s)`;
+const esc = s => String(s ?? "–").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const clipY = e => e.latency_s > CLIP ? CLIP_Y : e.latency_s;
+function distKm(a, b) {
+  const r = Math.PI / 180, dla = (b.lat - a.lat) * r, dlo = (b.lon - a.lon) * r;
+  const h = Math.sin(dla / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dlo / 2) ** 2;
+  return 6371 * 2 * Math.asin(Math.sqrt(h));
+}
+
 const PLOTS = [
-  {title: "First Origin Latency", heading: "First origin latency vs time",
-   x: e => e.time, size: e => magSize(e.mag), xaxis: {title: {text: "Origin time (UTC)"}}},
-  {title: "First Origin Latency vs Magnitude", heading: "First origin latency vs magnitude",
-   x: e => e.mag, size: () => 9, xaxis: {title: {text: "Magnitude"}}},
+  {id: "p-time", kind: "latency", title: "First Origin Latency", x: e => e.time, size: e => magSize(e.mag),
+   xaxis: {title: {text: "Origin time (UTC)"}}},
+  {id: "p-map", kind: "map", title: "Map"},
+  {id: "p-mag", kind: "latency", title: "First Origin Latency vs Magnitude", x: e => e.mag, size: () => 9,
+   xaxis: {title: {text: "Magnitude"}}},
 ];
 
 const cache = {};
-const fmtLat = s => s == null ? "–" : s < 120 ? `${s.toFixed(1)} s` : `${(s / 60).toFixed(1)} min (${Math.round(s)} s)`;
-const esc = s => String(s ?? "–").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let region = null, current = "onsite", selected = null;
 
+async function getJSON(path) {
+  const r = await fetch(path, {cache: "no-store"});
+  if (!r.ok) throw new Error(`${path}: HTTP ${r.status}`);
+  return r.json();
+}
 async function load(sys) {
   if (!cache[sys]) {
-    const r = await fetch(`data/${sys}.json`, {cache: "no-store"});
-    if (!r.ok) throw new Error(`data/${sys}.json: HTTP ${r.status}`);
-    const d = await r.json();
+    const d = await getJSON(`data/${sys}.json`);
     d.events.forEach(e => e.t = Date.parse(e.time));
-    d.sorted = d.events.filter(e => e.class).sort((a, b) => b.t - a.t);   // latest first
+    d.shown = d.events.filter(e => e.class);                  // events that are plotted
+    d.sorted = [...d.shown].sort((a, b) => b.t - a.t);        // latest first
     cache[sys] = d;
   }
+  if (!region) region = await getJSON("data/region.json").catch(() => ({mission: []}));
   return cache[sys];
 }
 
-function traces(p, events) {
+// ---------- traces ----------
+function classTraces(p, d) {
   return CLASSES.map(c => {
-    const ev = events.filter(e => e.class === c.key);
-    return {
-      type: "scattergl", mode: "markers", name: `${c.name} = ${ev.length}`,
-      x: ev.map(p.x), y: ev.map(e => e.latency_s > CLIP ? CLIP_Y : e.latency_s),
-      customdata: ev, hovertemplate: "%{customdata.evid}<br>M%{customdata.mag}<extra></extra>",
-      marker: {symbol: c.symbol, color: c.color, size: ev.map(p.size),
-               line: {color: c.color, width: c.symbol === "x" ? 0 : 1.3}},
-    };
+    const ev = d.shown.filter(e => e.class === c.key);
+    const base = {name: `${c.name} = ${ev.length}`, customdata: ev, mode: "markers",
+                  hovertemplate: "%{customdata.evid}<br>M%{customdata.mag:.1f}<extra></extra>",
+                  marker: {symbol: c.symbol, color: c.color,
+                           size: ev.map(p.kind === "map" ? e => magSize(e.mag) : p.size),
+                           line: {color: c.color, width: c.symbol === "x" ? 0 : 1.3}}};
+    return p.kind === "map"
+      ? {...base, type: "scattergeo", lat: ev.map(e => e.lat), lon: ev.map(e => e.lon)}
+      : {...base, type: "scattergl", x: ev.map(p.x), y: ev.map(clipY)};
   });
 }
+function highlightTrace(p) {
+  const t = {name: "selected", mode: "markers", showlegend: false, hoverinfo: "skip",
+             marker: {symbol: HL.symbol, size: HL.size, color: HL.color, line: {color: HL.color, width: HL.width}}};
+  return p.kind === "map" ? {...t, type: "scattergeo", lat: [], lon: []} : {...t, type: "scattergl", x: [], y: []};
+}
+function regionTrace() {
+  const pts = region.mission;
+  return {type: "scattergeo", mode: "lines", lon: pts.map(q => q[0]), lat: pts.map(q => q[1]),
+          line: {color: "#808080", width: 1}, hoverinfo: "skip", showlegend: false, name: "mission region"};
+}
+function traces(p, d) {
+  const t = classTraces(p, d);
+  if (p.kind === "map") t.unshift(regionTrace());
+  t.push(highlightTrace(p));
+  return t;
+}
 
-function layout(p, d, el) {
-  const narrow = el.clientWidth < 600;
-  const line = (y, color, dash, width) => ({type:"line", xref:"paper", x0:0, x1:1, y0:y, y1:y,
-                                            line:{color, dash, width}});
-  const label = (y, text, color, opacity = 1) => ({xref:"paper", x:1.01, xanchor:"left", y:Math.log10(y),
-                                                   text:`<i>${text}</i>`, showarrow:false,
-                                                   font:{color, size:14}, opacity});
+// ---------- layouts ----------
+function legendFor(narrow) {
+  return narrow
+    ? {orientation: "h", x: 0, y: -0.3, yanchor: "top", font: {size: 13}}
+    : {x: 1.01, xanchor: "left", y: 0, yanchor: "bottom", bordercolor: "#000", borderwidth: 1, font: {size: 13}};
+}
+function latencyLayout(p, d, narrow) {
+  const line = (y, color, dash, width) => ({type: "line", xref: "paper", x0: 0, x1: 1, y0: y, y1: y,
+                                            line: {color, dash, width}});
+  const label = (y, text, color, opacity = 1) => ({xref: "paper", x: 1.01, xanchor: "left", y: Math.log10(y),
+                                                   text: `<i>${text}</i>`, showarrow: false,
+                                                   font: {color, size: 14}, opacity});
   return {
     title: {text: `<b>${d.system}</b> ${p.title} (agency=AK)`, font: {size: 20}},
-    font: {family: '"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif', size: 14, color: "#1a1a1a"},
-    margin: narrow ? {l: 60, r: 70, t: 50, b: 50} : {l: 70, r: 80, t: 60, b: 60},
-    xaxis: {showgrid: true, gridcolor: "#ccc", zeroline: false, nticks: narrow ? 4 : 10, tickangle: 0, ...p.xaxis},
-    yaxis: {title: {text: "Detection Latency (s)"}, type: "log", range: [1, Math.log10(4800)],
-            tickvals: [10, 20, 50, 100, 200, 500, 1000, 2000],
-            showgrid: true, gridcolor: "#ccc", zeroline: false},
-    legend: narrow
-      ? {orientation: "h", x: 0, y: -0.18, yanchor: "top", font: {size: 13}}
-      : {x: 1.01, xanchor: "left", y: 0, yanchor: "bottom", bordercolor: "#000", borderwidth: 1, font: {size: 13}},
+    font: {family: FONT, size: 14, color: "#1a1a1a"},
+    margin: narrow ? {l: 60, r: 70, t: 50, b: 150} : {l: 70, r: 80, t: 60, b: 60},
+    xaxis: {...GRID, nticks: narrow ? 4 : 10, tickangle: 0, ...p.xaxis},
+    yaxis: {...GRID, title: {text: "Detection Latency (s)"}, type: "log", range: [1, Math.log10(Y_TOP)],
+            tickvals: [10, 20, 50, 100, 200, 500]},
+    legend: legendFor(narrow),
     shapes: [
-      {type:"rect", xref:"paper", x0:0, x1:1, y0:3600, y1:4800, fillcolor:"indigo", opacity:0.1, line:{width:0}, layer:"below"},
-      line(120, "black", "solid", 1), line(300, "black", "solid", 1), line(900, "black", "solid", 1),
-      line(3600, "indigo", "dash", 1.5),
+      {type: "rect", xref: "paper", x0: 0, x1: 1, y0: CLIP, y1: Y_TOP, fillcolor: "indigo", opacity: 0.1,
+       line: {width: 0}, layer: "below"},
+      ...REF.map(([s]) => line(s, "black", "solid", 1)),
+      line(CLIP, "indigo", "dash", 1.5),
     ],
-    annotations: [label(120, "2 min", "black"), label(300, "5 min", "black"), label(900, "15 min", "black"),
-                  label(3300, "60 min", "indigo"), label(4300, "60+ min", "indigo", 0.6)],
+    annotations: [...REF.map(([s, t]) => label(s, t, "black")),
+                  label(CLIP * 0.94, "15 min", "indigo"), label(CLIP_Y * 1.04, "15+ min", "indigo", 0.6)],
     hovermode: "closest", plot_bgcolor: "white", paper_bgcolor: "white",
   };
 }
-
-// Links to this event and to other plotted events on the same system within +-3 min of its origin time.
-// Later events are listed above this event, earlier ones below.
-const NEAR_S = 180;
-const link = (url, text) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)}</a>`;
-function nearbyHtml(e, d) {
-  e.t = e.t ?? Date.parse(e.time);
-  const near = d.sorted.filter(o => Math.abs(o.t - e.t) <= NEAR_S * 1000);
-  if (!near.some(o => o.evid === e.evid)) near.push(e);
-  near.sort((a, b) => b.t - a.t);
-  return near.map(o => {
-    if (o.evid === e.evid) return `<li class="self">${link(e.url, `this event at ${e.time.slice(11, 19)}`)}</li>`;
-    const dt = Math.round((o.t - e.t) / 1000);
-    const name = CLASSES.find(c => c.key === o.class)?.name ?? "–";
-    return `<li>${link(o.url, `${dt}, ${o.mag ?? "–"}, ${name}, ${o.author ?? "–"}`)}</li>`;
-  }).join("");
+function mapLayout(p, d, narrow) {
+  return {
+    title: {text: `<b>${d.system}</b> ${d.start} to ${d.end} (agency=AK)`, font: {size: 20}},
+    font: {family: FONT, size: 14, color: "#1a1a1a"},
+    margin: narrow ? {l: 10, r: 10, t: 50, b: 120} : {l: 10, r: 10, t: 60, b: 10},
+    legend: narrow ? legendFor(true)
+                   : {x: 0.01, xanchor: "left", y: 0.99, yanchor: "top", bgcolor: "rgba(255,255,255,0.9)",
+                      bordercolor: "#000", borderwidth: 1, font: {size: 13}},
+    geo: {
+      projection: {type: "conic conformal", parallels: [55, 65], rotation: {lon: -155}},
+      resolution: 50,
+      showland: true, landcolor: "#ececec", showocean: true, oceancolor: "white",
+      showcoastlines: true, coastlinecolor: "#555", coastlinewidth: 0.5,
+      showcountries: true, countrycolor: "#888", countrywidth: 0.5, showlakes: false,
+      lataxis: {range: [46, 72], showgrid: true, gridcolor: "#e2e2e2", gridwidth: 0.5, dtick: 5},
+      lonaxis: {range: [-195, -125], showgrid: true, gridcolor: "#e2e2e2", gridwidth: 0.5, dtick: 10},
+      showframe: true, framecolor: "#9a9a9a", framewidth: 1, bgcolor: "white",
+    },
+    hovermode: "closest", paper_bgcolor: "white",
+  };
 }
 
+// ---------- selection + panel ----------
+function linksHtml(e, d) {
+  const link = (url, text) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)}</a>`;
+  const near = d.sorted.filter(o => o.evid !== e.evid && Math.abs(o.t - e.t) <= NEAR_S * 1000);
+  const rows = [...near, e].sort((a, b) => b.t - a.t);   // later above, earlier below
+  return rows.map(o => {
+    if (o.evid === e.evid) return `<li class="self">${link(e.url, `this event at ${e.time.slice(11, 19)}`)}</li>`;
+    const dt = Math.round((o.t - e.t) / 1000);
+    const km = (o.lat == null || e.lat == null) ? "–" : Math.round(distKm(e, o));
+    return `<li>${link(o.url, `${dt >= 0 ? "+" : "-"}${Math.abs(dt)}s, M${fmtMag(o.mag)}, ${km} km, ${o.author ?? "–"}`)}</li>`;
+  }).join("");
+}
 function eventHtml(e, d) {
   const row = (k, v) => `<dt>${k}</dt><dd>${v}</dd>`;
   const loc = e.lat == null ? "–" : `${e.lat.toFixed(3)}, ${e.lon.toFixed(3)}`;
@@ -169,7 +227,7 @@ function eventHtml(e, d) {
     <dl>
       ${row("Origin time", esc(e.time.replace("T", " ").replace("Z", " UTC")))}
       ${row("First-origin latency", fmtLat(e.latency_s))}
-      ${row("Magnitude", e.mag == null ? "–" : `${e.mag} ${esc(e.mag_type ?? "")}`)}
+      ${row("Magnitude", e.mag == null ? "–" : `${fmtMag(e.mag)} ${esc(e.mag_type ?? "")}`)}
       ${row("Lat, lon", loc)}
       ${row("Depth", e.depth_km == null ? "–" : `${e.depth_km} km`)}
       ${row("Class", esc(CLASSES.find(c => c.key === e.class)?.name))}
@@ -180,40 +238,56 @@ function eventHtml(e, d) {
       ${row("Azimuthal gap", e.gap == null ? "–" : `${e.gap}°`)}
       ${row("Origins", esc(e.n_origins))}
     </dl>
-    <ul class="links">${nearbyHtml(e, d)}</ul>`;
+    <ul class="links">${linksHtml(e, d)}</ul>`;
 }
-
-function makeSection(p, i) {
-  const node = document.getElementById("section-tpl").content.cloneNode(true);
-  const sec = node.querySelector("section");
-  sec.querySelector("h2.sec").textContent = p.heading;
-  sec.querySelectorAll("input").forEach(r => r.name = `sys${i}`);
-  document.getElementById("sections").appendChild(node);
-  const el = sec.querySelector(".plot"), info = sec.querySelector("aside"), err = sec.querySelector(".error");
-  info.innerHTML = HINT;
-  let current = "onsite";
-
-  async function draw(sys, keepInfo = false) {
-    err.hidden = true;
-    try {
-      const d = await load(sys);
-      document.getElementById("meta").textContent =
-        `${d.start} to ${d.end} · generated ${d.generated} · AK-agency events in the mission region`;
-      if (d.error) { err.textContent = `${sys}: ${d.error}`; err.hidden = false; }
-      await Plotly.react(el, traces(p, d.events), layout(p, d, el), {responsive: true, displaylogo: false});
-      if (!el._clickBound) { el.on("plotly_click", ev => info.innerHTML = eventHtml(ev.points[0].customdata, cache[current])); el._clickBound = true; }
-      if (!keepInfo) info.innerHTML = HINT;
-    } catch (e) {
-      err.textContent = `Could not load ${sys}: ${e.message}`;
-      err.hidden = false;
-    }
+function select(e) {
+  selected = e;
+  const info = document.getElementById("info");
+  info.innerHTML = e ? eventHtml(e, cache[current]) : HINT;
+  for (const p of PLOTS) {
+    const el = document.getElementById(p.id);
+    if (!el.data) continue;
+    const i = el.data.length - 1;   // highlight trace is always last
+    const upd = p.kind === "map" ? {lat: [e ? [e.lat] : []], lon: [e ? [e.lon] : []]}
+                                 : {x: [e ? [p.x(e)] : []], y: [e ? [clipY(e)] : []]};
+    Plotly.restyle(el, upd, [i]);
   }
-  sec.querySelectorAll("input").forEach(r => r.addEventListener("change", () => draw(current = r.value)));
-  window.addEventListener("resize", () => { clearTimeout(el._rt); el._rt = setTimeout(() => draw(current, true), 250); });
-  draw(current);
 }
 
-PLOTS.forEach(makeSection);
+// ---------- drawing ----------
+async function drawAll(keepSelection = false) {
+  const err = document.getElementById("error");
+  err.hidden = true;
+  try {
+    const d = await load(current);
+    document.getElementById("meta").textContent =
+      `${d.start} to ${d.end} · generated ${d.generated} · AK-agency events in the mission region`;
+    if (d.error) { err.textContent = `${current}: ${d.error}`; err.hidden = false; }
+    for (const p of PLOTS) {
+      const el = document.getElementById(p.id);
+      const narrow = el.clientWidth < 600;
+      const lay = p.kind === "map" ? mapLayout(p, d, narrow) : latencyLayout(p, d, narrow);
+      await Plotly.react(el, traces(p, d), lay, {responsive: true, displaylogo: false});
+      if (!el._clickBound) {
+        el.on("plotly_click", ev => { const c = ev.points[0].customdata; if (c && c.evid) select(c); });
+        el._clickBound = true;
+      }
+    }
+    const keep = keepSelection && selected && d.shown.find(e => e.evid === selected.evid);
+    select(keep || null);
+  } catch (e) {
+    err.textContent = `Could not load ${current}: ${e.message}`;
+    err.hidden = false;
+  }
+}
+
+document.querySelectorAll('input[name="sys"]').forEach(r =>
+  r.addEventListener("change", () => { current = r.value; drawAll(false); }));
+let rt;
+window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => drawAll(true), 250); });
+document.getElementById("info").innerHTML = HINT;
+Plotly.setPlotConfig({topojsonURL: "topojson/"});
+drawAll();
 </script>
 </body>
 </html>

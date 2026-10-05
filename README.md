@@ -28,13 +28,15 @@ If one system's database is unreachable, it is skipped and the rest still run.
 
 ## Web page (GitHub Pages)
 
-`docs/` is a static site: `docs/index.html` shows the first-origin latency plot for onsite, offsite or dev
-(radio buttons), with zoom/hover and a click-for-details panel (event ID, time, latency, magnitude, location,
-class, origin info). The panel links to the origin locator view for this event and for every other plotted event
-on the same system within ±3 min (later events above, earlier below; text = seconds offset, magnitude, class, author).
-A second section plots first-origin latency against magnitude. Each run overwrites `docs/data/{onsite,offsite,dev}.json`,
-so the site always shows the latest window only; push to publish. GitHub Pages: Settings → Pages →
-Deploy from branch `main`, folder `/docs`. Plotly is loaded from jsDelivr.
+`docs/` is a static site (`docs/index.html`). One onsite/offsite/dev toggle at the top drives three
+interactive plots: first-origin latency vs time, a map, and first-origin latency vs magnitude. Clicking an event on
+any plot rings it in orange on all three and fills a side panel (event ID, time, latency, magnitude, location,
+class, origin info) with links to the origin locator view for this event and for every other plotted event within
+±3 min (later events above, earlier below; text = `±seconds s, M magnitude, distance km, author`).
+Latencies over 15 min are drawn in a band at the top (same in the PNGs); reference lines at 30 s, 1, 2, 5, 10 min.
+Each run overwrites `docs/data/{onsite,offsite,dev}.json` and `docs/data/region.json`, so the site always shows the
+latest window only; push to publish. GitHub Pages: Settings → Pages → Deploy from branch `main`, folder `/docs`.
+Plotly is loaded from jsDelivr; map coastlines come from `docs/topojson/world_50m.json` (sane-topojson).
 
 ## Layout
 
@@ -48,6 +50,7 @@ scripts/comcat.py   QuakeML parsing, catalog matching, cleaning filters
 scripts/plots.py    figures
 scripts/web.py      web page data (docs/data/*.json)
 docs/index.html     web page
+docs/topojson/      coastline data for the web map
 scripts/regions.geojson mission region polygon (also holds the unused ANSS region)
 ```
 
