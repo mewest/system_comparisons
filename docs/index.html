@@ -29,6 +29,10 @@
   aside { flex:0 0 340px; position:sticky; top:12px; max-height:calc(100vh - 24px); overflow:auto;
           background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
   aside h2 { margin:0 0 10px; font-size:18px; }
+  aside .head { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+  aside .close { border:1px solid #bbb; background:#fff; border-radius:6px; font-size:20px; line-height:1;
+                 width:30px; height:30px; padding:0; cursor:pointer; color:#444; flex:none; }
+  aside .close:hover { background:#eee; }
   aside .hint { color:var(--muted); font-size:14px; margin:0; }
   dl { display:grid; grid-template-columns:auto 1fr; gap:4px 12px; margin:0; font-size:14px; }
   dt { color:var(--muted); }
@@ -242,7 +246,7 @@ function eventHtml(e, d) {
   const row = (k, v) => `<dt>${k}</dt><dd>${v}</dd>`;
   const loc = e.lat == null ? "–" : `${e.lat.toFixed(3)}, ${e.lon.toFixed(3)}`;
   return `
-    <h2>${esc(e.evid)}</h2>
+    <div class="head"><h2>${esc(e.evid)}</h2><button class="close" type="button" title="Close (Esc)" aria-label="Close and clear selection">×</button></div>
     <dl>
       ${row("Origin time", esc(e.time.replace("T", " ").replace("Z", " UTC")))}
       ${row("First-origin latency", fmtLat(e.latency_s))}
@@ -264,6 +268,7 @@ function select(e) {
   selected = e;
   const info = document.getElementById("info");
   info.innerHTML = e ? eventHtml(e, cache[current]) : HINT;
+  info.querySelector(".close")?.addEventListener("click", () => select(null));
   const near = e ? nearEvents(e, cache[current]) : [];
   for (const p of PLOTS) {
     const el = document.getElementById(p.id);
@@ -307,6 +312,7 @@ async function drawAll(keepSelection = false) {
 
 document.querySelectorAll('input[name="sys"]').forEach(r =>
   r.addEventListener("change", () => { current = r.value; drawAll(false); }));
+document.addEventListener("keydown", ev => { if (ev.key === "Escape" && selected) select(null); });
 let rt;
 window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => drawAll(true), 250); });
 document.getElementById("info").innerHTML = HINT;
