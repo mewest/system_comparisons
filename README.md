@@ -35,6 +35,9 @@ class, origin info) with links to the origin locator view for this event and for
 ±3 min (later events above, earlier below; text = `±seconds s, M magnitude, distance km, author`).
 Latencies over 15 min are drawn in a band at the top (same in the PNGs); reference lines at 30 s, 1, 2, 5, 10 min.
 The map legend also shows total AK events (any region) and in-mission events, as on the PNG map.
+The web map also shows AK events outside the mission region in grey (same symbols and sizes); the latency plots
+show mission-region events only. Events within ±3 min of the selected one are ringed in yellow on every plot
+where they appear.
 Magnitudes are stored and plotted with 2 decimals; text (hover, panel, links) shows 1 decimal.
 Each run overwrites `docs/data/{onsite,offsite,dev}.json` and `docs/data/region.json`, so the site always shows the
 latest window only; push to publish. GitHub Pages: Settings → Pages → Deploy from branch `main`, folder `/docs`.

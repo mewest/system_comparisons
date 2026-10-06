@@ -27,13 +27,14 @@ def _txt(x):
 
 
 def write_latency(system, start, end, pref=None, error=None):
-    """Write docs/data/<system>.json with the events shown on the first-origin latency plot
-    (AK agency, mission region). Pass error instead of pref if the system could not be queried."""
+    """Write docs/data/<system>.json with all AK-agency events; "mission" flags those in the mission region
+    (latency plots show only those; the map shows the rest in grey). Pass error instead of pref if the system
+    could not be queried."""
     events, n_total, n_mission = [], None, None
     if pref is not None:
         ak = pref.agency == "AK"
         n_total, n_mission = int(ak.sum()), int((ak & pref.mission).sum())   # as on the PNG map
-        d = pref.loc[ak & pref.mission]
+        d = pref.loc[ak]
         for r in d.itertuples(index=False):
             events.append({
                 "evid": r.event_id,
@@ -45,6 +46,7 @@ def write_latency(system, start, end, pref=None, error=None):
                 "lon": _num(r.longitude, 3),
                 "depth_km": _num(getattr(r, "depth", None), 1),
                 "class": _txt(r.classify),
+                "mission": bool(r.mission),
                 "mode": _txt(r.evaluationMode),
                 "status": _txt(r.evaluationStatus),
                 "event_type": _txt(r.etype),

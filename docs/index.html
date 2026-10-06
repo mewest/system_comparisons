@@ -79,8 +79,10 @@ const CLIP = 900, CLIP_Y = 1040, Y_TOP = 1200;   // > 15 min drawn in the 15+ ba
 const REF = [[30, "30 s"], [60, "1 min"], [120, "2 min"], [300, "5 min"], [600, "10 min"]];
 const NEAR_S = 180;                               // panel lists events within +-3 min
 const HL = {symbol: "circle-open", color: "#ff7f0e", size: 26, width: 3};   // selection ring
+const NEAR = {symbol: "circle-open", color: "#f5c400", size: 20, width: 3};  // events within +-3 min
+const OUTSIDE = "#a0a0a0";                         // map: events outside the mission region
 const FONT = '"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif';
-const HINT = '<h2>Event</h2><p class="hint">Click a symbol on any plot to see its details; it is ringed in orange on all three plots. Click legend entries to hide or show a class.</p>';
+const HINT = '<h2>Event</h2><p class="hint">Click a symbol on any plot to see its details; it is ringed in orange on all three plots, and other events within ±3 min in yellow. Grey map symbols are outside the mission region (map only). Click legend entries to hide or show a class.</p>';
 const GRID = {showgrid: true, gridcolor: "#eeeeee", gridwidth: 0.5, zeroline: false,
               showline: true, mirror: true, linecolor: "#9a9a9a", linewidth: 1};
 
@@ -89,6 +91,7 @@ const fmtMag = m => m == null ? "–" : m.toFixed(1);
 const fmtLat = s => s == null ? "–" : s < 120 ? `${s.toFixed(1)} s` : `${(s / 60).toFixed(1)} min (${Math.round(s)} s)`;
 const esc = s => String(s ?? "–").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const clipY = e => e.latency_s > CLIP ? CLIP_Y : e.latency_s;
+const inMission = e => e.mission !== false;
 function distKm(a, b) {
   const r = Math.PI / 180, dla = (b.lat - a.lat) * r, dlo = (b.lon - a.lon) * r;
   const h = Math.sin(dla / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dlo / 2) ** 2;
@@ -115,8 +118,10 @@ async function load(sys) {
   if (!cache[sys]) {
     const d = await getJSON(`data/${sys}.json`);
     d.events.forEach(e => e.t = Date.parse(e.time));
-    d.shown = d.events.filter(e => e.class);                  // events that are plotted
-    d.sorted = [...d.shown].sort((a, b) => b.t - a.t);        // latest first
+    d.all = d.events.filter(e => e.class);                    // all classified events (map)
+    d.shown = d.all.filter(inMission);                         // mission region (all three plots)
+    d.outside = d.all.filter(e => !inMission(e));              // outside mission (map only, grey)
+    d.sorted = [...d.all].sort((a, b) => b.t - a.t);          // latest first
     cache[sys] = d;
   }
   if (!region) region = await getJSON("data/region.json").catch(() => ({mission: []}));
@@ -124,22 +129,31 @@ async function load(sys) {
 }
 
 // ---------- traces ----------
-function classTraces(p, d) {
+function classTraces(p, d, events = d.shown, grey = false) {
   return CLASSES.map(c => {
-    const ev = d.shown.filter(e => e.class === c.key);
+    const ev = events.filter(e => e.class === c.key);
+    const color = grey ? OUTSIDE : c.color;
     const base = {name: `${c.name} = ${ev.length}`, customdata: ev, mode: "markers",
                   hovertemplate: "%{customdata.evid}<br>M%{customdata.mag:.1f}<extra></extra>",
-                  marker: {symbol: c.symbol, color: c.color,
+                  marker: {symbol: c.symbol, color,
                            size: ev.map(p.kind === "map" ? e => magSize(e.mag) : p.size),
-                           line: {color: c.color, width: c.symbol === "x" ? 0 : 1.3}}};
+                           line: {color, width: c.symbol === "x" ? 0 : 1.3}},
+                  ...(grey ? {showlegend: false, legendgroup: "outside"} : {})};
     return p.kind === "map"
       ? {...base, type: "scattergeo", lat: ev.map(e => e.lat), lon: ev.map(e => e.lon)}
       : {...base, type: "scattergl", x: ev.map(p.x), y: ev.map(clipY)};
   });
 }
-function highlightTrace(p) {
-  const t = {name: "selected", mode: "markers", showlegend: false, hoverinfo: "skip",
-             marker: {symbol: HL.symbol, size: HL.size, color: HL.color, line: {color: HL.color, width: HL.width}}};
+function outsideTraces(p, d) {
+  // grey copies of the class symbols, one legend entry for the group (clicking it hides them all)
+  const key = {type: "scattergeo", mode: "markers", lat: [null], lon: [null], hoverinfo: "skip",
+               name: `outside mission = ${d.outside.length}`, legendgroup: "outside",
+               marker: {symbol: "circle-open", color: OUTSIDE, size: 9, line: {color: OUTSIDE, width: 1.3}}};
+  return [key, ...classTraces(p, d, d.outside, true)];
+}
+function highlightTrace(p, m = HL, name = "selected") {
+  const t = {name, mode: "markers", showlegend: false, hoverinfo: "skip",
+             marker: {symbol: m.symbol, size: m.size, color: m.color, line: {color: m.color, width: m.width}}};
   return p.kind === "map" ? {...t, type: "scattergeo", lat: [], lon: []} : {...t, type: "scattergl", x: [], y: []};
 }
 function regionTrace() {
@@ -149,8 +163,8 @@ function regionTrace() {
 }
 function traces(p, d) {
   const t = classTraces(p, d);
-  if (p.kind === "map") t.unshift(regionTrace());
-  t.push(highlightTrace(p));
+  if (p.kind === "map") t.unshift(regionTrace(), ...outsideTraces(p, d));
+  t.push(highlightTrace(p, NEAR, "nearby"), highlightTrace(p));   // ring traces are always last
   return t;
 }
 
@@ -212,9 +226,10 @@ function mapLayout(p, d, narrow) {
 }
 
 // ---------- selection + panel ----------
+const nearEvents = (e, d) => d.sorted.filter(o => o.evid !== e.evid && Math.abs(o.t - e.t) <= NEAR_S * 1000);
 function linksHtml(e, d) {
   const link = (url, text) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)}</a>`;
-  const near = d.sorted.filter(o => o.evid !== e.evid && Math.abs(o.t - e.t) <= NEAR_S * 1000);
+  const near = nearEvents(e, d);
   const rows = [...near, e].sort((a, b) => b.t - a.t);   // later above, earlier below
   return rows.map(o => {
     if (o.evid === e.evid) return `<li class="self">${link(e.url, `this event at ${e.time.slice(11, 19)}`)}</li>`;
@@ -235,6 +250,7 @@ function eventHtml(e, d) {
       ${row("Lat, lon", loc)}
       ${row("Depth", e.depth_km == null ? "–" : `${e.depth_km} km`)}
       ${row("Class", esc(CLASSES.find(c => c.key === e.class)?.name))}
+      ${row("Region", inMission(e) ? "mission" : "outside mission")}
       ${row("Mode / status", `${esc(e.mode)} / ${esc(e.status)}`)}
       ${row("Event type", esc(e.event_type))}
       ${row("Author", esc(e.author))}
@@ -248,13 +264,17 @@ function select(e) {
   selected = e;
   const info = document.getElementById("info");
   info.innerHTML = e ? eventHtml(e, cache[current]) : HINT;
+  const near = e ? nearEvents(e, cache[current]) : [];
   for (const p of PLOTS) {
     const el = document.getElementById(p.id);
     if (!el.data) continue;
-    const i = el.data.length - 1;   // highlight trace is always last
-    const upd = p.kind === "map" ? {lat: [e ? [e.lat] : []], lon: [e ? [e.lon] : []]}
-                                 : {x: [e ? [p.x(e)] : []], y: [e ? [clipY(e)] : []]};
-    Plotly.restyle(el, upd, [i]);
+    const n = el.data.length;   // last two traces: nearby ring, selected ring
+    // latency plots only show mission-region events
+    const pts = list => p.kind === "map" ? list : list.filter(inMission);
+    const xy = list => p.kind === "map" ? {lat: [pts(list).map(o => o.lat)], lon: [pts(list).map(o => o.lon)]}
+                                        : {x: [pts(list).map(p.x)], y: [pts(list).map(clipY)]};
+    Plotly.restyle(el, xy(near), [n - 2]);
+    Plotly.restyle(el, xy(e ? [e] : []), [n - 1]);
   }
 }
 
@@ -265,7 +285,7 @@ async function drawAll(keepSelection = false) {
   try {
     const d = await load(current);
     document.getElementById("meta").textContent =
-      `${d.start} to ${d.end} · generated ${d.generated} · AK-agency events in the mission region`;
+      `${d.start} to ${d.end} · generated ${d.generated} · AK-agency events (latency plots: mission region only)`;
     if (d.error) { err.textContent = `${current}: ${d.error}`; err.hidden = false; }
     for (const p of PLOTS) {
       const el = document.getElementById(p.id);
