@@ -1,9 +1,0 @@
-idx,onsite,offsite,dev
-total_events,194,207,239
-in_mission,181,192,226
-auto_confirm,2,89,74
-auto_reject,0,47,39
-auto_uneval,0,46,45
-man_confirm,120,0,1
-man_reject,36,0,0
-generated,2026-10-03 00:33:34 UTC,2026-10-03 00:33:36 UTC,2026-10-03 00:33:38 UTC
