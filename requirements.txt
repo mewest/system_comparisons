@@ -1,6 +1,5 @@
 pandas>=2.0
 numpy
-matplotlib
-cartopy
+matplotlib          # point-in-polygon only (matplotlib.path)
 sqlalchemy>=2.0
 pymysql

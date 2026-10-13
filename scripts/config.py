@@ -21,10 +21,9 @@ COMCAT_URL = ("https://earthquake.usgs.gov/fdsnws/event/1/query.quakeml"
               "?starttime={start}&endtime={end}"
               "&maxlatitude=75&minlatitude=40&maxlongitude=-120&minlongitude=-210")
 
-CONNECT_FILE = ROOT_DIR / "connect.json"
+CONNECT_FILE = ROOT_DIR.parent / "connect.json"   # ~/play/connect.json, shared with other tools
 OUTPUT_DIR = ROOT_DIR / "output"
 DOCS_DIR = ROOT_DIR / "docs"          # GitHub Pages site
-DPI = 300
 
 
 def load_connect(system):

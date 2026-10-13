@@ -4,6 +4,6 @@ __pycache__/
 connect.json
 syscomp/
 
-# raw/regenerable outputs (plots and summary CSVs are kept)
+# raw/regenerable outputs (summary CSVs are kept)
 output/*/*_origins.csv
 output/*/usgs_data.qml
