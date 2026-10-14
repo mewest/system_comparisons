@@ -4,7 +4,7 @@
     python run.py --start 2026-07-02 --end 2026-07-11T00:00:00
 
 For each of onsite, offsite, dev: web page data (docs/data/<system>.json, overwritten with this window) and a column
-in systems_stats.csv. Then onsite is compared against USGS ComCat (CSV). CSVs go to output/<start>_<end>/.
+in systems_stats.csv. Then onsite is compared against USGS ComCat (CSV). CSVs go to output/ (overwritten every run).
 """
 
 import argparse
@@ -65,7 +65,7 @@ def main():
     p.add_argument("--end", required=True, type=timestamp, help="YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS (UTC)")
     a = p.parse_args()
 
-    out = config.OUTPUT_DIR / f"{a.start}_{a.end}".replace(":", "")
+    out = config.OUTPUT_DIR            # one set of files, overwritten every run
     out.mkdir(parents=True, exist_ok=True)
 
     web.write_region()

@@ -14,7 +14,7 @@ Needs VPN/database access and `~/play/connect.json` (one block per system with t
 shared with other tools in `~/play`; never committed).
 Times are UTC, `YYYY-MM-DD` or `YYYY-MM-DDTHH:MM:SS`; the end is exclusive (a full week is start + 7 days).
 
-Outputs (CSVs in `output/<start>_<end>/`):
+Outputs (in `output/`, overwritten every run, so they always match the web page window):
 
 | File | Source in review_and_adjust |
 |---|---|
