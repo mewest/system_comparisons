@@ -57,8 +57,8 @@
   <div class="meta" id="meta">Loading…</div>
 </header>
 <div class="systems" role="radiogroup" aria-label="SeisComP system">
-  <label><input type="radio" name="sys" value="onsite" checked><span>onsite</span></label>
   <label><input type="radio" name="sys" value="offsite"><span>offsite</span></label>
+  <label><input type="radio" name="sys" value="onsite" checked><span>onsite</span></label>
   <label><input type="radio" name="sys" value="dev"><span>dev</span></label>
 </div>
 <div class="error" id="error" hidden></div>
@@ -102,9 +102,17 @@ function distKm(a, b) {
   return 6371 * 2 * Math.asin(Math.sqrt(h));
 }
 
+// time axis: the requested window plus 1/50 of its length on each side
+const utcMs = s => Date.parse(s.length > 10 && !/(Z|[+-]\d\d:?\d\d)$/.test(s) ? s + "Z" : s);
+const plotlyDate = ms => new Date(ms).toISOString().slice(0, 19).replace("T", " ");
+function windowRange(d) {
+  const a = utcMs(d.start), b = utcMs(d.end), pad = (b - a) / 50;
+  return [plotlyDate(a - pad), plotlyDate(b + pad)];
+}
+
 const PLOTS = [
   {id: "p-time", kind: "latency", title: "First Origin Latency", x: e => e.time, size: e => magSize(e.mag),
-   xaxis: {title: {text: "Origin time (UTC)"}}},
+   xaxis: {title: {text: "Origin time (UTC)"}}, range: windowRange},
   {id: "p-map", kind: "map", title: "Map"},
   {id: "p-mag", kind: "latency", title: "First Origin Latency vs Magnitude", x: e => e.mag, size: () => 9,
    xaxis: {title: {text: "Magnitude"}}},
@@ -187,8 +195,10 @@ function latencyLayout(p, d, narrow) {
   return {
     title: {text: `<b>${d.system}</b> ${p.title}`, font: {size: 20}},
     font: {family: FONT, size: 14, color: "#1a1a1a"},
-    margin: narrow ? {l: 60, r: 70, t: 50, b: 150} : {l: 70, r: 80, t: 60, b: 60},
-    xaxis: {...GRID, nticks: narrow ? 4 : 10, tickangle: 0, ...p.xaxis},
+    // fixed margins (right one wide enough for the legend) so the plot area is the same width for every system
+    margin: narrow ? {l: 60, r: 70, t: 50, b: 150} : {l: 70, r: 230, t: 60, b: 60},
+    xaxis: {...GRID, nticks: narrow ? 4 : 10, tickangle: 0, ...p.xaxis,
+            ...(p.range ? {range: p.range(d), autorange: false} : {})},
     yaxis: {...GRID, title: {text: "Detection Latency (s)"}, type: "log", range: [1, Math.log10(Y_TOP)],
             tickvals: [10, 20, 50, 100, 200, 500]},
     legend: legendFor(narrow),
