@@ -47,8 +47,7 @@
   <b>B</b> within ±3 min of an anchor <b>A</b> is tested: B's first-arriving P picks are compared with the arrival
   times predicted from A's hypocenter (ak135). <b>RMS<sub>A</sub></b> is the root-mean-square of those residuals in
   seconds. If it is small, A already explains B's picks and B is likely a split (duplicate solution). If it is
-  large, B needs its own source. Context: RMS<sub>B</sub> (B's picks vs B's own hypocenter) and RMS<sub>A,own</sub>
-  (A's picks vs A). ≥ 50 % matching P picks (same station within 0.5 s, including shared picks) also count as a split.
+  large, B needs its own source. ≥ 50 % matching P picks (same station within 0.5 s, including shared picks) also count as a split.
   Labels for checking the thresholds: <i>rejected</i> (B rejected on onsite) and <i>both reviewed</i> (analyst kept
   both events).
 </p>
@@ -89,7 +88,6 @@ const CLASSES = ["split", "ambiguous", "distinct"];
 const COLS = [
   {k: "cls", t: "Class", l: true, f: v => `<span class="chip ${v}">${v}</span>`},
   {k: "label", t: "Label", l: true},
-  {k: "a_time", t: "Anchor time (UTC)", l: true, f: v => v.replace("T", " ").replace("Z", "")},
   {k: "a_evid", t: "Anchor A", l: true, f: (v, r) => `<a href="${r.url_a}" target="_blank" rel="noopener">${v}</a>`},
   {k: "a_mag", t: "M<sub>A</sub>", f: v => fx(v, 1)},
   {k: "b_evid", t: "Event B", l: true, f: (v, r) => `<a href="${r.url_b}" target="_blank" rel="noopener">${v}</a>`},
@@ -97,15 +95,9 @@ const COLS = [
   {k: "b_status", t: "B status", l: true, f: (v, r) => `${v || "–"}${r.b_mode ? " (" + r.b_mode + ")" : ""}`},
   {k: "b_author", t: "B author", l: true},
   {k: "dt0_s", t: "Δt₀ (s)", f: v => fx(v, 1)},
-  {k: "dist_km", t: "Sep. (km)", f: v => fx(v, 0)},
   {k: "n_p", t: "B P picks"},
-  {k: "shared", t: "Shared"},
-  {k: "matched_frac", t: "Matched", f: v => v == null ? "–" : Math.round(v * 100) + " %"},
   {k: "rms_a", t: "RMS<sub>A</sub> (s)", f: v => fx(v, 2)},
-  {k: "rms_b", t: "RMS<sub>B</sub> (s)", f: v => fx(v, 2)},
-  {k: "rms_a_own", t: "RMS<sub>A,own</sub> (s)", f: v => fx(v, 2)},
   {k: "mean_a", t: "Mean res. (s)", f: v => fx(v, 2)},
-  {k: "n_early", t: "Early"},
 ];
 const fx = (v, n) => v == null ? "–" : Number(v).toFixed(n);
 let data = null, sortKey = "a_time", sortDir = 1;
