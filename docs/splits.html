@@ -20,6 +20,16 @@
   section h2 { margin:0 0 8px; font-size:20px; font-weight:600; }
   p.method { max-width:900px; font-size:15px; line-height:1.45; margin:8px 0; }
   .plot { width:100%; height:480px; }
+  .examples { display:flex; gap:16px; flex-wrap:wrap; }
+  .examples .ex { flex:1 1 420px; }
+  .ex { height:500px; min-width:0; }
+  #ex-selected { margin-top:12px; }
+  .key { font-weight:700; }
+  .key.rev { color:#777; }
+  .key.tst { color:#8a3b00; }
+  #pairs tbody tr { cursor:pointer; }
+  #pairs tbody tr:hover { background:#f3f6ff; }
+  #pairs tbody tr.sel { background:#fff3c4; }
   table { border-collapse:collapse; font-size:14px; font-variant-numeric:tabular-nums; }
   th, td { padding:4px 8px; border-bottom:1px solid #e6e6e6; text-align:right; white-space:nowrap; }
   thead { position:sticky; top:0; z-index:1; }
@@ -67,6 +77,20 @@
   <h2>Pair details</h2>
   <div class="tablewrap"><table id="pairs"></table></div>
 </section>
+<section>
+  <h2>How the RMS test works</h2>
+  <p class="method">
+    Each panel shows one pair as a record section. The <b>black line</b> is the P arrival time predicted with ak135
+    from the reviewed event's hypocenter, at each distance from it. <span class="key rev">○</span> are the reviewed
+    event's own P picks, <span class="key tst">●</span> the test event's P picks, and the thin vertical lines their
+    residuals (observed − predicted). <b>RMS</b> is the root-mean-square length of those lines. For a split, the test
+    event's picks fall on the reviewed event's curve; for a distinct event they sit off it, typically shifted by the
+    difference in origin time and scattered by the difference in location. Click a row in <i>Pair details</i> to plot
+    that pair here.
+  </p>
+  <div class="examples"><div class="ex" id="ex-split"></div><div class="ex" id="ex-distinct"></div></div>
+  <div class="ex" id="ex-selected" hidden></div>
+</section>
 </main>
 <script>
 const FONT = '"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif';
@@ -93,7 +117,7 @@ const COLS = [
 ];
 const magTag = m => m == null ? "" : ` (M${Number(m).toFixed(1)})`;
 const fx = (v, n) => v == null ? "–" : Number(v).toFixed(n);
-let data = null, sortKey = "a_time", sortDir = 1;
+let data = null, selected = null, sortKey = "a_time", sortDir = 1;
 
 function summary(d) {
   const rows = CLASSES.map(c => {
@@ -137,6 +161,55 @@ function plots(d) {
     {responsive: true, displaylogo: false});
 }
 
+const CLS_COLOR = {split: "#8a3b00", distinct: "#0b3d91", ambiguous: "#555"};
+function pairPlot(id, p, what) {
+  const col = CLS_COLOR[p.cls] || "#555";
+  const seg = {x: [], y: []};
+  p.picks.forEach(([d, t, tp]) => { seg.x.push(d, d, null); seg.y.push(t, tp, null); });
+  const lbl = (e, m) => `${e}${magTag(m)}`;
+  const narrow = document.getElementById(id).clientWidth < 600;
+  const traces = [
+    {type: "scatter", mode: "lines", name: "predicted P from reviewed hypocenter", x: p.curve.map(c => c[0]),
+     y: p.curve.map(c => c[1]), line: {color: "#000", width: 2}, hoverinfo: "skip"},
+    {type: "scatter", mode: "markers", name: "reviewed event P picks", x: p.a_picks.map(c => c[0]), y: p.a_picks.map(c => c[1]),
+     marker: {symbol: "circle-open", size: 9, color: "#777", line: {width: 1.5}},
+     hovertemplate: "reviewed pick<br>%{x:.0f} km, %{y:.1f} s<extra></extra>"},
+    {type: "scatter", mode: "lines", name: "residual", x: seg.x, y: seg.y, line: {color: col, width: 1}, hoverinfo: "skip",
+     showlegend: false},
+    {type: "scatter", mode: "markers", name: "test event P picks", x: p.picks.map(c => c[0]), y: p.picks.map(c => c[1]),
+     customdata: p.picks.map(c => [c[3], c[1] - c[2]]), marker: {size: 8, color: col},
+     hovertemplate: "%{customdata[0]}<br>%{x:.0f} km, %{y:.1f} s<br>residual %{customdata[1]:.2f} s<extra></extra>"},
+  ];
+  const layout = {
+    font: {family: FONT, size: 14, color: "#1a1a1a"}, paper_bgcolor: "white", plot_bgcolor: "white",
+    title: {text: `<b>${what}</b>: <span style="color:${col}">${p.cls}</span>, RMS ${fx(p.rms_a, 2)} s<br>` +
+                  `<span style="font-size:13px">reviewed ${lbl(p.a_evid, p.a_mag)} →${narrow ? "<br>" : " "}test ` +
+                  `${lbl(p.b_evid, p.b_mag)}, ${p.n_p} P picks</span>`, font: {size: 16}, x: 0.02, xanchor: "left"},
+    margin: {l: 70, r: 20, t: narrow ? 90 : 70, b: narrow ? 150 : 110},
+    xaxis: {showgrid: true, gridcolor: "#eee", showline: true, mirror: true, linecolor: "#9a9a9a", rangemode: "tozero",
+            title: {text: "distance from reviewed hypocenter (km)"}},
+    yaxis: {showgrid: true, gridcolor: "#eee", showline: true, mirror: true, linecolor: "#9a9a9a", zeroline: false,
+            title: {text: "time after reviewed origin time (s)"}},
+    legend: {orientation: "h", x: 0, xanchor: "left", y: narrow ? -0.32 : -0.22, yanchor: "top", font: {size: 12}},
+    hovermode: "closest",
+  };
+  Plotly.react(id, traces, layout, {responsive: true, displaylogo: false});
+}
+
+function examples(d) {
+  // clearest split (most P picks) and a distinct pair with many picks and a moderate RMS
+  const by = (a, b) => b.n_p - a.n_p;
+  const sp = d.pairs.filter(p => p.cls === "split" && p.picks && p.picks.length).sort(by)[0];
+  const ds = d.pairs.filter(p => p.cls === "distinct" && p.picks && p.picks.length >= 6 && p.rms_a >= 5 && p.rms_a <= 60).sort(by)[0]
+          || d.pairs.filter(p => p.cls === "distinct" && p.picks && p.picks.length).sort(by)[0];
+  const show = (id, p, what) => {
+    const el = document.getElementById(id);
+    if (p) pairPlot(id, p, what); else el.innerHTML = `<p class="meta">No ${what.split(" ")[0]} pair in this window.</p>`;
+  };
+  show("ex-split", sp, "split example");
+  show("ex-distinct", ds, "distinct example");
+}
+
 function table() {
   const rows = [...data.pairs];
   rows.sort((a, b) => {
@@ -146,9 +219,18 @@ function table() {
   });
   const head = COLS.map(c => `<th class="${c.l ? "l" : ""} ${c.c || ""}" data-k="${c.k}">${c.t}
     <span class="arrow">${c.k === sortKey ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>`).join("");
-  const body = rows.map(r => `<tr>${COLS.map(c => `<td class="${c.l ? "l" : ""} ${c.c || ""}">${c.f ? c.f(r[c.k], r) : (r[c.k] ?? "–")}</td>`).join("")}</tr>`).join("");
+  const body = rows.map(r => `<tr data-i="${r._i}" class="${selected === r._i ? "sel" : ""}">${COLS.map(c => `<td class="${c.l ? "l" : ""} ${c.c || ""}">${c.f ? c.f(r[c.k], r) : (r[c.k] ?? "–")}</td>`).join("")}</tr>`).join("");
   const t = document.getElementById("pairs");
   t.innerHTML = `<thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
+  t.querySelectorAll("tbody tr").forEach(tr => tr.onclick = () => {
+    selected = +tr.dataset.i;
+    t.querySelectorAll("tbody tr.sel").forEach(x => x.classList.remove("sel"));
+    tr.classList.add("sel");
+    const el = document.getElementById("ex-selected");
+    el.hidden = false;
+    pairPlot("ex-selected", data.pairs[selected], "selected pair");
+    el.scrollIntoView({behavior: "smooth", block: "center"});
+  });
   t.querySelectorAll("th[data-k]").forEach(th => th.onclick = () => {
     const k = th.dataset.k; sortDir = k === sortKey ? -sortDir : 1; sortKey = k; table();
   });
@@ -159,7 +241,8 @@ fetch("data/splits.json", {cache: "no-store"}).then(r => { if (!r.ok) throw new 
     data = d;
     document.getElementById("meta").textContent =
       `${d.start} to ${d.end} · generated ${d.generated} · ${d.n_anchors} reviewed events · ${d.pairs.length} pairs`;
-    summary(d); plots(d); table();
+    d.pairs.forEach((p, i) => p._i = i);
+    summary(d); plots(d); table(); examples(d);
   })
   .catch(e => { const el = document.getElementById("error"); el.textContent = `Could not load results: ${e.message}`; el.hidden = false; });
 </script>

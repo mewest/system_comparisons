@@ -27,6 +27,7 @@ DISTINCT_RMS = 3.0      # RMS_A > this (s) -> distinct
 EARLY_S = 2.0           # B P pick this much before A's predicted P is "early"
 S_WIN = 2.0             # B P pick within this of A's predicted S is flagged (anchors M >= BIG_MAG)
 BIG_MAG = 4.0
+KM_PER_DEG = 111.195
 P_PHASES = {"P", "p", "Pn", "Pg", "Pb"}   # first-arriving P only (not PKP, PP, ...)
 
 ORIGINS = """
@@ -156,7 +157,7 @@ def run(start, end, out=OUTPUT_DIR):
     for a in anchors.itertuples():
         near = ev.loc[(ev.evid != a.evid) & ((ev.t0 - a.t0).abs() <= WINDOW_S)]
         pa = picks.get(a.origin_id, empty)
-        ra_own, _ = _residuals(pa, a, tt)
+        ra_own, dist_own = _residuals(pa, a, tt)
         for b in near.itertuples():
             b_anchor = b.status in ANCHOR_STATUS
             if b_anchor and b.t0 < a.t0:
@@ -178,13 +179,25 @@ def run(start, end, out=OUTPUT_DIR):
                 label = "rejected"
             else:
                 label = ""
+            # for the moveout plot on the web page: distance from A (km) and times after A's origin time (s)
+            km, km_own = dist * KM_PER_DEG, dist_own * KM_PER_DEG
+            tpred = (pb.t.values - a.t0) - ra                    # predicted P time after t0_A
+            dmax = float(np.nanmax(np.concatenate([km[ok], km_own[np.isfinite(ra_own)], [10.0]])))
+            grid = np.linspace(0, dmax * 1.05, 60)
+            curve = tt("P", grid / KM_PER_DEG, a.depth)
+            plot = {
+                "picks": [[_r(d, 1), _r(t, 2), _r(tp, 2), f"{nn}.{ss}"] for d, t, tp, nn, ss, k
+                          in zip(km, pb.t.values - a.t0, tpred, pb.net, pb.sta, ok) if k],
+                "a_picks": [[_r(d, 1), _r(t, 2)] for d, t, k in zip(km_own, pa.t.values - a.t0, np.isfinite(ra_own)) if k],
+                "curve": [[_r(d, 1), _r(t, 2)] for d, t in zip(grid, curve) if np.isfinite(t)],
+            }
             rows.append({
                 "a_evid": a.evid, "a_time": datetime.fromtimestamp(a.t0, timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-4] + "Z",
                 "a_mag": _r(a.mag, 2), "a_status": _s(a.status),
                 "b_evid": b.evid, "b_mag": _r(b.mag, 2), "b_status": _s(b.status), "b_mode": _s(b.mode),
                 "b_author": _s(b.author), "b_type": _s(b.etype),
                 "dt0_s": _r(b.t0 - a.t0, 1),
-                "dist_km": _r(_gc_deg(a.lat, a.lon, b.lat, b.lon) * 111.195, 1),
+                "dist_km": _r(_gc_deg(a.lat, a.lon, b.lat, b.lon) * KM_PER_DEG, 1),
                 "ddepth_km": _r(b.depth - a.depth, 1),
                 "n_p": n, "shared": shared,
                 "rms_a": _r(rms_a), "mean_a": _r(float(np.mean(ra[ok])) if n else None),
@@ -193,9 +206,10 @@ def run(start, end, out=OUTPUT_DIR):
                 "cls": _classify(n, rms_a, rms_b), "label": label,
                 "url_a": EVENT_URL.format(host=HOSTS[SYSTEM], evid=a.evid),
                 "url_b": EVENT_URL.format(host=HOSTS[SYSTEM], evid=b.evid),
+                **plot,
             })
     df = pd.DataFrame(rows)
-    df.drop(columns=["url_a", "url_b"], errors="ignore").to_csv(out / "split_pairs.csv", index=False)
+    df.drop(columns=["url_a", "url_b", "picks", "a_picks", "curve"], errors="ignore").to_csv(out / "split_pairs.csv", index=False)
     doc = {"system": SYSTEM, "start": start, "end": end,
            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
            "n_anchors": int(len(anchors)),
