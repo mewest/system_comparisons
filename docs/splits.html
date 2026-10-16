@@ -33,7 +33,6 @@
   .split { color:#8a3b00; }
   .distinct { color:#0b3d91; }
   .ambiguous { color:#555; }
-  .filters { display:flex; gap:16px; flex-wrap:wrap; font-size:14px; margin:4px 0 8px; }
   .tablewrap { max-height:75vh; overflow:auto; border:1px solid var(--line); border-radius:6px; }
   @media (max-width: 860px) { header, main { padding:0 16px; } header { padding-top:16px; } .plot { height:420px; } }
 </style>
@@ -69,13 +68,6 @@
 </section>
 <section>
   <h2>All pairs</h2>
-  <div class="filters">
-    <label>Class <select id="f-cls"><option value="">all</option><option>split</option>
-      <option>ambiguous</option><option>distinct</option></select></label>
-    <label>Label <select id="f-lab"><option value="">all</option><option value="rejected">rejected</option>
-      <option value="both reviewed">both reviewed</option><option value="-">unlabelled</option></select></label>
-    <span id="count" class="meta"></span>
-  </div>
   <div class="tablewrap"><table id="pairs"></table></div>
 </section>
 </main>
@@ -143,8 +135,7 @@ function plots(d) {
 }
 
 function table() {
-  const fc = document.getElementById("f-cls").value, fl = document.getElementById("f-lab").value;
-  const rows = data.pairs.filter(p => (!fc || p.cls === fc) && (!fl || (fl === "-" ? !p.label : p.label === fl)));
+  const rows = [...data.pairs];
   rows.sort((a, b) => {
     const x = a[sortKey], y = b[sortKey];
     if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1;
@@ -162,7 +153,6 @@ function table() {
   t.querySelectorAll("th[data-k]").forEach(th => th.onclick = () => {
     const k = th.dataset.k; sortDir = k === sortKey ? -sortDir : 1; sortKey = k; table();
   });
-  document.getElementById("count").textContent = `${rows.length} of ${data.pairs.length} pairs`;
 }
 
 fetch("data/splits.json", {cache: "no-store"}).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
@@ -171,7 +161,6 @@ fetch("data/splits.json", {cache: "no-store"}).then(r => { if (!r.ok) throw new 
     document.getElementById("meta").textContent =
       `${d.start} to ${d.end} · generated ${d.generated} · ${d.n_anchors} reviewed events · ${d.pairs.length} pairs`;
     summary(d); plots(d); table();
-    document.getElementById("f-cls").onchange = table; document.getElementById("f-lab").onchange = table;
   })
   .catch(e => { const el = document.getElementById("error"); el.textContent = `Could not load results: ${e.message}`; el.hidden = false; });
 </script>
