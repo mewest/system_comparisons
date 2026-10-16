@@ -4,8 +4,9 @@ __pycache__/
 connect.json
 syscomp/
 
-# Claude working notes (local only)
+# Claude working notes and method notes (local only)
 system_comparisons.md
+split_event_test.md
 
 # raw/regenerable outputs (summary CSVs are kept)
 output/*_origins.csv

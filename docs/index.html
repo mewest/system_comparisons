@@ -13,6 +13,8 @@
   header { padding:20px 24px 8px; }
   h1 { margin:0 0 4px; font-size:24px; font-weight:600; }
   .meta { color:var(--muted); font-size:14px; }
+  nav.sub { margin-top:6px; font-size:15px; }
+  nav.sub a { color:var(--accent); }
   .systems { display:flex; gap:8px; padding:8px 24px 4px; flex-wrap:wrap; }
   .systems label { border:1px solid var(--line); border-radius:6px; padding:8px 16px; cursor:pointer;
                    font-size:16px; user-select:none; }
@@ -55,6 +57,7 @@
 <header>
   <h1>First Origin Latency</h1>
   <div class="meta" id="meta">Loading…</div>
+  <nav class="sub"><a href="splits.html">Split-event test (onsite) →</a></nav>
 </header>
 <div class="systems" role="radiogroup" aria-label="SeisComP system">
   <label><input type="radio" name="sys" value="offsite"><span>offsite</span></label>

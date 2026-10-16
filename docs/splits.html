@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Split-Event Test</title>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@3/plotly.min.js"></script>
+<style>
+  :root { --fg:#1a1a1a; --muted:#666; --line:#d0d0d0; --bg:#fff; --panel:#f6f6f6; --accent:#1f4fbf; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font-family:"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif; font-size:16px; }
+  header, main { padding:0 24px; }
+  header { padding-top:20px; }
+  h1 { margin:0 0 4px; font-size:24px; font-weight:600; }
+  .meta { color:var(--muted); font-size:14px; }
+  nav { margin:8px 0 0; font-size:15px; }
+  a { color:var(--accent); }
+  section { border-top:1px solid var(--line); padding-top:10px; margin:14px 0; }
+  section h2 { margin:0 0 8px; font-size:20px; font-weight:600; }
+  p.method { max-width:900px; font-size:15px; line-height:1.45; margin:8px 0; }
+  .plot { width:100%; height:480px; }
+  table { border-collapse:collapse; font-size:14px; font-variant-numeric:tabular-nums; }
+  th, td { padding:4px 8px; border-bottom:1px solid #e6e6e6; text-align:right; white-space:nowrap; }
+  th { position:sticky; top:0; background:#fafafa; cursor:pointer; user-select:none; }
+  th.l, td.l { text-align:left; }
+  th .arrow { color:var(--muted); font-size:11px; }
+  .summary td, .summary th { cursor:default; }
+  .chip { display:inline-block; padding:1px 8px; border-radius:10px; font-weight:600; font-size:13px; }
+  .split { background:#fde2c8; color:#8a3b00; }
+  .distinct { background:#d6e8ff; color:#0b3d91; }
+  .ambiguous { background:#eee; color:#555; }
+  .filters { display:flex; gap:16px; flex-wrap:wrap; font-size:14px; margin:4px 0 8px; }
+  .tablewrap { max-height:75vh; overflow:auto; border:1px solid var(--line); border-radius:6px; }
+  @media (max-width: 860px) { header, main { padding:0 16px; } header { padding-top:16px; } .plot { height:420px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Split-Event Test (onsite)</h1>
+  <div class="meta" id="meta">Loading…</div>
+  <nav><a href="index.html">← First origin latency</a></nav>
+</header>
+<main>
+<p class="method">
+  <b>Anchors</b> are analyst-reviewed onsite events (status preliminary, reviewed or final). Every other event
+  <b>B</b> within ±3 min of an anchor <b>A</b> is tested: B's first-arriving P picks are compared with the arrival
+  times predicted from A's hypocenter (ak135). <b>RMS<sub>A</sub></b> is the root-mean-square of those residuals in
+  seconds. If it is small, A already explains B's picks and B is likely a split (duplicate solution). If it is
+  large, B needs its own source. Context: RMS<sub>B</sub> (B's picks vs B's own hypocenter) and RMS<sub>A,own</sub>
+  (A's picks vs A). ≥ 50 % matching P picks (same station within 0.5 s, including shared picks) also count as a split.
+  Labels for checking the thresholds: <i>rejected</i> (B rejected on onsite) and <i>both reviewed</i> (analyst kept
+  both events).
+</p>
+<div class="error" id="error" hidden></div>
+
+<section>
+  <h2>Summary</h2>
+  <table class="summary" id="summary"></table>
+</section>
+<section>
+  <h2>RMS<sub>A</sub> by label</h2>
+  <div class="plot" id="p-hist"></div>
+</section>
+<section>
+  <h2>RMS<sub>A</sub> vs epicentral separation</h2>
+  <div class="plot" id="p-scatter"></div>
+</section>
+<section>
+  <h2>All pairs</h2>
+  <div class="filters">
+    <label>Class <select id="f-cls"><option value="">all</option><option>split</option>
+      <option>ambiguous</option><option>distinct</option></select></label>
+    <label>Label <select id="f-lab"><option value="">all</option><option value="rejected">rejected</option>
+      <option value="both reviewed">both reviewed</option><option value="-">unlabelled</option></select></label>
+    <span id="count" class="meta"></span>
+  </div>
+  <div class="tablewrap"><table id="pairs"></table></div>
+</section>
+</main>
+<script>
+const FONT = '"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif';
+const GROUPS = [
+  {key: "rejected", name: "rejected (labelled split)", color: "#e8740c"},
+  {key: "both reviewed", name: "both reviewed (labelled distinct)", color: "#1f4fbf"},
+  {key: "", name: "unlabelled", color: "#9a9a9a"},
+];
+const CLASSES = ["split", "ambiguous", "distinct"];
+const COLS = [
+  {k: "cls", t: "Class", l: true, f: v => `<span class="chip ${v}">${v}</span>`},
+  {k: "label", t: "Label", l: true},
+  {k: "a_time", t: "Anchor time (UTC)", l: true, f: v => v.replace("T", " ").replace("Z", "")},
+  {k: "a_evid", t: "Anchor A", l: true, f: (v, r) => `<a href="${r.url_a}" target="_blank" rel="noopener">${v}</a>`},
+  {k: "a_mag", t: "M<sub>A</sub>", f: v => fx(v, 1)},
+  {k: "b_evid", t: "Event B", l: true, f: (v, r) => `<a href="${r.url_b}" target="_blank" rel="noopener">${v}</a>`},
+  {k: "b_mag", t: "M<sub>B</sub>", f: v => fx(v, 1)},
+  {k: "b_status", t: "B status", l: true, f: (v, r) => `${v || "–"}${r.b_mode ? " (" + r.b_mode + ")" : ""}`},
+  {k: "b_author", t: "B author", l: true},
+  {k: "dt0_s", t: "Δt₀ (s)", f: v => fx(v, 1)},
+  {k: "dist_km", t: "Sep. (km)", f: v => fx(v, 0)},
+  {k: "n_p", t: "B P picks"},
+  {k: "shared", t: "Shared"},
+  {k: "matched_frac", t: "Matched", f: v => v == null ? "–" : Math.round(v * 100) + " %"},
+  {k: "rms_a", t: "RMS<sub>A</sub> (s)", f: v => fx(v, 2)},
+  {k: "rms_b", t: "RMS<sub>B</sub> (s)", f: v => fx(v, 2)},
+  {k: "rms_a_own", t: "RMS<sub>A,own</sub> (s)", f: v => fx(v, 2)},
+  {k: "mean_a", t: "Mean res. (s)", f: v => fx(v, 2)},
+  {k: "n_early", t: "Early"},
+];
+const fx = (v, n) => v == null ? "–" : Number(v).toFixed(n);
+let data = null, sortKey = "a_time", sortDir = 1;
+
+function summary(d) {
+  const rows = CLASSES.map(c => {
+    const cells = GROUPS.map(g => d.pairs.filter(p => p.cls === c && p.label === g.key).length);
+    return `<tr><td class="l"><span class="chip ${c}">${c}</span></td>${cells.map(n => `<td>${n}</td>`).join("")}
+            <td><b>${cells.reduce((a, b) => a + b, 0)}</b></td></tr>`;
+  }).join("");
+  const tot = GROUPS.map(g => d.pairs.filter(p => p.label === g.key).length);
+  document.getElementById("summary").innerHTML =
+    `<tr><th class="l">Class</th>${GROUPS.map(g => `<th>${g.name}</th>`).join("")}<th>Total</th></tr>${rows}
+     <tr><td class="l"><b>Total</b></td>${tot.map(n => `<td><b>${n}</b></td>`).join("")}<td><b>${d.pairs.length}</b></td></tr>`;
+}
+
+function refLines(axis) {
+  const p = data.params;
+  const v = (x, txt) => ({type: "line", [axis + "ref"]: axis, [axis + "0"]: x, [axis + "1"]: x,
+                          [(axis === "x" ? "y" : "x") + "ref"]: "paper", [(axis === "x" ? "y" : "x") + "0"]: 0,
+                          [(axis === "x" ? "y" : "x") + "1"]: 1, line: {color: "#444", dash: "dash", width: 1}});
+  return [v(p.split_rms), v(p.distinct_rms)];
+}
+
+function plots(d) {
+  const layoutBase = {font: {family: FONT, size: 14, color: "#1a1a1a"}, paper_bgcolor: "white", plot_bgcolor: "white",
+                      margin: {l: 70, r: 20, t: 20, b: 60}, legend: {x: 0.99, xanchor: "right", y: 0.99,
+                      bordercolor: "#000", borderwidth: 1, bgcolor: "rgba(255,255,255,0.9)"}, hovermode: "closest"};
+  const grid = {showgrid: true, gridcolor: "#eee", showline: true, mirror: true, linecolor: "#9a9a9a"};
+  // histogram on log-spaced bins
+  const edges = []; for (let e = -1; e <= 3.0001; e += 0.1) edges.push(10 ** e);
+  const hist = GROUPS.map(g => {
+    const v = d.pairs.filter(p => p.label === g.key && p.rms_a != null).map(p => p.rms_a);
+    const counts = edges.slice(0, -1).map((lo, i) => v.filter(x => x >= lo && (x < edges[i + 1] || (i === edges.length - 2 && x >= edges[i + 1]))).length);
+    return {type: "bar", name: `${g.name} (${v.length})`, x: edges.slice(0, -1).map((lo, i) => Math.sqrt(lo * edges[i + 1])),
+            width: edges.slice(0, -1).map((lo, i) => edges[i + 1] - lo), y: counts, marker: {color: g.color, opacity: 0.75},
+            hovertemplate: "%{y} pairs<extra>" + g.name + "</extra>"};
+  });
+  const ann = (x, t) => ({x: Math.log10(x), y: 1, yref: "paper", text: t, showarrow: false, yanchor: "bottom", font: {size: 12}});
+  Plotly.react("p-hist", hist, {...layoutBase, barmode: "overlay",
+    xaxis: {...grid, type: "log", title: {text: "RMS<sub>A</sub> (s): B's P picks vs A's hypocenter"}, range: [-1, 3]},
+    yaxis: {...grid, title: {text: "Pairs"}}, shapes: refLines("x"), margin: {...layoutBase.margin, t: 30},
+    annotations: [ann(d.params.split_rms, `split ≤ ${d.params.split_rms} s`), ann(d.params.distinct_rms, `distinct ≥ ${d.params.distinct_rms} s`)]},
+    {responsive: true, displaylogo: false});
+
+  const sc = GROUPS.map(g => {
+    const v = d.pairs.filter(p => p.label === g.key && p.rms_a != null && p.dist_km != null);
+    return {type: "scattergl", mode: "markers", name: g.name, x: v.map(p => Math.max(p.dist_km, 0.5)), y: v.map(p => p.rms_a),
+            customdata: v, marker: {color: g.color, size: 8, opacity: 0.75, line: {width: 0}},
+            hovertemplate: "A %{customdata.a_evid}<br>B %{customdata.b_evid} (%{customdata.cls})<br>" +
+                           "RMS<sub>A</sub> %{y:.2f} s, sep. %{customdata.dist_km} km<extra></extra>"};
+  });
+  Plotly.react("p-scatter", sc, {...layoutBase,
+    xaxis: {...grid, type: "log", title: {text: "Epicentral separation A–B (km)"}},
+    yaxis: {...grid, type: "log", title: {text: "RMS<sub>A</sub> (s)"}}, shapes: refLines("y")},
+    {responsive: true, displaylogo: false});
+}
+
+function table() {
+  const fc = document.getElementById("f-cls").value, fl = document.getElementById("f-lab").value;
+  const rows = data.pairs.filter(p => (!fc || p.cls === fc) && (!fl || (fl === "-" ? !p.label : p.label === fl)));
+  rows.sort((a, b) => {
+    const x = a[sortKey], y = b[sortKey];
+    if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1;
+    return (x < y ? -1 : x > y ? 1 : 0) * sortDir;
+  });
+  const head = COLS.map(c => `<th class="${c.l ? "l" : ""}" data-k="${c.k}">${c.t}
+    <span class="arrow">${c.k === sortKey ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>`).join("");
+  const body = rows.map(r => `<tr>${COLS.map(c => `<td class="${c.l ? "l" : ""}">${c.f ? c.f(r[c.k], r) : (r[c.k] ?? "–")}</td>`).join("")}</tr>`).join("");
+  const t = document.getElementById("pairs");
+  t.innerHTML = `<thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
+  t.querySelectorAll("th").forEach(th => th.onclick = () => {
+    const k = th.dataset.k; sortDir = k === sortKey ? -sortDir : 1; sortKey = k; table();
+  });
+  document.getElementById("count").textContent = `${rows.length} of ${data.pairs.length} pairs`;
+}
+
+fetch("data/splits.json", {cache: "no-store"}).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+  .then(d => {
+    data = d;
+    document.getElementById("meta").textContent =
+      `${d.start} to ${d.end} · generated ${d.generated} · ${d.n_anchors} anchors · ${d.pairs.length} pairs`;
+    summary(d); plots(d); table();
+    document.getElementById("f-cls").onchange = table; document.getElementById("f-lab").onchange = table;
+  })
+  .catch(e => { const el = document.getElementById("error"); el.textContent = `Could not load results: ${e.message}`; el.hidden = false; });
+</script>
+</body>
+</html>

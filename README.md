@@ -42,6 +42,17 @@ Each run overwrites `docs/data/{onsite,offsite,dev}.json` and `docs/data/region.
 latest window only; push to publish. GitHub Pages: Settings → Pages → Deploy from branch `main`, folder `/docs`.
 Plotly is loaded from jsDelivr; map coastlines come from `docs/topojson/world_50m.json` (sane-topojson).
 
+## Split-event test (onsite)
+
+`docs/splits.html` (linked from the main page) tests whether events within ±3 min of an analyst-reviewed onsite event
+(status preliminary, reviewed or final) are split events, i.e. duplicate solutions of it. For each pair, the second
+event's first-arriving P picks are compared with arrival times predicted from the reviewed event's hypocenter (ak135),
+and the RMS of those residuals (seconds) is reported: small means a likely split, large means a separate event. The
+pick overlap (same station within 0.5 s) is reported too. It runs as part of `run.py`, or on its own with
+`python splits.py` (default: the window of the current web data). Outputs: `output/split_pairs.csv`,
+`docs/data/splits.json`. Travel times come from `scripts/ak135_tt.npz`, a table precomputed with obspy.taup
+(first P and S, 0–30°, 0–300 km), so obspy is not needed to run it.
+
 ## Layout
 
 ```
@@ -51,7 +62,10 @@ scripts/db.py       SQL + connection (FQDN, then IP)
 scripts/metrics.py  classification, latencies, stats
 scripts/comcat.py   QuakeML parsing, catalog matching, cleaning filters
 scripts/web.py      web page data (docs/data/*.json)
+scripts/splits.py   split-event test (onsite); splits.py runs it on its own
+scripts/ak135_tt.npz ak135 first-P/S travel-time table
 docs/index.html     web page
+docs/splits.html    split-event test page
 docs/topojson/      coastline data for the web map
 scripts/regions.geojson mission region polygon (also holds the unused ANSS region)
 ```

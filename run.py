@@ -4,7 +4,8 @@
     python run.py --start 2026-07-02 --end 2026-07-11T00:00:00
 
 For each of onsite, offsite, dev: web page data (docs/data/<system>.json, overwritten with this window) and a column
-in systems_stats.csv. Then onsite is compared against USGS ComCat (CSV). CSVs go to output/ (overwritten every run).
+in systems_stats.csv. Then onsite is compared against USGS ComCat (CSV) and
+the onsite split-event test is run (docs/data/splits.json, output/split_pairs.csv). CSVs go to output/ (overwritten every run).
 """
 
 import argparse
@@ -14,7 +15,7 @@ from datetime import datetime
 
 import pandas as pd
 
-from scripts import comcat, config, db, metrics, web
+from scripts import comcat, config, db, metrics, splits, web
 
 warnings.simplefilter("ignore", FutureWarning)
 
@@ -82,6 +83,12 @@ def main():
 
     print(f"{config.COMCAT_SYSTEM}: comparing to ComCat")
     comcat_comparison(config.COMCAT_SYSTEM, a.start, a.end, out)
+
+    print("onsite: split-event test")
+    try:
+        splits.run(a.start, a.end, out)
+    except RuntimeError as e:
+        print(e)
     print(f"\nOutputs in {out}")
     return 0
 
