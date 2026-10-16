@@ -26,8 +26,8 @@
   .exmap { height:420px; min-width:0; margin-top:4px; }
   #ex-selected-box { margin-top:16px; }
   .key { font-weight:700; }
-  .key.rev { color:#777; }
-  .key.tst { color:#8a3b00; }
+  .key.rev { color:#444; }
+  .key.tst { color:#ff1a1a; }
   #pairs tbody tr { cursor:pointer; }
   #pairs tbody tr:hover { background:#f3f6ff; }
   #pairs tbody tr.sel { background:#fff3c4; }
@@ -112,15 +112,15 @@ const CLASS_DEF = p => ({
 });
 const COLS = [
   {k: "cls", t: "Class", l: true, f: v => `<span class="chip ${v}">${v}</span>`},
-  {k: "a_evid", t: "Reviewed", l: true, f: (v, r) => `<a href="${r.url_a}" target="_blank" rel="noopener">${v}${magTag(r.a_mag)}</a>`},
-  {k: "b_evid", t: "Test →", l: true, c: "sep", f: (v, r) => `<a href="${r.url_b}" target="_blank" rel="noopener">${v}${magTag(r.b_mag)}</a>`},
+  {k: "a_evid", t: "Reviewed", l: true, f: (v, r) => `<a href="${r.url_a}" target="_blank" rel="noopener">${evLabel(v, r.a_mag)}</a>`},
+  {k: "b_evid", t: "Test →", l: true, c: "sep", f: (v, r) => `<a href="${r.url_b}" target="_blank" rel="noopener">${evLabel(v, r.b_mag)}</a>`},
   {k: "n_p", t: "P picks"},
   {k: "shared", t: "Picks in common"},
-  {k: "rms_a", t: "RMS (s)", f: v => fx(v, 2)},
+  {k: "rms_a", t: "RMS (s)", f: v => fx(v, 1)},
   {k: "b_status", t: "Status", l: true, f: (v, r) => `${v || "–"}${r.b_mode ? " (" + r.b_mode + ")" : ""}`},
   {k: "b_author", t: "Author", l: true},
 ];
-const magTag = m => m == null ? "" : ` (M${Number(m).toFixed(1)})`;
+const evLabel = (e, m) => m == null ? e : `M${Number(m).toFixed(1)} (${e})`;
 const fx = (v, n) => v == null ? "–" : Number(v).toFixed(n);
 let data = null, selected = null, sortKey = "a_time", sortDir = 1;
 
@@ -166,28 +166,28 @@ function plots(d) {
     {responsive: true, displaylogo: false});
 }
 
-const CLS_COLOR = {split: "#8a3b00", distinct: "#0b3d91", ambiguous: "#555"};
+const CLS_COLOR = {split: "#ff1a1a", distinct: "#0055ff", ambiguous: "#555"};   // bright, to stand out from the grey reviewed picks
 function pairPlot(id, p, what) {
   const col = CLS_COLOR[p.cls] || "#555";
   const seg = {x: [], y: []};
   p.picks.forEach(([d, t, tp]) => { seg.x.push(d, d, null); seg.y.push(t, tp, null); });
-  const lbl = (e, m) => `${e}${magTag(m)}`;
+  const lbl = evLabel;
   const narrow = document.getElementById(id).clientWidth < 600;
   const traces = [
     {type: "scatter", mode: "lines", name: "predicted P from reviewed hypocenter", x: p.curve.map(c => c[0]),
      y: p.curve.map(c => c[1]), line: {color: "#000", width: 2}, hoverinfo: "skip"},
     {type: "scatter", mode: "markers", name: "reviewed event P picks", x: p.a_picks.map(c => c[0]), y: p.a_picks.map(c => c[1]),
-     marker: {symbol: "circle-open", size: 9, color: "#777", line: {width: 1.5}},
+     marker: {symbol: "circle-open", size: 11, color: "#444", line: {width: 1.5}},
      hovertemplate: "reviewed pick<br>%{x:.0f} km, %{y:.1f} s<extra></extra>"},
     {type: "scatter", mode: "lines", name: "residual", x: seg.x, y: seg.y, line: {color: col, width: 1}, hoverinfo: "skip",
      showlegend: false},
     {type: "scatter", mode: "markers", name: "test event P picks", x: p.picks.map(c => c[0]), y: p.picks.map(c => c[1]),
-     customdata: p.picks.map(c => [c[3], c[1] - c[2]]), marker: {size: 8, color: col},
+     customdata: p.picks.map(c => [c[3], c[1] - c[2]]), marker: {size: 6, color: col},
      hovertemplate: "%{customdata[0]}<br>%{x:.0f} km, %{y:.1f} s<br>residual %{customdata[1]:.2f} s<extra></extra>"},
   ];
   const layout = {
     font: {family: FONT, size: 14, color: "#1a1a1a"}, paper_bgcolor: "white", plot_bgcolor: "white",
-    title: {text: `<b>${what}</b>: <span style="color:${col}">${p.cls}</span>, RMS ${fx(p.rms_a, 2)} s<br>` +
+    title: {text: `<b>${what}</b>: <span style="color:${col}">${p.cls}</span>, RMS ${fx(p.rms_a, 1)} s<br>` +
                   `<span style="font-size:13px">reviewed ${lbl(p.a_evid, p.a_mag)} →${narrow ? "<br>" : " "}test ` +
                   `${lbl(p.b_evid, p.b_mag)}, ${p.n_p} P picks</span>`, font: {size: 16}, x: 0.02, xanchor: "left"},
     margin: {l: 70, r: 20, t: narrow ? 90 : 70, b: narrow ? 150 : 110},
@@ -215,9 +215,9 @@ function pairMap(id, p, col) {
     marker: {symbol: "star", size: 18, color, line: {color: "#000", width: 1}}});
   const traces = [
     {type: "scattergeo", mode: "markers", name: "reviewed event P picks", lat: ap.map(c => c[2]), lon: ap.map(c => L(c[3])),
-     marker: {symbol: "circle-open", size: 9, color: "#777", line: {width: 1.5}}},
+     marker: {symbol: "circle-open", size: 11, color: "#444", line: {width: 1.5}}},
     {type: "scattergeo", mode: "markers", name: "test event P picks", lat: tp.map(c => c[4]), lon: tp.map(c => L(c[5])),
-     marker: {size: 8, color: col}},
+     marker: {size: 6, color: col}},
     star(p.a_lat, p.a_lon, "#fff", "reviewed epicenter"),
     star(p.b_lat, p.b_lon, col, "test epicenter"),
   ];
@@ -235,11 +235,17 @@ function pairMap(id, p, col) {
 }
 
 function examples(d) {
-  // clearest split (most P picks) and a distinct pair with many picks and a moderate RMS
-  const by = (a, b) => b.n_p - a.n_p;
-  const sp = d.pairs.filter(p => p.cls === "split" && p.picks && p.picks.length).sort(by)[0];
-  const ds = d.pairs.filter(p => p.cls === "distinct" && p.picks && p.picks.length >= 6 && p.rms_a >= 5 && p.rms_a <= 60).sort(by)[0]
-          || d.pairs.filter(p => p.cls === "distinct" && p.picks && p.picks.length).sort(by)[0];
+  // examples where the reviewed and test events have comparable numbers of P picks (ratio >= 0.5),
+  // preferring the most picks; the distinct example also prefers a moderate RMS (5-60 s)
+  const ratio = p => { const a = p.a_picks.length, b = p.picks.length; return Math.min(a, b) / Math.max(a, b, 1); };
+  const pick = (cands, extra = () => true) => {
+    cands = cands.filter(p => p.picks && p.picks.length && p.a_picks && p.a_picks.length);
+    const good = cands.filter(p => ratio(p) >= 0.5);
+    return good.filter(extra).sort((a, b) => b.n_p - a.n_p)[0] || good.sort((a, b) => b.n_p - a.n_p)[0]
+        || cands.sort((a, b) => ratio(b) - ratio(a))[0];
+  };
+  const sp = pick(d.pairs.filter(p => p.cls === "split"));
+  const ds = pick(d.pairs.filter(p => p.cls === "distinct"), p => p.rms_a >= 5 && p.rms_a <= 60);
   const show = (id, p, what) => {
     const el = document.getElementById(id);
     if (p) pairPlot(id, p, what); else document.getElementById(id + "-map").hidden = true, el.innerHTML = `<p class="meta">No ${what.split(" ")[0]} pair in this window.</p>`;
