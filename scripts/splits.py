@@ -186,9 +186,11 @@ def run(start, end, out=OUTPUT_DIR):
             grid = np.linspace(0, dmax * 1.05, 60)
             curve = tt("P", grid / KM_PER_DEG, a.depth)
             plot = {
-                "picks": [[_r(d, 1), _r(t, 2), _r(tp, 2), f"{nn}.{ss}"] for d, t, tp, nn, ss, k
-                          in zip(km, pb.t.values - a.t0, tpred, pb.net, pb.sta, ok) if k],
-                "a_picks": [[_r(d, 1), _r(t, 2)] for d, t, k in zip(km_own, pa.t.values - a.t0, np.isfinite(ra_own)) if k],
+                "picks": [[_r(d, 1), _r(t, 2), _r(tp, 2), f"{nn}.{ss}", _r(la, 3), _r(lo, 3)] for d, t, tp, nn, ss, la, lo, k
+                          in zip(km, pb.t.values - a.t0, tpred, pb.net, pb.sta, pb.lat, pb.lon, ok) if k],
+                "a_picks": [[_r(d, 1), _r(t, 2), _r(la, 3), _r(lo, 3)] for d, t, la, lo, k
+                            in zip(km_own, pa.t.values - a.t0, pa.lat, pa.lon, np.isfinite(ra_own)) if k],
+                "a_lat": _r(a.lat, 3), "a_lon": _r(a.lon, 3), "b_lat": _r(b.lat, 3), "b_lon": _r(b.lon, 3),
                 "curve": [[_r(d, 1), _r(t, 2)] for d, t in zip(grid, curve) if np.isfinite(t)],
             }
             rows.append({

@@ -21,9 +21,10 @@
   p.method { max-width:900px; font-size:15px; line-height:1.45; margin:8px 0; }
   .plot { width:100%; height:480px; }
   .examples { display:flex; gap:16px; flex-wrap:wrap; }
-  .examples .ex { flex:1 1 420px; }
+  .examples .excol { flex:1 1 420px; min-width:0; }
   .ex { height:500px; min-width:0; }
-  #ex-selected { margin-top:12px; }
+  .exmap { height:420px; min-width:0; margin-top:4px; }
+  #ex-selected-box { margin-top:16px; }
   .key { font-weight:700; }
   .key.rev { color:#777; }
   .key.tst { color:#8a3b00; }
@@ -88,11 +89,15 @@
     difference in origin time and scattered by the difference in location. Click a row in <i>Pair details</i> to plot
     that pair here.
   </p>
-  <div class="examples"><div class="ex" id="ex-split"></div><div class="ex" id="ex-distinct"></div></div>
-  <div class="ex" id="ex-selected" hidden></div>
+  <div class="examples">
+    <div class="excol"><div class="ex" id="ex-split"></div><div class="exmap" id="ex-split-map"></div></div>
+    <div class="excol"><div class="ex" id="ex-distinct"></div><div class="exmap" id="ex-distinct-map"></div></div>
+  </div>
+  <div class="excol" id="ex-selected-box" hidden><div class="ex" id="ex-selected"></div><div class="exmap" id="ex-selected-map"></div></div>
 </section>
 </main>
 <script>
+Plotly.setPlotConfig({topojsonURL: "topojson/"});
 const FONT = '"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif';
 const GROUPS = [
   {key: "rejected", name: "rejected", color: "#f2c200"},
@@ -194,6 +199,39 @@ function pairPlot(id, p, what) {
     hovermode: "closest",
   };
   Plotly.react(id, traces, layout, {responsive: true, displaylogo: false});
+  pairMap(id + "-map", p, col);
+}
+
+// static map of the stations in the record section, same symbols and colours
+function pairMap(id, p, col) {
+  const L = lon => lon > 0 ? lon - 360 : lon;           // keep the Aleutians continuous across 180°
+  const tp = p.picks.filter(c => c[4] != null), ap = p.a_picks.filter(c => c[2] != null);
+  const lats = [...tp.map(c => c[4]), ...ap.map(c => c[2]), p.a_lat, p.b_lat];
+  const lons = [...tp.map(c => L(c[5])), ...ap.map(c => L(c[3])), L(p.a_lon), L(p.b_lon)];
+  const pad = (a, b, f, m) => { const d = Math.max((b - a) * f, m); return [a - d, b + d]; };
+  const [la0, la1] = pad(Math.min(...lats), Math.max(...lats), 0.12, 1);
+  const [lo0, lo1] = pad(Math.min(...lons), Math.max(...lons), 0.12, 2);
+  const star = (lat, lon, color, name) => ({type: "scattergeo", mode: "markers", name, lat: [lat], lon: [L(lon)],
+    marker: {symbol: "star", size: 18, color, line: {color: "#000", width: 1}}});
+  const traces = [
+    {type: "scattergeo", mode: "markers", name: "reviewed event P picks", lat: ap.map(c => c[2]), lon: ap.map(c => L(c[3])),
+     marker: {symbol: "circle-open", size: 9, color: "#777", line: {width: 1.5}}},
+    {type: "scattergeo", mode: "markers", name: "test event P picks", lat: tp.map(c => c[4]), lon: tp.map(c => L(c[5])),
+     marker: {size: 8, color: col}},
+    star(p.a_lat, p.a_lon, "#fff", "reviewed epicenter"),
+    star(p.b_lat, p.b_lon, col, "test epicenter"),
+  ];
+  const layout = {
+    font: {family: FONT, size: 12, color: "#1a1a1a"}, paper_bgcolor: "white",
+    margin: {l: 4, r: 4, t: 4, b: document.getElementById(id).clientWidth < 600 ? 64 : 40},
+    showlegend: true, legend: {orientation: "h", x: 0, y: -0.01, yanchor: "top", font: {size: 11}},
+    geo: {projection: {type: "conic conformal", parallels: [55, 65], rotation: {lon: (lo0 + lo1) / 2}},
+          lataxis: {range: [la0, la1]}, lonaxis: {range: [lo0, lo1]}, resolution: 50,
+          showland: true, landcolor: "#ececec", showocean: true, oceancolor: "white", showcoastlines: true,
+          coastlinecolor: "#555", coastlinewidth: 0.5, showcountries: true, countrycolor: "#888", countrywidth: 0.5,
+          showlakes: false, showframe: true, framecolor: "#9a9a9a", bgcolor: "white"},
+  };
+  Plotly.react(id, traces, layout, {staticPlot: true, responsive: true});
 }
 
 function examples(d) {
@@ -204,7 +242,7 @@ function examples(d) {
           || d.pairs.filter(p => p.cls === "distinct" && p.picks && p.picks.length).sort(by)[0];
   const show = (id, p, what) => {
     const el = document.getElementById(id);
-    if (p) pairPlot(id, p, what); else el.innerHTML = `<p class="meta">No ${what.split(" ")[0]} pair in this window.</p>`;
+    if (p) pairPlot(id, p, what); else document.getElementById(id + "-map").hidden = true, el.innerHTML = `<p class="meta">No ${what.split(" ")[0]} pair in this window.</p>`;
   };
   show("ex-split", sp, "split example");
   show("ex-distinct", ds, "distinct example");
@@ -226,7 +264,7 @@ function table() {
     selected = +tr.dataset.i;
     t.querySelectorAll("tbody tr.sel").forEach(x => x.classList.remove("sel"));
     tr.classList.add("sel");
-    const el = document.getElementById("ex-selected");
+    const el = document.getElementById("ex-selected-box");
     el.hidden = false;
     pairPlot("ex-selected", data.pairs[selected], "selected pair");
     el.scrollIntoView({behavior: "smooth", block: "center"});
