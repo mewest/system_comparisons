@@ -24,8 +24,6 @@
   th, td { padding:4px 8px; border-bottom:1px solid #e6e6e6; text-align:right; white-space:nowrap; }
   thead { position:sticky; top:0; z-index:1; }
   th { background:#fafafa; cursor:pointer; user-select:none; }
-  th.grp { cursor:default; text-align:center; font-size:15px; border-bottom:1px solid #bbb; }
-  th.grp:not(:empty) { border-left:1px solid #ddd; border-right:1px solid #ddd; }
   th.l, td.l { text-align:left; }
   th .arrow { color:var(--muted); font-size:11px; }
   .summary td, .summary th { cursor:default; }
@@ -63,32 +61,32 @@
   <table class="summary" id="summary"></table>
 </section>
 <section>
-  <h2>RMS by label</h2>
+  <h2>traveltime RMS of test event to the reviewed hypocenter</h2>
   <div class="plot" id="p-hist"></div>
 </section>
 <section>
-  <h2>All pairs</h2>
+  <h2>Pair details</h2>
   <div class="tablewrap"><table id="pairs"></table></div>
 </section>
 </main>
 <script>
 const FONT = '"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif';
 const GROUPS = [
-  {key: "rejected", name: "rejected (labelled split)", color: "#e8740c"},
-  {key: "both reviewed", name: "both reviewed (labelled distinct)", color: "#1f4fbf"},
+  {key: "rejected", name: "rejected", color: "#f2c200"},
+  {key: "both reviewed", name: "reviewed", color: "#d62728"},
   {key: "", name: "unlabelled", color: "#9a9a9a"},
 ];
 const CLASSES = ["split", "ambiguous", "distinct"];
 const COLS = [
-  {k: "cls", t: "Class", l: true, g: "", f: v => `<span class="chip ${v}">${v}</span>`},
-  {k: "a_evid", t: "Event", l: true, g: "Reviewed", f: (v, r) => `<a href="${r.url_a}" target="_blank" rel="noopener">${v}${magTag(r.a_mag)}</a>`},
-  {k: "b_evid", t: "Event", l: true, g: "Test", f: (v, r) => `<a href="${r.url_b}" target="_blank" rel="noopener">${v}${magTag(r.b_mag)}</a>`},
-  {k: "n_p", t: "P picks", g: "Test"},
-  {k: "rms_a", t: "RMS (s)", g: "Test", f: v => fx(v, 2)},
-  {k: "b_status", t: "Status", l: true, g: "Test", f: (v, r) => `${v || "–"}${r.b_mode ? " (" + r.b_mode + ")" : ""}`},
-  {k: "b_author", t: "Author", l: true, g: "Test"},
+  {k: "cls", t: "Class", l: true, f: v => `<span class="chip ${v}">${v}</span>`},
+  {k: "a_evid", t: "Reviewed", l: true, f: (v, r) => `<a href="${r.url_a}" target="_blank" rel="noopener">${v}${magTag(r.a_mag)}</a>`},
+  {k: "b_evid", t: "Test", l: true, f: (v, r) => `<a href="${r.url_b}" target="_blank" rel="noopener">${v}${magTag(r.b_mag)}</a>`},
+  {k: "n_p", t: "P picks"},
+  {k: "rms_a", t: "RMS (s)", f: v => fx(v, 2)},
+  {k: "b_status", t: "Status", l: true, f: (v, r) => `${v || "–"}${r.b_mode ? " (" + r.b_mode + ")" : ""}`},
+  {k: "b_author", t: "Author", l: true},
 ];
-const magTag = m => m == null ? "" : `(M${Number(m).toFixed(1)})`;
+const magTag = m => m == null ? "" : ` (M${Number(m).toFixed(1)})`;
 const fx = (v, n) => v == null ? "–" : Number(v).toFixed(n);
 let data = null, sortKey = "a_time", sortDir = 1;
 
@@ -123,13 +121,13 @@ function plots(d) {
     const v = d.pairs.filter(p => p.label === g.key && p.rms_a != null).map(p => p.rms_a);
     const counts = edges.slice(0, -1).map((lo, i) => v.filter(x => x >= lo && (x < edges[i + 1] || (i === edges.length - 2 && x >= edges[i + 1]))).length);
     return {type: "bar", name: `${g.name} (${v.length})`, x: edges.slice(0, -1).map((lo, i) => Math.sqrt(lo * edges[i + 1])),
-            width: edges.slice(0, -1).map((lo, i) => edges[i + 1] - lo), y: counts, marker: {color: g.color, opacity: 0.75},
+            width: edges.slice(0, -1).map((lo, i) => edges[i + 1] - lo), y: counts, marker: {color: g.color, line: {color: "white", width: 0.5}},
             hovertemplate: "%{y} pairs<extra>" + g.name + "</extra>"};
   });
   const ann = (x, t) => ({x: Math.log10(x), y: 1, yref: "paper", text: t, showarrow: false, yanchor: "bottom", font: {size: 12}});
-  Plotly.react("p-hist", hist, {...layoutBase, barmode: "overlay",
+  Plotly.react("p-hist", hist, {...layoutBase, barmode: "stack", legend: {...layoutBase.legend, traceorder: "normal"},
     xaxis: {...grid, type: "log", title: {text: "RMS (s): test event's P picks vs reviewed event's hypocenter"}, range: [-1, 3]},
-    yaxis: {...grid, title: {text: "Pairs"}}, shapes: refLines("x"), margin: {...layoutBase.margin, t: 30},
+    yaxis: {...grid, title: {text: "number of pairs"}}, shapes: refLines("x"), margin: {...layoutBase.margin, t: 30},
     annotations: [ann(d.params.split_rms, `split ≤ ${d.params.split_rms} s`), ann(d.params.distinct_rms, `distinct ≥ ${d.params.distinct_rms} s`)]},
     {responsive: true, displaylogo: false});
 }
@@ -141,15 +139,11 @@ function table() {
     if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1;
     return (x < y ? -1 : x > y ? 1 : 0) * sortDir;
   });
-  // group row: consecutive columns with the same group share one cell
-  const groups = [];
-  COLS.forEach(c => groups.length && groups[groups.length - 1].g === c.g ? groups[groups.length - 1].n++ : groups.push({g: c.g, n: 1}));
-  const groupRow = groups.map(x => `<th class="grp" colspan="${x.n}">${x.g}</th>`).join("");
   const head = COLS.map(c => `<th class="${c.l ? "l" : ""}" data-k="${c.k}">${c.t}
     <span class="arrow">${c.k === sortKey ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>`).join("");
   const body = rows.map(r => `<tr>${COLS.map(c => `<td class="${c.l ? "l" : ""}">${c.f ? c.f(r[c.k], r) : (r[c.k] ?? "–")}</td>`).join("")}</tr>`).join("");
   const t = document.getElementById("pairs");
-  t.innerHTML = `<thead><tr>${groupRow}</tr><tr>${head}</tr></thead><tbody>${body}</tbody>`;
+  t.innerHTML = `<thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
   t.querySelectorAll("th[data-k]").forEach(th => th.onclick = () => {
     const k = th.dataset.k; sortDir = k === sortKey ? -sortDir : 1; sortKey = k; table();
   });
