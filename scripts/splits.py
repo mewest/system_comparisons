@@ -20,12 +20,10 @@ from .web import EVENT_URL, HOSTS
 SYSTEM = "onsite"
 ANCHOR_STATUS = {"preliminary", "reviewed", "final"}
 WINDOW_S = 180          # pair events within +-3 min of an anchor
-MATCH_S = 0.5           # same-station P picks within this are "matching"
 MAX_DIST_DEG = 30.0     # travel-time table limit
 MIN_P = 5               # fewer B P picks -> ambiguous
 SPLIT_RMS = 1.5         # RMS_A <= this (s) -> split
 DISTINCT_RMS = 3.0      # RMS_A >= this (s) and >= 2 x RMS_B -> distinct
-OVERLAP_SPLIT = 0.5     # matched-pick fraction >= this -> split
 EARLY_S = 2.0           # B P pick this much before A's predicted P is "early"
 S_WIN = 2.0             # B P pick within this of A's predicted S is flagged (anchors M >= BIG_MAG)
 BIG_MAG = 4.0
@@ -109,10 +107,8 @@ def _rms(r):
     return float(np.sqrt(np.mean(r ** 2))) if len(r) else None
 
 
-def _classify(n, npick, shared, matched, rms_a, rms_b):
-    # shared picks count as matched; a single shared pick alone is not enough (associators reuse picks)
-    if npick and matched / npick >= OVERLAP_SPLIT:
-        return "split"
+def _classify(n, rms_a, rms_b):
+    """Entirely RMS-based (no pick-matching screen)."""
     if n < MIN_P or rms_a is None:
         return "ambiguous"
     if rms_a <= SPLIT_RMS:
@@ -169,11 +165,6 @@ def run(start, end, out=OUTPUT_DIR):
             ra, dist = _residuals(pb, a, tt)
             ok = np.isfinite(ra)
             rb, _ = _residuals(pb, b, tt)
-            shared = len(set(pb.pick_id) & set(pa.pick_id))
-            # matched: B P pick at a station where A has a P pick within MATCH_S
-            atimes = pa.groupby(["net", "sta"]).t.apply(list).to_dict()
-            matched = sum(any(abs(t - x) <= MATCH_S for x in atimes.get((n, s), []))
-                          for n, s, t in zip(pb.net, pb.sta, pb.t))
             n = int(ok.sum())
             rms_a, rms_b, rms_own = _rms(ra), _rms(rb), _rms(ra_own)
             s_flag = 0
@@ -194,11 +185,11 @@ def run(start, end, out=OUTPUT_DIR):
                 "dt0_s": _r(b.t0 - a.t0, 1),
                 "dist_km": _r(_gc_deg(a.lat, a.lon, b.lat, b.lon) * 111.195, 1),
                 "ddepth_km": _r(b.depth - a.depth, 1),
-                "n_p": n, "shared": shared, "matched_frac": _r(matched / len(pb), 2) if len(pb) else None,
+                "n_p": n,
                 "rms_a": _r(rms_a), "mean_a": _r(float(np.mean(ra[ok])) if n else None),
                 "rms_b": _r(rms_b), "rms_a_own": _r(rms_own),
                 "n_early": int(np.sum(ra[ok] < -EARLY_S)), "n_on_a_s": s_flag,
-                "cls": _classify(n, len(pb), shared, matched, rms_a, rms_b), "label": label,
+                "cls": _classify(n, rms_a, rms_b), "label": label,
                 "url_a": EVENT_URL.format(host=HOSTS[SYSTEM], evid=a.evid),
                 "url_b": EVENT_URL.format(host=HOSTS[SYSTEM], evid=b.evid),
             })
@@ -207,8 +198,8 @@ def run(start, end, out=OUTPUT_DIR):
     doc = {"system": SYSTEM, "start": start, "end": end,
            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
            "n_anchors": int(len(anchors)),
-           "params": {"window_s": WINDOW_S, "match_s": MATCH_S, "min_p": MIN_P, "split_rms": SPLIT_RMS,
-                      "distinct_rms": DISTINCT_RMS, "overlap_split": OVERLAP_SPLIT, "early_s": EARLY_S},
+           "params": {"window_s": WINDOW_S, "min_p": MIN_P, "split_rms": SPLIT_RMS,
+                      "distinct_rms": DISTINCT_RMS, "early_s": EARLY_S},
            "pairs": rows}
     path = DOCS_DIR / "data" / "splits.json"
     path.write_text(json.dumps(doc, separators=(",", ":")))

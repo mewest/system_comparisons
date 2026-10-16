@@ -26,10 +26,10 @@
   th.l, td.l { text-align:left; }
   th .arrow { color:var(--muted); font-size:11px; }
   .summary td, .summary th { cursor:default; }
-  .chip { display:inline-block; padding:1px 8px; border-radius:10px; font-weight:600; font-size:13px; }
-  .split { background:#fde2c8; color:#8a3b00; }
-  .distinct { background:#d6e8ff; color:#0b3d91; }
-  .ambiguous { background:#eee; color:#555; }
+  .chip { font-weight:600; }
+  .split { color:#8a3b00; }
+  .distinct { color:#0b3d91; }
+  .ambiguous { color:#555; }
   .filters { display:flex; gap:16px; flex-wrap:wrap; font-size:14px; margin:4px 0 8px; }
   .tablewrap { max-height:75vh; overflow:auto; border:1px solid var(--line); border-radius:6px; }
   @media (max-width: 860px) { header, main { padding:0 16px; } header { padding-top:16px; } .plot { height:420px; } }
@@ -47,7 +47,9 @@
   <b>B</b> within ±3 min of an anchor <b>A</b> is tested: B's first-arriving P picks are compared with the arrival
   times predicted from A's hypocenter (ak135). <b>RMS<sub>A</sub></b> is the root-mean-square of those residuals in
   seconds. If it is small, A already explains B's picks and B is likely a split (duplicate solution). If it is
-  large, B needs its own source. ≥ 50 % matching P picks (same station within 0.5 s, including shared picks) also count as a split.
+  large, B needs its own source. <b>Classes:</b> <span class="chip split">split</span> if RMS<sub>A</sub> ≤ 1.5 s
+  (with ≥ 5 P picks); <span class="chip distinct">distinct</span> if RMS<sub>A</sub> ≥ 3 s and at least twice the
+  RMS of B's picks against B's own hypocenter; otherwise <span class="chip ambiguous">ambiguous</span>.
   Labels for checking the thresholds: <i>rejected</i> (B rejected on onsite) and <i>both reviewed</i> (analyst kept
   both events).
 </p>
@@ -60,10 +62,6 @@
 <section>
   <h2>RMS<sub>A</sub> by label</h2>
   <div class="plot" id="p-hist"></div>
-</section>
-<section>
-  <h2>RMS<sub>A</sub> vs epicentral separation</h2>
-  <div class="plot" id="p-scatter"></div>
 </section>
 <section>
   <h2>All pairs</h2>
@@ -94,10 +92,8 @@ const COLS = [
   {k: "b_mag", t: "M<sub>B</sub>", f: v => fx(v, 1)},
   {k: "b_status", t: "B status", l: true, f: (v, r) => `${v || "–"}${r.b_mode ? " (" + r.b_mode + ")" : ""}`},
   {k: "b_author", t: "B author", l: true},
-  {k: "dt0_s", t: "Δt₀ (s)", f: v => fx(v, 1)},
   {k: "n_p", t: "B P picks"},
   {k: "rms_a", t: "RMS<sub>A</sub> (s)", f: v => fx(v, 2)},
-  {k: "mean_a", t: "Mean res. (s)", f: v => fx(v, 2)},
 ];
 const fx = (v, n) => v == null ? "–" : Number(v).toFixed(n);
 let data = null, sortKey = "a_time", sortDir = 1;
@@ -141,18 +137,6 @@ function plots(d) {
     xaxis: {...grid, type: "log", title: {text: "RMS<sub>A</sub> (s): B's P picks vs A's hypocenter"}, range: [-1, 3]},
     yaxis: {...grid, title: {text: "Pairs"}}, shapes: refLines("x"), margin: {...layoutBase.margin, t: 30},
     annotations: [ann(d.params.split_rms, `split ≤ ${d.params.split_rms} s`), ann(d.params.distinct_rms, `distinct ≥ ${d.params.distinct_rms} s`)]},
-    {responsive: true, displaylogo: false});
-
-  const sc = GROUPS.map(g => {
-    const v = d.pairs.filter(p => p.label === g.key && p.rms_a != null && p.dist_km != null);
-    return {type: "scattergl", mode: "markers", name: g.name, x: v.map(p => Math.max(p.dist_km, 0.5)), y: v.map(p => p.rms_a),
-            customdata: v, marker: {color: g.color, size: 8, opacity: 0.75, line: {width: 0}},
-            hovertemplate: "A %{customdata.a_evid}<br>B %{customdata.b_evid} (%{customdata.cls})<br>" +
-                           "RMS<sub>A</sub> %{y:.2f} s, sep. %{customdata.dist_km} km<extra></extra>"};
-  });
-  Plotly.react("p-scatter", sc, {...layoutBase,
-    xaxis: {...grid, type: "log", title: {text: "Epicentral separation A–B (km)"}},
-    yaxis: {...grid, type: "log", title: {text: "RMS<sub>A</sub> (s)"}}, shapes: refLines("y")},
     {responsive: true, displaylogo: false});
 }
 
