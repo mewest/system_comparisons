@@ -112,15 +112,16 @@ const CLASS_DEF = p => ({
 });
 const COLS = [
   {k: "cls", t: "Class", l: true, f: v => `<span class="chip ${v}">${v}</span>`},
-  {k: "a_evid", t: "Reviewed", l: true, f: (v, r) => `<a href="${r.url_a}" target="_blank" rel="noopener">${evLabel(v, r.a_mag)}</a>`},
-  {k: "b_evid", t: "Test →", l: true, c: "sep", f: (v, r) => `<a href="${r.url_b}" target="_blank" rel="noopener">${evLabel(v, r.b_mag)}</a>`},
+  {k: "a_evid", t: "Reviewed", l: true, s: r => r.a_mag, f: (v, r) => `<a href="${r.url_a}" target="_blank" rel="noopener">${evLabel(v, r.a_mag)}</a>`},
+  {k: "b_evid", t: "Test →", l: true, c: "sep", s: r => r.b_mag, f: (v, r) => `<a href="${r.url_b}" target="_blank" rel="noopener">${evLabel(v, r.b_mag)}</a>`},
   {k: "n_p", t: "P picks"},
   {k: "shared", t: "Picks in common"},
   {k: "rms_a", t: "RMS (s)", f: v => fx(v, 1)},
+  {k: "dt0_s", t: "Δt₀ (s)", f: v => v == null ? "–" : Math.round(v)},
   {k: "b_status", t: "Status", l: true, f: (v, r) => `${v || "–"}${r.b_mode ? " (" + r.b_mode + ")" : ""}`},
   {k: "b_author", t: "Author", l: true},
 ];
-const evLabel = (e, m) => m == null ? e : `M${Number(m).toFixed(1)} (${e})`;
+const evLabel = (e, m) => `${m == null ? "M-.-" : "M" + Number(m).toFixed(1)} (${e})`;
 const fx = (v, n) => v == null ? "–" : Number(v).toFixed(n);
 let data = null, selected = null, sortKey = "a_time", sortDir = 1;
 
@@ -257,7 +258,8 @@ function examples(d) {
 function table() {
   const rows = [...data.pairs];
   rows.sort((a, b) => {
-    const x = a[sortKey], y = b[sortKey];
+    const col = COLS.find(c => c.k === sortKey), key = col && col.s ? col.s : r => r[sortKey];   // event columns sort by magnitude
+    const x = key(a), y = key(b);
     if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1;
     return (x < y ? -1 : x > y ? 1 : 0) * sortDir;
   });
