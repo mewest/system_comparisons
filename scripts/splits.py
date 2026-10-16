@@ -22,8 +22,8 @@ ANCHOR_STATUS = {"preliminary", "reviewed", "final"}
 WINDOW_S = 180          # pair events within +-3 min of an anchor
 MAX_DIST_DEG = 30.0     # travel-time table limit
 MIN_P = 5               # fewer B P picks -> ambiguous
-SPLIT_RMS = 1.5         # RMS_A <= this (s) -> split
-DISTINCT_RMS = 3.0      # RMS_A >= this (s) and >= 2 x RMS_B -> distinct
+SPLIT_RMS = 2.0         # RMS_A <= this (s) -> split
+DISTINCT_RMS = 3.0      # RMS_A > this (s) -> distinct
 EARLY_S = 2.0           # B P pick this much before A's predicted P is "early"
 S_WIN = 2.0             # B P pick within this of A's predicted S is flagged (anchors M >= BIG_MAG)
 BIG_MAG = 4.0
@@ -113,7 +113,7 @@ def _classify(n, rms_a, rms_b):
         return "ambiguous"
     if rms_a <= SPLIT_RMS:
         return "split"
-    if rms_a >= DISTINCT_RMS and (rms_b is None or rms_a >= 2 * rms_b):
+    if rms_a > DISTINCT_RMS:
         return "distinct"
     return "ambiguous"
 
@@ -162,6 +162,7 @@ def run(start, end, out=OUTPUT_DIR):
             if b_anchor and b.t0 < a.t0:
                 continue                      # each anchor-anchor pair once
             pb = picks.get(b.origin_id, empty)
+            shared = len(set(pb.pick_id) & set(pa.pick_id))   # P picks used by both origins (same pick ID)
             ra, dist = _residuals(pb, a, tt)
             ok = np.isfinite(ra)
             rb, _ = _residuals(pb, b, tt)
@@ -185,7 +186,7 @@ def run(start, end, out=OUTPUT_DIR):
                 "dt0_s": _r(b.t0 - a.t0, 1),
                 "dist_km": _r(_gc_deg(a.lat, a.lon, b.lat, b.lon) * 111.195, 1),
                 "ddepth_km": _r(b.depth - a.depth, 1),
-                "n_p": n,
+                "n_p": n, "shared": shared,
                 "rms_a": _r(rms_a), "mean_a": _r(float(np.mean(ra[ok])) if n else None),
                 "rms_b": _r(rms_b), "rms_a_own": _r(rms_own),
                 "n_early": int(np.sum(ra[ok] < -EARLY_S)), "n_on_a_s": s_flag,

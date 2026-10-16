@@ -1,244 +1,244 @@
-a_evid,a_time,a_mag,a_status,b_evid,b_mag,b_status,b_mode,b_author,b_type,dt0_s,dist_km,ddepth_km,n_p,rms_a,mean_a,rms_b,rms_a_own,n_early,n_on_a_s,cls,label
-aka2026sxivau,2026-09-24T00:29:50.60Z,2.5,reviewed,aka2026sxiwxz,3.04,rejected,automatic,scanloc_state:AEC,,129.9,62.3,63.2,6,125.57,125.56,0.26,0.17,0,0,distinct,rejected
-aka2026sxksli,2026-09-24T01:26:48.40Z,1.8,reviewed,aka2026sxksxl,3.75,reviewed,manual,scolv:djgossett,earthquake,32.5,857.5,17.1,207,59.38,-38.64,0.79,0.21,170,0,distinct,both reviewed
-aka2026sxlejd,2026-09-24T01:40:29.85Z,1.33,reviewed,aka2026sxldez,1.42,rejected,automatic,scanloc_state:AEC,,-77.2,291.2,52.1,6,106.17,-106.06,0.39,0.48,6,0,distinct,rejected
-aka2026sxlhxf,2026-09-24T01:44:44.11Z,2.1,reviewed,aka2026sxljws,1.29,rejected,manual,scolv:djgossett,not existing,130.7,538.6,-58.5,6,78.45,77.66,0.91,0.34,0,0,distinct,rejected
-aka2026sxltbu,2026-09-24T01:57:31.39Z,1.25,reviewed,aka2026sxlvgp,1.61,reviewed,manual,scolv:djgossett,earthquake,149.5,237.7,123.0,32,132.55,131.95,0.37,0.34,0,0,distinct,both reviewed
-aka2026sxlvgp,2026-09-24T02:00:00.93Z,1.61,reviewed,aka2026sxlway,1.71,rejected,automatic,scolv:djgossett,not existing,53.5,193.7,-123.7,8,30.87,30.65,0.67,0.37,0,0,distinct,rejected
-aka2026sxmelx,2026-09-24T02:10:32.31Z,2.02,reviewed,aka2026sxmfmt,1.69,reviewed,manual,scolv:djgossett,earthquake,79.6,558.7,-0.6,11,22.3,20.92,0.46,0.57,0,0,distinct,both reviewed
-aka2026sxnrco,2026-09-24T02:55:13.07Z,1.85,reviewed,aka2026sxntdt,1.71,reviewed,manual,scolv:djgossett,earthquake,141.6,605.9,49.8,13,68.5,68.34,0.54,0.53,0,0,distinct,both reviewed
-aka2026sxpvgj,2026-09-24T03:59:57.04Z,2.86,reviewed,aka2026sxpxox,1.97,reviewed,manual,scolv:djgossett,earthquake,162.0,85.2,0.6,17,155.89,155.76,1.04,0.77,0,0,distinct,both reviewed
-aka2026sxpxox,2026-09-24T04:02:39.07Z,1.97,reviewed,aka2026sxpytu,1.41,reviewed,manual,scolv:djgossett,earthquake,88.0,671.7,51.8,7,10.54,8.97,0.27,1.04,0,0,distinct,both reviewed
-aka2026sxqbwj,2026-09-24T04:07:36.23Z,1.41,reviewed,aka2026sxqbwt,2.25,reviewed,manual,scolv:djgossett,earthquake,0.8,900.2,55.4,43,93.81,-92.26,0.4,0.22,43,0,distinct,both reviewed
-aka2026sxqbwj,2026-09-24T04:07:36.23Z,1.41,reviewed,aka2026sxqdny,2.24,reviewed,manual,scolv:djgossett,earthquake,116.5,1726.3,-1.2,17,75.38,-74.49,0.53,0.22,17,0,distinct,both reviewed
-aka2026sxqbwt,2026-09-24T04:07:37.06Z,2.25,reviewed,aka2026sxqdny,2.24,reviewed,manual,scolv:djgossett,earthquake,115.7,840.6,-56.7,17,38.41,36.6,0.53,0.4,0,0,distinct,both reviewed
-aka2026sxqdny,2026-09-24T04:09:32.74Z,2.24,reviewed,aka2026sxqfpt,2.72,rejected,automatic,scanloc_state:AEC,,142.9,1607.6,-1.5,6,176.04,151.33,1.22,0.53,1,0,distinct,rejected
-aka2026sxqjdq,2026-09-24T04:16:00.35Z,1.49,reviewed,aka2026sxqjos,1.67,reviewed,manual,scolv:djgossett,earthquake,29.6,457.3,66.9,21,18.12,-16.24,0.46,0.3,20,0,distinct,both reviewed
-aka2026sxqjdq,2026-09-24T04:16:00.35Z,1.49,reviewed,aka2026sxqkqn,1.2,reviewed,manual,scolv:djgossett,earthquake,100.5,244.0,78.6,12,78.26,77.83,0.33,0.3,0,0,distinct,both reviewed
-aka2026sxqjos,2026-09-24T04:16:29.97Z,1.67,reviewed,aka2026sxqkqn,1.2,reviewed,manual,scolv:djgossett,earthquake,70.9,222.0,11.6,12,54.74,54.35,0.33,0.46,0,0,distinct,both reviewed
-aka2026sxrnsb,2026-09-24T04:51:13.85Z,1.72,reviewed,aka2026sxrotv,2.89,reviewed,manual,scolv:djgossett,earthquake,160.7,358.6,-41.2,97,165.46,162.64,0.63,0.36,0,0,distinct,both reviewed
-aka2026sxtqdi,2026-09-24T05:54:00.51Z,1.6,reviewed,aka2026sxtrnh,5.05,rejected,automatic,scautoloc_global:AEC,,96.5,370.9,-56.8,8,124.5,121.35,2.46,0.4,0,0,distinct,rejected
-aka2026sxwklz,2026-09-24T07:17:26.84Z,1.64,reviewed,aka2026sxwmcz,2.03,rejected,automatic,scanloc_state:AEC,,114.3,123.4,-68.4,7,124.46,124.41,1.16,0.28,0,0,distinct,rejected
-aka2026sxwopr,2026-09-24T07:22:15.91Z,3.78,reviewed,aka2026sxwmcz,2.03,rejected,automatic,scanloc_state:AEC,,-174.8,852.9,-4.1,7,279.43,-279.42,1.16,1.29,7,0,distinct,rejected
-aka2026sxxdfz,2026-09-24T07:39:06.79Z,2.4,reviewed,aka2026sxxewf,5.24,confirmed,automatic,scautoloc_global:AEC,,113.0,8935.0,-55.4,59,731.74,724.2,1.76,0.79,0,0,distinct,
-aka2026syadyo,2026-09-24T09:10:51.41Z,2.73,reviewed,aka2026syafks,1.62,rejected,automatic,scanloc_state:AEC,,42.6,815.1,-77.8,6,55.36,-55.34,0.73,0.42,6,0,distinct,rejected
-aka2026syadyo,2026-09-24T09:10:51.41Z,2.73,reviewed,aka2026syagos,1.78,rejected,automatic,scanloc_state:AEC,,127.5,609.6,-61.9,10,85.94,74.76,0.4,0.42,0,0,distinct,rejected
-aka2026sybrit,2026-09-24T09:55:04.36Z,3.21,reviewed,aka2026sybrvw,3.3,rejected,automatic,scanloc_state:AEC,,48.9,368.5,100.7,10,0.57,0.43,0.33,0.96,0,0,split,rejected
-aka2026sycjyr,2026-09-24T10:16:46.55Z,1.05,reviewed,aka2026syckuq,1.75,reviewed,manual,scolv:djgossett,earthquake,58.0,383.0,-7.1,14,27.79,25.73,0.59,0.27,0,0,distinct,both reviewed
-aka2026syhcrx,2026-09-24T12:38:19.80Z,1.9,reviewed,aka2026syhbwx,2.1,rejected,automatic,scanloc_state:AEC,,-55.9,124.7,-25.9,7,48.21,-47.74,1.0,0.5,7,0,distinct,rejected
-aka2026syhham,2026-09-24T12:43:19.78Z,1.64,reviewed,aka2026syhhzm,1.23,reviewed,manual,scolv:djgossett,earthquake,69.7,356.3,-4.8,21,33.46,32.3,0.35,0.61,0,0,distinct,both reviewed
-aka2026sykhse,2026-09-24T14:14:05.72Z,2.91,reviewed,aka2026sykhmd,1.63,rejected,automatic,scanloc_state:AEC,,-17.7,715.5,3.0,10,88.54,-74.98,0.63,1.27,8,0,distinct,rejected
-aka2026sykxja,2026-09-24T14:32:07.26Z,1.49,reviewed,aka2026sykywt,2.7,reviewed,manual,scolv:djgossett,earthquake,105.9,348.9,-47.3,102,92.42,89.2,0.86,0.39,0,0,distinct,both reviewed
-aka2026syqove,2026-09-24T17:22:11.85Z,1.56,reviewed,aka2026syqqmr,1.76,reviewed,manual,scolv:djgossett,earthquake,106.8,588.1,-13.3,11,48.63,47.39,0.33,0.74,0,0,distinct,both reviewed
-aka2026syrpcd,2026-09-24T17:52:17.46Z,2.69,reviewed,aka2026syroeu,4.92,rejected,automatic,scanloc_state:AEC,,-50.4,730.2,58.5,10,40.37,16.74,1.14,0.71,1,0,distinct,rejected
-aka2026syxshm,2026-09-24T20:56:04.07Z,1.79,reviewed,aka2026syxtmn,0.97,reviewed,manual,scolv:djgossett,earthquake,84.7,118.4,39.3,11,80.72,80.67,0.22,0.66,0,0,distinct,both reviewed
-aka2026szfmha,2026-09-25T00:48:50.26Z,3.31,reviewed,aka2026szfniv,1.7,rejected,automatic,scolv:abakken,not existing,85.3,795.2,-13.5,4,6.23,-4.44,0.36,0.64,3,0,ambiguous,rejected
-aka2026szfmha,2026-09-25T00:48:50.26Z,3.31,reviewed,aka2026szfoer,1.64,rejected,automatic,scanloc_state:AEC,not existing,146.4,1184.9,10.9,8,0.66,-0.55,0.3,0.64,0,0,split,rejected
-aka2026szmsvi,2026-09-25T04:26:15.38Z,3.09,reviewed,aka2026szmtvn,5.3,confirmed,automatic,scautoloc_global:AEC,,85.6,9392.5,-4.9,17,661.97,659.21,2.54,0.26,0,0,distinct,
-aka2026szodju,2026-09-25T05:08:43.09Z,2.07,reviewed,aka2026szoffz,3.5,preliminary,manual,scolv:afozkos,earthquake,121.8,2028.7,-27.0,27,107.07,-106.61,0.52,0.55,27,0,distinct,both reviewed
-aka2026szpaiq,2026-09-25T05:35:08.95Z,1.55,reviewed,aka2026szpbdv,1.59,reviewed,manual,scolv:abakken,earthquake,56.4,433.1,7.3,22,13.47,9.16,0.47,0.71,0,0,distinct,both reviewed
-aka2026szpedj,2026-09-25T05:39:30.94Z,1.89,reviewed,aka2026szpfmt,2.06,reviewed,manual,scolv:abakken,earthquake,94.3,681.1,11.7,25,35.06,32.81,0.54,0.65,0,0,distinct,both reviewed
-aka2026tabbrw,2026-09-25T11:36:33.80Z,1.74,reviewed,aka2026tabdqg,2.36,reviewed,manual,scolv:abakken,earthquake,133.2,436.9,-14.3,12,117.22,114.9,0.43,0.37,0,0,distinct,both reviewed
-aka2026tadcql,2026-09-25T12:37:32.90Z,3.8,preliminary,aka2026taddfn,1.97,rejected,automatic,scanloc_state:AEC,not existing,43.8,1373.0,-7.8,6,124.94,-124.93,0.17,1.03,6,0,distinct,rejected
-aka2026tafpkc,2026-09-25T13:52:05.85Z,2.96,reviewed,aka2026tafpkh,1.85,reviewed,manual,scolv:abakken,earthquake,15.9,1627.8,-15.2,19,167.32,-167.02,0.78,0.44,19,0,distinct,both reviewed
-aka2026tafpkc,2026-09-25T13:52:05.85Z,2.96,reviewed,aka2026tafqko,2.23,reviewed,manual,scolv:abakken,earthquake,71.3,1399.7,71.1,40,79.58,-77.09,0.47,0.44,40,0,distinct,both reviewed
-aka2026tafpkh,2026-09-25T13:52:21.74Z,1.85,reviewed,aka2026tafqko,2.23,reviewed,manual,scolv:abakken,earthquake,55.5,574.4,86.3,40,20.91,8.41,0.47,0.78,13,0,distinct,both reviewed
-aka2026tamcpb,2026-09-25T17:07:23.72Z,2.54,reviewed,aka2026tamedp,1.89,reviewed,manual,scolv:abakken,earthquake,109.3,360.1,44.2,32,79.25,78.23,0.51,0.36,0,0,distinct,both reviewed
-aka2026tamedp,2026-09-25T17:09:13.01Z,1.89,reviewed,aka2026tamgpl,1.48,reviewed,manual,scolv:abakken,earthquake,170.5,631.7,-96.0,11,109.0,108.65,0.49,0.51,0,0,distinct,both reviewed
-aka2026tankot,2026-09-25T17:46:38.10Z,1.73,reviewed,aka2026tanlrk,1.5,reviewed,manual,scolv:abakken,earthquake,76.3,3.8,5.7,9,76.18,76.18,0.73,0.44,0,0,distinct,both reviewed
-aka2026tatjbm,2026-09-25T20:44:47.69Z,2.28,reviewed,aka2026tatlio,2.14,reviewed,manual,scolv:abakken,earthquake,156.9,1167.9,7.7,14,24.84,23.92,0.36,0.45,0,0,distinct,both reviewed
-aka2026tatvgi,2026-09-25T20:58:51.00Z,1.78,reviewed,aka2026tatxnk,5.09,confirmed,automatic,scanloc_global_assoc:AEC,,162.6,7824.1,46.0,38,773.96,773.19,0.32,1.01,0,0,distinct,
-aka2026taupfj,2026-09-25T21:21:58.35Z,3.31,reviewed,aka2026tauqjb,6.48,confirmed,automatic,scanloc_global_assoc:AEC,,70.3,8505.5,17.1,131,653.77,651.69,1.97,0.49,0,0,distinct,
-aka2026tawoqs,2026-09-25T22:21:11.36Z,2.1,reviewed,aka2026tawqyh,2.53,reviewed,manual,scolv:abakken,earthquake,158.8,151.6,79.6,56,157.64,157.02,0.64,0.59,0,0,distinct,both reviewed
-aka2026tawqyh,2026-09-25T22:23:50.19Z,2.53,reviewed,aka2026tawtcn,2.68,reviewed,manual,scolv:abakken,earthquake,142.6,1074.9,93.1,18,62.51,51.98,0.5,0.64,0,0,distinct,both reviewed
-aka2026tawzcx,2026-09-25T22:33:17.09Z,1.89,reviewed,aka2026tawzrb,1.34,reviewed,manual,scolv:abakken,quarry blast,39.9,622.1,-5.2,13,35.68,-34.85,0.31,0.86,13,0,distinct,both reviewed
-aka2026tawzrb,2026-09-25T22:33:56.98Z,1.34,reviewed,aka2026taxceu,2.4,reviewed,manual,scolv:abakken,earthquake,155.6,177.1,125.5,28,147.98,147.03,0.5,0.31,0,0,distinct,both reviewed
-aka2026tazfxf,2026-09-25T23:41:04.68Z,1.98,reviewed,aka2026tazewm,5.64,confirmed,automatic,scanloc_global_assoc:AEC,,-77.0,10050.7,-18.7,5,541.13,533.16,1.84,0.51,0,0,distinct,
-aka2026tbkydj,2026-09-26T05:32:01.18Z,2.92,reviewed,aka2026tblaok,2.04,rejected,automatic,scanloc_state:AEC,not existing,163.8,866.4,-2.3,6,122.72,97.22,0.75,0.22,0,0,distinct,rejected
-aka2026tbpkpz,2026-09-26T07:46:18.01Z,1.96,reviewed,aka2026tbpmup,1.96,rejected,automatic,scanloc_state:AEC,not existing,150.5,260.5,0.6,6,142.17,141.05,0.37,0.52,0,0,distinct,rejected
-aka2026tbthkx,2026-09-26T09:42:30.86Z,1.64,reviewed,aka2026tbtimd,2.34,reviewed,manual,scolv:abakken,earthquake,75.2,203.0,51.2,53,75.52,73.37,0.48,0.43,0,0,distinct,both reviewed
-aka2026tbtqeh,2026-09-26T09:52:30.71Z,2.47,reviewed,aka2026tbtpru,2.75,rejected,automatic,scanloc_state:AEC,not existing,-25.5,861.5,182.4,8,68.43,-56.43,0.56,0.94,6,0,distinct,rejected
-aka2026tbxmml,2026-09-26T11:48:20.63Z,1.9,reviewed,aka2026tbxouj,2.18,reviewed,manual,scolv:abakken,earthquake,157.6,677.8,-55.6,17,104.36,103.06,0.77,0.36,0,0,distinct,both reviewed
-aka2026tcaewn,2026-09-26T13:09:31.59Z,1.83,reviewed,aka2026tcaeba,4.18,rejected,automatic,scanloc_state:AEC,not existing,-61.6,1131.9,-22.8,7,36.41,-7.73,1.04,0.9,2,0,distinct,rejected
-aka2026tcahsv,2026-09-26T13:12:50.20Z,2.3,reviewed,aka2026tcaisc,2.03,reviewed,manual,scolv:abakken,earthquake,66.3,363.6,-34.1,13,29.67,28.86,0.38,0.82,0,0,distinct,both reviewed
-aka2026tcasvt,2026-09-26T13:25:39.45Z,2.02,reviewed,aka2026tcaryy,1.94,rejected,automatic,scolv:abakken,not existing,-62.4,688.0,-11.3,6,126.18,-125.78,0.06,0.52,6,0,distinct,rejected
-aka2026tcezgi,2026-09-26T15:32:57.94Z,1.93,reviewed,aka2026tcfbvg,1.87,reviewed,manual,scolv:abakken,earthquake,178.0,901.3,-21.8,10,101.31,98.78,0.84,0.7,0,0,distinct,both reviewed
-aka2026tcfgwi,2026-09-26T15:42:17.32Z,2.44,reviewed,aka2026tcfiis,0.79,rejected,automatic,scolv:abakken,not existing,69.9,311.2,-118.3,5,32.68,32.56,0.31,0.55,0,0,distinct,rejected
-aka2026tcfkpt,2026-09-26T15:46:04.31Z,1.27,reviewed,aka2026tcfiis,0.79,rejected,automatic,scolv:abakken,not existing,-157.0,440.2,4.2,5,212.55,-212.48,0.31,0.55,5,0,distinct,rejected
-aka2026tcguzq,2026-09-26T16:27:59.18Z,1.92,reviewed,aka2026tcgvnf,1.82,reviewed,manual,scolv:abakken,earthquake,38.6,919.7,-84.9,8,50.98,-46.57,0.82,0.52,8,0,distinct,both reviewed
-aka2026tchabp,2026-09-26T16:33:52.06Z,1.92,reviewed,aka2026tcgzyk,5.59,confirmed,automatic,scautoloc_global:AEC,,-7.5,11666.1,-5.4,7,617.47,610.79,2.38,0.86,0,0,distinct,
-aka2026tchgjl,2026-09-26T16:41:08.68Z,2.01,reviewed,aka2026tchimz,3.27,reviewed,manual,scolv:abakken,earthquake,149.7,1735.6,-131.1,26,40.13,-37.93,0.44,0.26,26,0,distinct,both reviewed
-aka2026tcibyo,2026-09-26T17:06:07.99Z,1.94,reviewed,aka2026tcibwm,,rejected,automatic,scolv:abakken,not existing,-11.7,519.2,76.0,17,42.82,-33.19,1.1,0.55,14,0,distinct,rejected
-aka2026tciimr,2026-09-26T17:13:39.47Z,1.49,reviewed,aka2026tcikas,2.04,reviewed,manual,scolv:abakken,earthquake,102.4,754.6,12.5,12,18.32,15.01,0.37,0.23,0,0,distinct,both reviewed
-aka2026tdamgz,2026-09-27T02:17:42.07Z,1.73,reviewed,aka2026tdamcz,1.7,rejected,automatic,scanloc_state:AEC,,-10.7,569.3,-7.6,6,70.49,-53.24,1.17,0.32,4,0,distinct,rejected
-aka2026tdbbzi,2026-09-27T02:35:16.19Z,2.76,reviewed,aka2026tdbcvl,2.1,rejected,automatic,scanloc_state:AEC,,91.5,925.2,15.7,5,13.94,-13.05,1.02,0.91,5,0,distinct,rejected
-aka2026tdcmgf,2026-09-27T03:17:40.96Z,2.46,reviewed,aka2026tdcnwn,2.2,reviewed,manual,scolv:djgossett,earthquake,109.4,1205.0,-79.5,41,22.96,-15.3,0.96,0.74,32,0,distinct,both reviewed
-aka2026tdcmgf,2026-09-27T03:17:40.96Z,2.46,reviewed,aka2026tdcodg,2.36,reviewed,manual,scolv:djgossett,earthquake,127.2,741.1,-63.3,12,62.4,61.36,0.4,0.74,0,0,distinct,both reviewed
-aka2026tdcnwn,2026-09-27T03:19:30.37Z,2.2,reviewed,aka2026tdcodg,2.36,reviewed,manual,scolv:djgossett,earthquake,17.8,609.3,16.2,12,35.87,-27.15,0.4,0.96,11,0,distinct,both reviewed
-aka2026tdczdt,2026-09-27T03:32:30.42Z,2.0,reviewed,aka2026tddbbq,2.84,rejected,automatic,scanloc_state:AEC,,136.3,1706.5,-79.4,7,63.69,-63.44,0.79,0.46,7,0,distinct,rejected
-aka2026tdfwcu,2026-09-27T04:58:58.77Z,2.1,reviewed,aka2026tdfwkt,2.03,reviewed,manual,scolv:djgossett,earthquake,18.9,533.0,83.5,28,38.15,-35.35,0.5,0.76,27,0,distinct,both reviewed
-aka2026tdfwcu,2026-09-27T04:58:58.77Z,2.1,reviewed,aka2026tdfynt,2.04,reviewed,manual,scolv:djgossett,earthquake,168.3,422.4,43.0,33,127.36,126.91,0.66,0.76,0,0,distinct,both reviewed
-aka2026tdfwkt,2026-09-27T04:59:17.63Z,2.03,reviewed,aka2026tdfynt,2.04,reviewed,manual,scolv:djgossett,earthquake,149.5,143.1,-40.6,33,142.96,142.57,0.66,0.5,0,0,distinct,both reviewed
-aka2026tdguku,2026-09-27T05:27:22.56Z,3.6,reviewed,aka2026tdgtvg,,rejected,automatic,scolv:djgossett,not existing,26.6,1224.4,0.0,11,88.82,-88.15,0.62,0.67,11,0,distinct,rejected
-aka2026tdguku,2026-09-27T05:27:22.56Z,3.6,reviewed,aka2026tdgvon,2.54,reviewed,manual,scolv:djgossett,earthquake,58.1,1770.4,66.9,18,152.52,-152.26,0.67,0.67,18,0,distinct,both reviewed
-aka2026tdgvon,2026-09-27T05:28:20.69Z,2.54,reviewed,aka2026tdgtvg,,rejected,automatic,scolv:djgossett,not existing,-31.6,624.1,-66.9,11,72.33,-72.12,0.62,0.67,11,0,distinct,rejected
-aka2026tdlmve,2026-09-27T07:48:12.35Z,4.97,reviewed,aka2026tdllsj,2.34,rejected,automatic,scanloc_state:AEC,,-78.3,1986.4,90.0,6,295.99,-295.87,0.33,0.42,6,0,distinct,rejected
-aka2026tdmeiy,2026-09-27T08:08:24.02Z,1.84,reviewed,aka2026tdmdtr,0.75,rejected,automatic,scanloc_state:AEC,,-40.8,817.9,-13.5,9,140.52,-140.3,0.34,0.95,9,0,distinct,rejected
-aka2026tdmeiy,2026-09-27T08:08:24.02Z,1.84,reviewed,aka2026tdmgnl,2.62,reviewed,manual,scolv:djgossett,earthquake,150.6,2472.8,46.7,25,118.65,-117.05,0.26,0.95,25,0,distinct,both reviewed
-aka2026tdmgnl,2026-09-27T08:10:54.62Z,2.62,reviewed,aka2026tdmhko,1.58,reviewed,manual,scolv:djgossett,earthquake,61.0,2270.8,-60.7,14,195.72,-195.52,0.31,0.26,14,0,distinct,both reviewed
-aka2026tdpjia,2026-09-27T09:44:05.11Z,1.8,reviewed,aka2026tdplae,2.67,rejected,automatic,scolv:djgossett,not existing,117.2,1761.6,13.0,5,77.14,-76.88,0.3,0.36,5,0,distinct,rejected
-aka2026tdqxmf,2026-09-27T10:30:26.39Z,4.55,reviewed,aka2026tdqyku,3.13,rejected,automatic,scolv:djgossett,not existing,80.3,733.1,-15.9,11,2.73,2.54,1.0,1.19,0,0,ambiguous,rejected
-aka2026tdqxmf,2026-09-27T10:30:26.39Z,4.55,reviewed,aka2026tdralr,,rejected,automatic,scanloc_state:AEC,,108.2,898.2,342.6,26,1.71,1.05,1.12,1.19,0,0,ambiguous,rejected
-aka2026tdyykj,2026-09-27T14:31:21.14Z,1.64,reviewed,aka2026tdyzrj,2.35,reviewed,manual,scolv:djgossett,earthquake,85.6,371.4,8.0,15,61.32,60.06,1.01,0.8,0,0,distinct,both reviewed
-aka2026tdyzrj,2026-09-27T14:32:46.71Z,2.35,reviewed,aka2026tdzceh,1.28,reviewed,manual,scolv:djgossett,earthquake,175.9,215.9,89.5,18,159.59,159.29,0.36,1.01,0,0,distinct,both reviewed
-aka2026tebhwe,2026-09-27T15:42:14.31Z,2.68,reviewed,aka2026tebiel,2.92,reviewed,manual,scolv:djgossett,earthquake,25.1,1367.5,-0.5,54,99.16,-94.11,0.57,0.84,53,0,distinct,both reviewed
-aka2026teblsd,2026-09-27T15:47:18.79Z,2.84,reviewed,aka2026tebmli,1.97,reviewed,manual,scolv:djgossett,earthquake,31.2,1926.2,97.8,36,186.32,-172.27,0.44,0.34,35,0,distinct,both reviewed
-aka2026teblsd,2026-09-27T15:47:18.79Z,2.84,reviewed,aka2026tebohj,2.88,reviewed,manual,scolv:djgossett,earthquake,152.0,61.6,-9.8,17,153.44,153.32,0.66,0.34,0,0,distinct,both reviewed
-aka2026tebmli,2026-09-27T15:47:50.01Z,1.97,reviewed,aka2026tebohj,2.88,reviewed,manual,scolv:djgossett,earthquake,120.8,1973.0,-107.6,17,85.14,-83.59,0.66,0.44,17,0,distinct,both reviewed
-aka2026tedtqt,2026-09-27T16:55:37.22Z,2.17,reviewed,aka2026tedvrp,2.67,reviewed,manual,scolv:djgossett,earthquake,151.0,210.9,24.0,117,151.91,150.84,0.66,0.63,0,0,distinct,both reviewed
-aka2026tedvrp,2026-09-27T16:58:08.18Z,2.67,reviewed,aka2026tedxgn,2.33,rejected,automatic,scanloc_state:AEC,,110.6,452.7,-122.9,9,88.09,78.48,0.8,0.66,0,0,distinct,rejected
-aka2026tefcyi,2026-09-27T17:36:38.48Z,1.27,reviewed,aka2026tefdjw,2.01,reviewed,manual,scolv:djgossett,earthquake,23.2,726.4,-12.6,11,46.72,-45.04,0.81,0.28,11,0,distinct,both reviewed
-aka2026temlyl,2026-09-27T21:16:48.05Z,2.27,reviewed,aka2026temmhr,2.6,reviewed,manual,scolv:djgossett,earthquake,25.2,2110.8,82.5,86,190.93,-187.09,0.58,0.22,86,0,distinct,both reviewed
-aka2026tencgw,2026-09-27T21:36:20.69Z,3.47,reviewed,aka2026tencpw,2.55,rejected,automatic,scolv:afozkos,not existing,30.8,230.2,13.2,8,1.03,0.77,0.28,0.78,0,0,split,rejected
-aka2026teoana,2026-09-27T22:03:35.27Z,3.12,reviewed,aka2026teocxy,1.97,reviewed,manual,scolv:djgossett,earthquake,167.3,1526.2,66.0,31,17.93,5.0,0.26,0.39,14,0,distinct,both reviewed
-aka2026teocxy,2026-09-27T22:06:22.57Z,1.97,reviewed,aka2026teoffn,3.55,reviewed,manual,scolv:djgossett,earthquake,159.4,1621.4,-92.8,30,25.24,-19.39,0.41,0.26,29,0,distinct,both reviewed
-aka2026tetyzu,2026-09-28T01:01:45.19Z,1.06,reviewed,aka2026tetzyx,5.64,rejected,automatic,scanloc_state:AEC,not existing,67.2,589.4,100.3,6,130.47,130.12,0.67,0.46,0,0,distinct,rejected
-aka2026tetyzu,2026-09-28T01:01:45.19Z,1.06,reviewed,aka2026teuaqx,3.09,reviewed,manual,scolv:odsimonds,earthquake,114.2,213.0,133.3,154,103.53,101.61,0.78,0.46,0,0,distinct,both reviewed
-aka2026tetyzu,2026-09-28T01:01:45.19Z,1.06,reviewed,aka2026teubol,2.44,rejected,automatic,scolv:odsimonds,not existing,177.8,476.9,5.3,6,120.8,120.71,1.1,0.46,0,0,distinct,rejected
-aka2026teuaqx,2026-09-28T01:03:39.34Z,3.09,reviewed,aka2026tetzyx,5.64,rejected,automatic,scanloc_state:AEC,not existing,-46.9,697.2,-32.9,6,28.53,23.24,0.67,0.78,0,0,distinct,rejected
-aka2026teuaqx,2026-09-28T01:03:39.34Z,3.09,reviewed,aka2026teubol,2.44,rejected,automatic,scolv:odsimonds,not existing,63.6,266.5,-128.0,6,33.12,32.9,1.1,0.78,0,0,distinct,rejected
-aka2026teucga,2026-09-28T01:07:21.69Z,2.0,reviewed,aka2026teubol,2.44,rejected,automatic,scolv:odsimonds,not existing,-158.7,62.0,-55.3,6,164.96,-164.95,1.1,0.52,6,0,distinct,rejected
-aka2026texejf,2026-09-28T02:39:52.92Z,2.05,reviewed,aka2026texhvs,1.89,reviewed,manual,scolv:odsimonds,earthquake,123.9,183.6,-59.0,21,109.47,109.05,0.39,0.34,0,0,distinct,both reviewed
-aka2026texhvs,2026-09-28T02:41:56.84Z,1.89,reviewed,aka2026texivg,1.44,reviewed,manual,scolv:odsimonds,earthquake,68.1,169.7,42.2,10,55.03,54.87,0.11,0.39,0,0,distinct,both reviewed
-aka2026teynqk,2026-09-28T03:18:36.30Z,1.85,reviewed,aka2026teynpj,1.85,reviewed,manual,scolv:odsimonds,earthquake,169.5,220.1,76.8,29,154.67,154.27,0.28,0.84,0,0,distinct,both reviewed
-aka2026teynpj,2026-09-28T03:21:25.77Z,1.85,reviewed,aka2026teyrxj,2.07,reviewed,manual,scolv:odsimonds,earthquake,126.2,176.3,-59.9,48,121.53,120.73,0.77,0.28,0,0,distinct,both reviewed
-aka2026teyrxj,2026-09-28T03:23:31.96Z,2.07,reviewed,aka2026teytso,2.12,reviewed,manual,scolv:odsimonds,earthquake,125.4,264.3,105.5,15,107.39,106.66,0.35,0.77,0,0,distinct,both reviewed
-aka2026tezcrz,2026-09-28T03:35:57.61Z,1.4,reviewed,aka2026tezbsd,1.9,rejected,automatic,scanloc_state:AEC,not existing,-68.9,250.3,-7.5,5,90.07,-89.79,1.21,0.71,5,0,distinct,rejected
-aka2026tezzsl,2026-09-28T04:02:49.71Z,1.35,reviewed,aka2026tezwon,,rejected,automatic,scautoloc_global:AEC,not existing,-49.2,200.0,742.8,19,11.11,0.36,33.06,0.31,8,0,ambiguous,rejected
-aka2026tezzsl,2026-09-28T04:02:49.71Z,1.35,reviewed,aka2026tezvbk,2.52,rejected,automatic,scolv:odsimonds,not existing,25.6,2267.9,-2.2,7,239.25,-239.25,0.39,0.31,7,0,distinct,rejected
-aka2026tfcwab,2026-09-28T05:28:10.56Z,2.29,reviewed,aka2026tfcxaf,2.1,reviewed,manual,scolv:odsimonds,earthquake,72.2,302.5,-53.3,22,62.91,61.7,0.52,0.57,0,0,distinct,both reviewed
-aka2026tfdfhc,2026-09-28T05:38:53.40Z,2.77,reviewed,aka2026tfdgpz,2.09,rejected,automatic,scanloc_state:AEC,not existing,94.2,385.8,-147.5,9,53.32,52.58,0.82,0.52,0,0,distinct,rejected
-aka2026tfhmir,2026-09-28T07:47:17.93Z,2.69,reviewed,aka2026tfhkaw,0.6,rejected,automatic,scanloc_state:AEC,not existing,-179.0,1906.3,-14.8,7,385.47,-356.73,1.33,0.37,6,0,distinct,rejected
-aka2026tfkovw,2026-09-28T09:19:47.25Z,1.57,preliminary,aka2026tfkqty,2.02,rejected,automatic,scanloc_state:AEC,not existing,134.5,145.4,15.3,7,126.24,126.12,1.01,1.06,0,0,distinct,rejected
-aka2026tfpvcg,2026-09-28T11:56:57.37Z,2.01,reviewed,aka2026tfpwrc,1.39,reviewed,manual,scolv:odsimonds,earthquake,108.5,1.1,-0.5,21,108.49,108.49,0.25,0.38,0,0,distinct,both reviewed
-aka2026tfukyq,2026-09-28T14:14:51.75Z,1.29,reviewed,aka2026tfumbw,1.89,reviewed,manual,scolv:odsimonds,earthquake,98.2,2050.5,-51.8,24,118.97,-117.55,0.78,0.35,24,0,distinct,both reviewed
-aka2026tfuskf,2026-09-28T14:24:47.90Z,1.02,reviewed,aka2026tfuuvy,2.06,reviewed,manual,scolv:odsimonds,earthquake,105.6,977.8,-18.9,14,21.44,17.93,0.69,0.14,1,0,distinct,both reviewed
-aka2026tfuuvy,2026-09-28T14:26:33.48Z,2.06,reviewed,aka2026tfuwjf,1.74,reviewed,manual,scolv:odsimonds,earthquake,105.9,377.9,38.8,15,67.83,67.48,0.34,0.69,0,0,distinct,both reviewed
-aka2026tfuwjf,2026-09-28T14:28:19.43Z,1.74,reviewed,aka2026tfuxum,2.53,reviewed,manual,scolv:odsimonds,earthquake,100.6,1373.5,-29.5,11,52.26,-50.39,0.26,0.34,11,0,distinct,both reviewed
-aka2026tfwcav,2026-09-28T15:04:51.50Z,2.23,reviewed,aka2026tfwenq,1.65,rejected,automatic,scanloc_state:AEC,not existing,174.0,327.2,114.3,7,155.95,155.81,0.41,0.93,0,0,distinct,rejected
-aka2026tgbbtz,2026-09-28T17:34:30.46Z,2.18,reviewed,aka2026tgbcma,2.81,reviewed,manual,scolv:odsimonds,earthquake,36.0,1447.2,59.6,111,110.76,-104.94,0.61,0.26,111,0,distinct,both reviewed
-aka2026tgbuia,2026-09-28T17:55:53.28Z,2.67,reviewed,aka2026tgbunv,2.64,reviewed,manual,scolv:odsimonds,earthquake,16.0,1680.7,-31.4,12,174.43,-174.41,0.42,0.6,12,0,distinct,both reviewed
-aka2026tgcpxx,2026-09-28T18:20:48.17Z,1.99,reviewed,aka2026tgcpwh,5.01,rejected,automatic,scolv:odsimonds,not existing,2.9,7583.0,11.0,42,572.23,570.83,0.36,0.42,0,0,distinct,rejected
-aka2026tgcpxx,2026-09-28T18:20:48.17Z,1.99,reviewed,aka2026tgcrze,2.25,reviewed,manual,scolv:odsimonds,earthquake,143.2,41.4,11.2,55,141.66,141.63,0.56,0.42,0,0,distinct,both reviewed
-aka2026tgcpxx,2026-09-28T18:20:48.17Z,1.99,reviewed,aka2026tgcsco,2.36,reviewed,manual,scolv:odsimonds,earthquake,152.1,1878.1,-11.9,21,61.44,-60.67,0.3,0.42,21,0,distinct,both reviewed
-aka2026tgcrze,2026-09-28T18:23:11.39Z,2.25,reviewed,aka2026tgcpwh,5.01,rejected,automatic,scolv:odsimonds,not existing,-140.3,7565.1,-0.1,42,432.97,431.16,0.36,0.56,0,0,distinct,rejected
-aka2026tgcrze,2026-09-28T18:23:11.39Z,2.25,reviewed,aka2026tgcsco,2.36,reviewed,manual,scolv:odsimonds,earthquake,8.9,1881.0,-23.1,21,203.72,-203.5,0.3,0.56,21,0,distinct,both reviewed
-aka2026tgcsco,2026-09-28T18:23:20.27Z,2.36,reviewed,aka2026tgcpwh,5.01,rejected,automatic,scolv:odsimonds,not existing,-149.2,5977.5,22.9,39,238.06,237.03,0.36,0.3,0,0,distinct,rejected
-aka2026tgdgrz,2026-09-28T18:40:08.95Z,1.81,reviewed,aka2026tgdenq,1.82,rejected,automatic,scanloc_state:AEC,not existing,-149.3,90.7,-58.6,6,157.23,-157.16,0.31,0.31,6,0,distinct,rejected
-aka2026tgidxu,2026-09-28T21:06:53.44Z,1.63,reviewed,aka2026tgiezl,1.83,reviewed,manual,scolv:odsimonds,earthquake,76.9,384.9,-36.7,38,45.85,43.88,0.58,0.28,0,0,distinct,both reviewed
-aka2026tgiezl,2026-09-28T21:08:10.34Z,1.83,reviewed,aka2026tgihdd,1.68,reviewed,manual,scolv:odsimonds,earthquake,146.1,408.8,72.0,26,121.08,120.46,0.21,0.58,0,0,distinct,both reviewed
-aka2026tgihdd,2026-09-28T21:10:36.44Z,1.68,reviewed,aka2026tgijiv,1.78,reviewed,manual,scolv:odsimonds,earthquake,152.5,437.8,-69.6,32,114.22,113.7,0.34,0.21,0,0,distinct,both reviewed
-aka2026tgijiv,2026-09-28T21:13:08.96Z,1.78,reviewed,aka2026tgikit,0.65,reviewed,manual,scolv:odsimonds,earthquake,68.6,385.4,-44.3,6,19.77,19.73,0.15,0.34,0,0,distinct,both reviewed
-aka2026tgmzgs,2026-09-28T23:31:27.52Z,2.04,reviewed,aka2026tgnbgw,2.12,rejected,automatic,scanloc_state:AEC,not existing,136.3,1255.2,200.1,7,24.76,21.32,0.74,0.3,0,0,distinct,rejected
-aka2026tgncwg,2026-09-28T23:35:36.97Z,1.61,reviewed,aka2026tgnbgw,2.12,rejected,automatic,scanloc_state:AEC,not existing,-113.2,532.2,197.6,7,135.8,-135.15,0.74,0.33,7,0,distinct,rejected
-aka2026tgpkkt,2026-09-29T00:44:16.77Z,2.88,reviewed,aka2026tgpkof,2.19,reviewed,manual,scolv:abakken,earthquake,9.8,768.6,-3.1,27,73.83,-73.35,0.61,0.43,27,0,distinct,both reviewed
-aka2026thbxjg,2026-09-29T06:59:03.17Z,1.49,reviewed,aka2026thbvoj,,rejected,automatic,scautoloc_global:AEC,not existing,-124.8,686.2,742.1,12,109.74,-107.15,34.18,1.0,12,0,distinct,rejected
-aka2026thbxjg,2026-09-29T06:59:03.17Z,1.49,reviewed,aka2026thbwzf,1.06,rejected,manual,scolv:abakken,not existing,-28.1,905.2,10.0,9,134.65,-134.4,1.23,1.0,9,0,distinct,rejected
-aka2026thbxjg,2026-09-29T06:59:03.17Z,1.49,reviewed,aka2026thbzin,2.13,reviewed,manual,scolv:abakken,earthquake,138.5,858.3,24.6,64,63.64,56.59,0.74,1.0,0,0,distinct,both reviewed
-aka2026thbzin,2026-09-29T07:01:21.64Z,2.13,reviewed,aka2026thbwzf,1.06,rejected,manual,scolv:abakken,not existing,-166.5,147.7,-14.6,9,178.53,-178.42,1.23,0.74,9,0,distinct,rejected
-aka2026thcdom,2026-09-29T07:06:13.33Z,2.66,reviewed,aka2026thcdqs,1.36,rejected,automatic,scolv:abakken,not existing,5.4,2068.8,-7.2,7,234.48,-234.44,0.35,0.34,7,0,distinct,rejected
-aka2026thcdom,2026-09-29T07:06:13.33Z,2.66,reviewed,aka2026thcern,1.76,reviewed,manual,scolv:abakken,earthquake,75.9,1017.1,-19.8,15,48.15,-47.5,0.23,0.34,15,0,distinct,both reviewed
-aka2026thcdom,2026-09-29T07:06:13.33Z,2.66,reviewed,aka2026thcfup,1.83,reviewed,manual,scolv:abakken,earthquake,153.9,2645.9,-32.7,17,127.54,-127.01,0.89,0.34,17,0,distinct,both reviewed
-aka2026thcern,2026-09-29T07:07:29.23Z,1.76,reviewed,aka2026thcdqs,1.36,rejected,automatic,scolv:abakken,not existing,-70.5,1151.8,12.6,7,204.72,-204.63,0.35,0.23,7,0,distinct,rejected
-aka2026thcern,2026-09-29T07:07:29.23Z,1.76,reviewed,aka2026thcfup,1.83,reviewed,manual,scolv:abakken,earthquake,78.0,1675.2,-13.0,17,106.92,-106.14,0.89,0.23,17,0,distinct,both reviewed
-aka2026thcern,2026-09-29T07:07:29.23Z,1.76,reviewed,aka2026thcgpn,2.03,reviewed,manual,scolv:abakken,earthquake,133.7,1320.7,-12.1,39,18.27,-4.09,0.68,0.23,23,0,distinct,both reviewed
-aka2026thcfup,2026-09-29T07:08:47.18Z,1.83,reviewed,aka2026thcdqs,1.36,rejected,automatic,scolv:abakken,not existing,-148.5,609.7,25.6,7,223.94,-223.94,0.35,0.89,7,0,distinct,rejected
-aka2026thcfup,2026-09-29T07:08:47.18Z,1.83,reviewed,aka2026thcgpn,2.03,reviewed,manual,scolv:abakken,earthquake,55.7,569.9,0.9,39,22.48,6.46,0.68,0.89,18,0,distinct,both reviewed
-aka2026thcpft,2026-09-29T07:19:41.34Z,1.65,reviewed,aka2026thcrlf,1.81,reviewed,manual,scolv:abakken,earthquake,156.3,185.2,-56.4,40,146.41,145.93,0.66,0.32,0,0,distinct,both reviewed
-aka2026thdgem,2026-09-29T07:39:12.21Z,1.88,reviewed,aka2026thdgbx,2.43,rejected,automatic,scanloc_state:AEC,not existing,-6.6,964.8,-58.7,7,120.52,-120.48,1.11,0.22,7,0,distinct,rejected
-aka2026thdgem,2026-09-29T07:39:12.21Z,1.88,reviewed,aka2026thdhig,2.11,reviewed,manual,scolv:abakken,earthquake,64.0,1622.6,178.4,13,114.58,-114.41,0.79,0.22,13,0,distinct,both reviewed
-aka2026thdhig,2026-09-29T07:40:16.23Z,2.11,reviewed,aka2026thdgbx,2.43,rejected,automatic,scanloc_state:AEC,not existing,-70.6,706.4,-237.1,7,118.95,-110.01,1.11,0.79,6,0,distinct,rejected
-aka2026thecye,2026-09-29T08:05:26.60Z,1.58,reviewed,aka2026thedql,1.69,reviewed,manual,scolv:abakken,earthquake,49.8,1915.2,35.4,12,173.89,-173.72,0.42,0.21,12,0,distinct,both reviewed
-aka2026themvs,2026-09-29T08:16:52.26Z,1.94,reviewed,aka2026thenke,2.61,reviewed,manual,scolv:abakken,earthquake,55.9,1663.5,47.6,43,128.53,-126.02,0.53,0.33,43,0,distinct,both reviewed
-aka2026themvs,2026-09-29T08:16:52.26Z,1.94,reviewed,aka2026thenwt,2.34,reviewed,manual,scolv:abakken,earthquake,71.5,1145.1,11.8,10,57.74,-57.19,0.33,0.33,10,0,distinct,both reviewed
-aka2026themvs,2026-09-29T08:16:52.26Z,1.94,reviewed,aka2026thepgr,1.97,reviewed,manual,scolv:abakken,earthquake,168.6,1983.8,70.2,31,56.22,-54.06,0.7,0.33,30,0,distinct,both reviewed
-aka2026thenke,2026-09-29T08:17:48.19Z,2.61,reviewed,aka2026thenwt,2.34,reviewed,manual,scolv:abakken,earthquake,15.6,572.5,-35.9,10,41.23,-40.97,0.33,0.53,10,0,distinct,both reviewed
-aka2026thenke,2026-09-29T08:17:48.19Z,2.61,reviewed,aka2026thepgr,1.97,reviewed,manual,scolv:abakken,earthquake,112.7,517.0,22.5,31,75.1,73.1,0.7,0.53,0,0,distinct,both reviewed
-aka2026thenwt,2026-09-29T08:18:03.79Z,2.34,reviewed,aka2026thepgr,1.97,reviewed,manual,scolv:abakken,earthquake,97.1,1031.2,58.4,31,19.39,-8.51,0.7,0.33,21,0,distinct,both reviewed
-aka2026thepgr,2026-09-29T08:19:40.91Z,1.97,reviewed,aka2026therkh,4.65,confirmed,automatic,scanloc_global_assoc:AEC,,147.4,7000.2,13.6,12,668.24,656.89,0.77,0.7,0,0,distinct,
-aka2026thfljq,2026-09-29T08:45:18.74Z,1.78,reviewed,aka2026thfmdb,1.84,reviewed,manual,scolv:abakken,earthquake,43.4,669.3,-53.1,13,18.45,-6.74,0.7,0.46,7,0,distinct,both reviewed
-aka2026thisbh,2026-09-29T10:22:49.40Z,1.83,reviewed,aka2026thitnz,3.86,preliminary,manual,scolv:afozkos,earthquake,104.8,1033.2,-50.2,197,142.28,105.82,1.13,0.38,47,0,distinct,both reviewed
-aka2026thitnz,2026-09-29T10:24:34.20Z,3.86,preliminary,aka2026thiuub,2.64,rejected,automatic,scolv:abakken,not existing,88.9,720.2,63.3,55,9.17,1.29,1.05,1.13,1,0,distinct,rejected
-aka2026thitnz,2026-09-29T10:24:34.20Z,3.86,preliminary,aka2026thiula,2.18,rejected,automatic,scanloc_state:AEC,not existing,119.8,965.6,31.3,11,1.34,0.99,0.58,1.13,0,0,split,rejected
-aka2026thlgth,2026-09-29T11:39:45.33Z,1.41,reviewed,aka2026thlefa,4.71,rejected,automatic,scautoloc_global:AEC,,-179.4,2842.5,8.8,9,156.18,10.86,0.86,0.75,3,0,distinct,rejected
-aka2026thrafk,2026-09-29T14:32:08.19Z,1.97,reviewed,aka2026thrbbu,1.75,reviewed,manual,scolv:abakken,earthquake,59.7,2583.7,-70.3,6,211.9,-210.96,0.8,0.16,6,0,distinct,both reviewed
-aka2026thrhkz,2026-09-29T14:40:27.58Z,1.37,reviewed,aka2026thrjxp,1.87,reviewed,manual,scolv:abakken,earthquake,172.0,1462.9,13.7,9,11.19,-4.54,0.17,0.4,6,0,distinct,both reviewed
-aka2026thrjxp,2026-09-29T14:43:19.63Z,1.87,reviewed,aka2026thrlmk,2.05,reviewed,manual,scolv:abakken,earthquake,111.7,1746.3,113.2,40,85.1,-84.19,0.6,0.17,40,0,distinct,both reviewed
-aka2026thszph,2026-09-29T15:31:33.73Z,2.54,reviewed,aka2026thtarl,1.76,reviewed,manual,scolv:abakken,earthquake,64.9,1649.0,-53.5,7,100.83,-98.5,0.72,0.44,7,0,distinct,both reviewed
-aka2026thubtz,2026-09-29T16:03:54.21Z,1.44,reviewed,aka2026thuddl,2.76,reviewed,manual,scolv:abakken,earthquake,92.3,2246.9,-20.8,27,152.28,-151.9,0.43,0.36,27,0,distinct,both reviewed
-aka2026thuddl,2026-09-29T16:05:26.52Z,2.76,reviewed,aka2026thufkr,2.02,rejected,automatic,scanloc_state:AEC,not existing,160.6,2161.6,-9.2,6,90.53,-89.77,0.78,0.43,6,0,distinct,rejected
-aka2026thxhjc,2026-09-29T17:40:06.36Z,2.66,reviewed,aka2026thxgmu,0.85,rejected,automatic,scanloc_state:AEC,not existing,-48.1,1506.6,-154.5,6,224.1,-224.09,0.21,0.25,6,0,distinct,rejected
-aka2026thxzev,2026-09-29T18:00:51.77Z,1.71,reviewed,aka2026thxzvi,2.06,reviewed,manual,scolv:abakken,earthquake,44.1,2099.5,4.8,10,200.72,-200.6,0.63,0.46,10,0,distinct,both reviewed
-aka2026thykim,2026-09-29T18:13:46.33Z,2.03,reviewed,aka2026thylub,2.19,reviewed,manual,scolv:abakken,earthquake,95.0,263.4,21.4,55,80.82,78.96,0.72,0.31,0,0,distinct,both reviewed
-aka2026thzmss,2026-09-29T18:48:33.59Z,2.76,reviewed,aka2026thzpuw,1.4,reviewed,manual,scolv:abakken,earthquake,86.2,2274.9,-3.8,15,176.13,-175.96,0.66,0.79,15,0,distinct,both reviewed
-aka2026tidmbo,2026-09-29T20:45:38.75Z,1.31,reviewed,aka2026tidoms,1.05,reviewed,manual,scolv:abakken,ice quake,166.3,192.8,-65.0,9,146.42,146.35,0.53,0.32,0,0,distinct,both reviewed
-aka2026tiefdx,2026-09-29T21:07:40.72Z,1.69,reviewed,aka2026tiegwo,2.71,rejected,automatic,scanloc_state:AEC,not existing,116.4,407.8,115.3,7,149.17,149.17,0.32,0.36,0,0,distinct,rejected
-aka2026tieiso,2026-09-29T21:11:47.84Z,2.49,reviewed,aka2026tiegwo,2.71,rejected,automatic,scanloc_state:AEC,not existing,-130.7,1358.6,-40.8,7,270.08,-270.07,0.32,0.24,7,0,distinct,rejected
-aka2026tigzew,2026-09-29T22:30:30.82Z,2.14,reviewed,aka2026tigxxy,1.44,rejected,automatic,scanloc_state:AEC,not existing,-73.9,1238.7,-215.8,6,214.25,-214.13,0.7,0.39,6,0,distinct,rejected
-aka2026tihycs,2026-09-29T22:59:31.23Z,1.95,reviewed,aka2026tiiart,1.28,reviewed,manual,scolv:abakken,earthquake,176.2,1210.9,-2.3,14,33.17,31.87,0.45,0.41,0,0,distinct,both reviewed
-aka2026tiiisz,2026-09-29T23:11:47.52Z,1.74,reviewed,aka2026tiikly,1.64,reviewed,manual,scolv:abakken,earthquake,149.0,178.5,-5.1,29,139.41,139.13,0.5,0.18,0,0,distinct,both reviewed
-aka2026tikfou,2026-09-30T00:07:16.53Z,2.32,reviewed,aka2026tikgds,1.87,reviewed,manual,scolv:djgossett,earthquake,83.6,1184.4,96.5,24,49.37,-47.71,0.43,1.14,24,0,distinct,both reviewed
-aka2026tikrme,2026-09-30T00:21:47.04Z,1.64,reviewed,aka2026tikstr,1.53,rejected,manual,scolv:djgossett,not existing,90.4,652.7,-17.4,7,17.32,15.1,0.35,0.8,0,0,distinct,rejected
-aka2026tilpqd,2026-09-30T00:49:31.73Z,1.96,reviewed,aka2026tilnia,2.11,rejected,automatic,scanloc_state:AEC,,-153.3,199.4,-120.1,6,161.65,-161.62,0.17,0.48,6,0,distinct,rejected
-aka2026tiomyi,2026-09-30T02:16:29.86Z,1.49,reviewed,aka2026tiopjb,2.26,reviewed,manual,scolv:djgossett,earthquake,167.2,984.4,13.7,7,85.91,80.74,0.43,0.73,0,0,distinct,both reviewed
-aka2026tiowjc,2026-09-30T02:27:22.67Z,2.41,reviewed,aka2026tiougm,1.98,rejected,manual,scolv:djgossett,not existing,-146.5,8.0,-1.3,8,145.53,-145.53,0.64,0.8,8,0,distinct,rejected
-aka2026tiowjc,2026-09-30T02:27:22.67Z,2.41,reviewed,aka2026tiowpb,2.28,reviewed,manual,scolv:djgossett,earthquake,11.4,1010.7,91.6,26,99.91,-99.27,0.36,0.8,26,0,distinct,both reviewed
-aka2026tiowpb,2026-09-30T02:27:34.03Z,2.28,reviewed,aka2026tiougm,1.98,rejected,manual,scolv:djgossett,not existing,-157.8,1017.8,-92.9,8,262.7,-262.38,0.64,0.36,8,0,distinct,rejected
-aka2026tisemh,2026-09-30T04:06:34.58Z,1.62,reviewed,aka2026tisgfq,1.7,reviewed,manual,scolv:djgossett,earthquake,125.8,655.7,-86.3,11,73.59,71.47,1.38,0.45,0,0,distinct,both reviewed
-aka2026titsjx,2026-09-30T04:52:42.69Z,1.32,reviewed,aka2026titthq,,rejected,automatic,scanloc_state:AEC,,70.6,841.3,300.9,8,55.04,52.01,0.75,0.33,0,0,distinct,rejected
-aka2026titvla,2026-09-30T04:56:12.72Z,2.95,reviewed,aka2026titthq,,rejected,automatic,scanloc_state:AEC,,-139.4,1063.2,299.1,8,261.45,-261.44,0.75,0.47,8,0,distinct,rejected
-aka2026tiujou,2026-09-30T05:12:32.23Z,2.63,reviewed,aka2026tiuhji,,rejected,automatic,scanloc_state:AEC,,-157.6,1447.1,569.3,20,293.19,-285.67,20.73,0.43,19,0,distinct,rejected
-aka2026tiujou,2026-09-30T05:12:32.23Z,2.63,reviewed,aka2026tiuhqx,,rejected,automatic,scanloc_state:AEC,,-132.8,2059.5,620.8,6,335.99,-335.99,24.26,0.43,6,0,distinct,rejected
-aka2026tiujou,2026-09-30T05:12:32.23Z,2.63,reviewed,aka2026tiuirw,2.6,rejected,automatic,scanloc_state:AEC,,-60.3,712.4,-8.2,9,124.15,-106.95,0.39,0.43,7,0,distinct,rejected
-aka2026tiuyhu,2026-09-30T05:29:30.05Z,1.76,reviewed,aka2026tiuzhv,1.98,reviewed,manual,scolv:djgossett,earthquake,71.7,654.4,56.7,34,22.47,11.13,0.43,0.78,8,0,distinct,both reviewed
-aka2026tiwizv,2026-09-30T06:11:50.97Z,1.23,reviewed,aka2026tiwhgh,2.38,rejected,automatic,scanloc_state:AEC,,-116.5,527.3,-39.9,7,133.87,-133.86,1.08,0.38,7,0,distinct,rejected
-aka2026tixbgl,2026-09-30T06:32:54.71Z,1.13,reviewed,aka2026tixcfs,1.98,reviewed,manual,scolv:djgossett,earthquake,67.0,488.5,-10.0,31,26.77,21.87,0.49,0.39,0,0,distinct,both reviewed
-aka2026tixgvf,2026-09-30T06:39:18.96Z,1.41,reviewed,aka2026tixlym,,rejected,automatic,scanloc_state:AEC,,114.0,2131.9,-97.3,14,355.7,355.62,1.45,0.29,0,0,distinct,rejected
-aka2026tixsma,2026-09-30T06:52:25.71Z,2.45,reviewed,aka2026tixsxk,,rejected,automatic,scanloc_state:AEC,,49.8,1780.8,225.6,6,85.36,81.05,0.73,0.39,0,0,distinct,rejected
-aka2026tixuxt,2026-09-30T06:55:35.55Z,1.46,reviewed,aka2026tixsxk,,rejected,automatic,scanloc_state:AEC,,-140.0,1323.5,234.5,6,60.09,-53.95,0.73,0.61,5,0,distinct,rejected
-aka2026tixztw,2026-09-30T07:01:10.50Z,1.59,reviewed,aka2026tixztd,1.94,rejected,automatic,scanloc_state:AEC,,-3.6,957.0,-4.3,7,103.26,-102.18,0.62,1.49,7,0,distinct,rejected
-aka2026tiygwf,2026-09-30T07:10:46.12Z,1.45,reviewed,aka2026tiykct,2.3,reviewed,manual,scolv:djgossett,earthquake,140.7,1390.9,77.6,28,19.25,-15.81,0.33,0.46,27,0,distinct,both reviewed
-aka2026tizcep,2026-09-30T07:33:55.86Z,0.93,reviewed,aka2026tizdpk,1.66,reviewed,manual,scolv:djgossett,earthquake,99.3,266.5,49.2,29,79.35,78.53,0.49,0.2,0,0,distinct,both reviewed
-aka2026tjaexe,2026-09-30T08:07:03.47Z,1.7,reviewed,aka2026tjadqm,1.46,rejected,automatic,scanloc_state:AEC,,-86.8,473.5,3.7,6,133.27,-133.19,0.39,0.73,6,0,distinct,rejected
-aka2026tjaexe,2026-09-30T08:07:03.47Z,1.7,reviewed,aka2026tjagfl,1.4,reviewed,manual,scolv:djgossett,earthquake,80.4,359.9,15.9,20,43.65,42.39,0.48,0.73,0,0,distinct,both reviewed
-aka2026tjagfl,2026-09-30T08:08:23.85Z,1.4,reviewed,aka2026tjadqm,1.46,rejected,automatic,scanloc_state:AEC,,-167.2,389.3,-12.2,6,210.32,-210.31,0.39,0.48,6,0,distinct,rejected
-aka2026tjamrr,2026-09-30T08:16:02.49Z,1.59,reviewed,aka2026tjapcg,5.11,confirmed,automatic,scanloc_global_assoc:AEC,,-38.8,8657.0,-31.6,53,609.8,608.14,0.43,0.32,0,0,distinct,
-aka2026tjamrr,2026-09-30T08:16:02.49Z,1.59,reviewed,aka2026tjaoql,2.26,reviewed,manual,scolv:djgossett,earthquake,135.5,407.9,-23.6,17,120.83,118.2,0.69,0.32,0,0,distinct,both reviewed
-aka2026tjaoql,2026-09-30T08:18:17.98Z,2.26,reviewed,aka2026tjapcg,5.11,confirmed,automatic,scanloc_global_assoc:AEC,,-174.3,8277.3,-8.0,53,441.77,439.76,0.43,0.69,0,0,distinct,
-aka2026tjcgyk,2026-09-30T09:09:23.69Z,0.83,reviewed,aka2026tjcikn,2.11,rejected,manual,scolv:djgossett,not existing,96.9,1777.0,149.5,9,98.39,-98.28,0.27,0.36,9,0,distinct,rejected
-aka2026tjddvt,2026-09-30T09:35:48.29Z,1.58,reviewed,aka2026tjdfed,1.93,reviewed,manual,scolv:djgossett,earthquake,93.0,49.5,-17.6,33,92.4,92.38,0.42,0.5,0,0,distinct,both reviewed
-aka2026tjduau,2026-09-30T09:54:33.58Z,1.49,reviewed,aka2026tjdvsn,0.92,reviewed,manual,scolv:djgossett,earthquake,111.3,115.6,-25.5,13,102.3,102.25,0.23,0.45,0,0,distinct,both reviewed
-aka2026tjfhrd,2026-09-30T10:40:09.49Z,1.74,reviewed,aka2026tjfkdc,1.69,reviewed,manual,scolv:djgossett,earthquake,171.8,1011.5,4.2,5,69.87,66.14,0.76,0.84,0,0,distinct,both reviewed
-aka2026tjgggz,2026-09-30T11:08:34.01Z,2.31,reviewed,aka2026tjggts,,rejected,automatic,scanloc_state:AEC,,38.5,658.2,313.9,9,27.57,23.17,1.95,0.7,1,0,distinct,rejected
-aka2026tjikvn,2026-09-30T12:13:34.59Z,2.73,reviewed,aka2026tjinaz,2.49,reviewed,manual,scolv:djgossett,earthquake,167.2,449.6,3.3,15,117.76,117.51,0.28,0.57,0,0,distinct,both reviewed
-aka2026tjmimu,2026-09-30T14:11:03.89Z,1.56,reviewed,aka2026tjmgha,1.41,rejected,automatic,scanloc_state:AEC,not existing,-95.6,82.1,27.6,9,98.87,-98.78,1.08,0.37,9,0,distinct,rejected
-aka2026tjnpfk,2026-09-30T14:48:50.17Z,1.8,reviewed,aka2026tjnpge,2.92,reported,manual,scolv:djgossett,earthquake,-14.5,577.6,124.1,20,44.06,-36.33,0.59,0.77,19,0,distinct,
-aka2026tjnpfk,2026-09-30T14:48:50.17Z,1.8,reviewed,aka2026tjnqlh,2.89,reviewed,manual,scolv:djgossett,earthquake,137.6,1960.3,186.3,34,60.52,-50.74,0.5,0.77,31,0,distinct,both reviewed
-aka2026tjnqlh,2026-09-30T14:51:07.74Z,2.89,reviewed,aka2026tjnpge,2.92,reported,manual,scolv:djgossett,earthquake,-152.1,2313.3,-62.3,20,330.53,-329.65,0.59,0.5,20,0,distinct,
-aka2026tjpksh,2026-09-30T15:43:33.95Z,2.7,reviewed,aka2026tjplbb,0.6,reviewed,manual,scolv:djgossett,earthquake,22.9,1437.2,-45.4,13,149.76,-149.73,0.25,0.25,13,0,distinct,both reviewed
-aka2026tjqsbr,2026-09-30T16:22:02.95Z,1.75,reviewed,aka2026tjqtce,1.4,reviewed,manual,scolv:djgossett,earthquake,94.5,88.1,16.3,20,86.62,86.52,0.27,0.61,0,0,distinct,both reviewed
-aka2026tjqtce,2026-09-30T16:23:37.48Z,1.4,reviewed,aka2026tjquoj,1.45,reviewed,manual,scolv:djgossett,earthquake,123.3,568.2,-7.7,12,68.15,67.74,0.41,0.27,0,0,distinct,both reviewed
-aka2026tjroze,2026-09-30T16:48:26.96Z,1.49,reviewed,aka2026tjrqmh,1.72,reviewed,manual,scolv:djgossett,earthquake,108.7,303.3,-77.9,20,98.46,97.29,0.5,0.22,0,0,distinct,both reviewed
-aka2026tjtyjz,2026-09-30T17:59:16.95Z,1.41,reviewed,aka2026tjtzvm,2.45,reviewed,manual,scolv:djgossett,earthquake,99.8,590.9,-10.4,14,87.01,80.42,0.74,0.73,0,0,distinct,both reviewed
-aka2026tjumzo,2026-09-30T18:16:07.78Z,1.31,reviewed,aka2026tjuoem,2.07,reviewed,manual,scolv:djgossett,earthquake,82.2,580.0,150.7,69,63.38,45.56,0.45,0.68,0,0,distinct,both reviewed
-aka2026tjumzo,2026-09-30T18:16:07.78Z,1.31,reviewed,aka2026tjupbw,1.85,rejected,automatic,scanloc_state:AEC,,143.6,427.0,73.0,8,101.79,101.57,0.79,0.68,0,0,distinct,rejected
-aka2026tjuoem,2026-09-30T18:17:30.00Z,2.07,reviewed,aka2026tjupbw,1.85,rejected,automatic,scanloc_state:AEC,,61.4,239.7,-77.8,8,40.08,37.77,0.79,0.45,0,0,distinct,rejected
-aka2026tjvehn,2026-09-30T18:36:03.74Z,2.09,reviewed,aka2026tjvenw,4.97,rejected,automatic,scautoloc_global:AEC,,18.3,1564.3,-12.3,20,125.89,100.3,2.07,0.42,2,0,distinct,rejected
-aka2026tjvehn,2026-09-30T18:36:03.74Z,2.09,reviewed,aka2026tjvfhs,,rejected,automatic,scanloc_state:AEC,,70.8,2046.2,415.8,8,98.61,-95.47,10.17,0.42,8,0,distinct,rejected
-aka2026tjwhfb,2026-09-30T19:09:23.98Z,2.51,reviewed,aka2026tjwhtq,4.21,reviewed,manual,scolv:djgossett,earthquake,45.6,1417.0,24.5,77,130.48,31.62,0.78,0.76,42,0,distinct,both reviewed
-aka2026tjwhfb,2026-09-30T19:09:23.98Z,2.51,reviewed,aka2026tjwjdf,3.86,rejected,manual,scolv:aaholland3,not existing,82.6,1127.2,152.6,22,94.08,90.75,0.52,0.76,0,0,distinct,rejected
-aka2026tjwhtq,2026-09-30T19:10:09.54Z,4.21,reviewed,aka2026tjwjdf,3.86,rejected,manual,scolv:aaholland3,not existing,37.1,488.6,128.2,22,1.53,1.35,0.52,0.78,0,0,ambiguous,rejected
-aka2026tjwhtq,2026-09-30T19:10:09.54Z,4.21,reviewed,aka2026tjwkif,1.85,rejected,automatic,scolv:djgossett,not existing,171.5,1428.3,-51.3,6,0.95,-0.63,0.35,0.78,0,0,split,rejected
-aka2026tjxrvj,2026-09-30T19:51:37.34Z,2.94,reviewed,aka2026tjxsbn,1.22,rejected,automatic,scolv:djgossett,not existing,17.1,892.8,-71.6,6,92.98,-92.98,0.15,0.2,6,0,distinct,rejected
-aka2026tkcgnr,2026-09-30T22:08:24.39Z,3.28,reviewed,aka2026tkcfmj,1.8,rejected,manual,scolv:djgossett,not existing,-62.6,2301.6,-5.0,12,315.51,-315.2,0.83,0.78,12,0,distinct,rejected
-aka2026tkcwtp,2026-09-30T22:27:18.21Z,1.15,reviewed,aka2026tkczhe,0.72,rejected,manual,scolv:djgossett,not existing,173.4,340.2,-24.8,7,127.88,127.86,1.32,0.47,0,0,distinct,rejected
+a_evid,a_time,a_mag,a_status,b_evid,b_mag,b_status,b_mode,b_author,b_type,dt0_s,dist_km,ddepth_km,n_p,shared,rms_a,mean_a,rms_b,rms_a_own,n_early,n_on_a_s,cls,label
+aka2026sxivau,2026-09-24T00:29:50.60Z,2.5,reviewed,aka2026sxiwxz,3.04,rejected,automatic,scanloc_state:AEC,,129.9,62.3,63.2,6,0,125.57,125.56,0.26,0.17,0,0,distinct,rejected
+aka2026sxksli,2026-09-24T01:26:48.40Z,1.8,reviewed,aka2026sxksxl,3.75,reviewed,manual,scolv:djgossett,earthquake,32.5,857.5,17.1,207,0,59.38,-38.64,0.79,0.21,170,0,distinct,both reviewed
+aka2026sxlejd,2026-09-24T01:40:29.85Z,1.33,reviewed,aka2026sxldez,1.42,rejected,automatic,scanloc_state:AEC,,-77.2,291.2,52.1,6,0,106.17,-106.06,0.39,0.48,6,0,distinct,rejected
+aka2026sxlhxf,2026-09-24T01:44:44.11Z,2.1,reviewed,aka2026sxljws,1.29,rejected,manual,scolv:djgossett,not existing,130.7,538.6,-58.5,6,0,78.45,77.66,0.91,0.34,0,0,distinct,rejected
+aka2026sxltbu,2026-09-24T01:57:31.39Z,1.25,reviewed,aka2026sxlvgp,1.61,reviewed,manual,scolv:djgossett,earthquake,149.5,237.7,123.0,32,0,132.55,131.95,0.37,0.34,0,0,distinct,both reviewed
+aka2026sxlvgp,2026-09-24T02:00:00.93Z,1.61,reviewed,aka2026sxlway,1.71,rejected,automatic,scolv:djgossett,not existing,53.5,193.7,-123.7,8,0,30.87,30.65,0.67,0.37,0,0,distinct,rejected
+aka2026sxmelx,2026-09-24T02:10:32.31Z,2.02,reviewed,aka2026sxmfmt,1.69,reviewed,manual,scolv:djgossett,earthquake,79.6,558.7,-0.6,11,0,22.3,20.92,0.46,0.57,0,0,distinct,both reviewed
+aka2026sxnrco,2026-09-24T02:55:13.07Z,1.85,reviewed,aka2026sxntdt,1.71,reviewed,manual,scolv:djgossett,earthquake,141.6,605.9,49.8,13,0,68.5,68.34,0.54,0.53,0,0,distinct,both reviewed
+aka2026sxpvgj,2026-09-24T03:59:57.04Z,2.86,reviewed,aka2026sxpxox,1.97,reviewed,manual,scolv:djgossett,earthquake,162.0,85.2,0.6,17,0,155.89,155.76,1.04,0.77,0,0,distinct,both reviewed
+aka2026sxpxox,2026-09-24T04:02:39.07Z,1.97,reviewed,aka2026sxpytu,1.41,reviewed,manual,scolv:djgossett,earthquake,88.0,671.7,51.8,7,0,10.54,8.97,0.27,1.04,0,0,distinct,both reviewed
+aka2026sxqbwj,2026-09-24T04:07:36.23Z,1.41,reviewed,aka2026sxqbwt,2.25,reviewed,manual,scolv:djgossett,earthquake,0.8,900.2,55.4,43,0,93.81,-92.26,0.4,0.22,43,0,distinct,both reviewed
+aka2026sxqbwj,2026-09-24T04:07:36.23Z,1.41,reviewed,aka2026sxqdny,2.24,reviewed,manual,scolv:djgossett,earthquake,116.5,1726.3,-1.2,17,0,75.38,-74.49,0.53,0.22,17,0,distinct,both reviewed
+aka2026sxqbwt,2026-09-24T04:07:37.06Z,2.25,reviewed,aka2026sxqdny,2.24,reviewed,manual,scolv:djgossett,earthquake,115.7,840.6,-56.7,17,0,38.41,36.6,0.53,0.4,0,0,distinct,both reviewed
+aka2026sxqdny,2026-09-24T04:09:32.74Z,2.24,reviewed,aka2026sxqfpt,2.72,rejected,automatic,scanloc_state:AEC,,142.9,1607.6,-1.5,6,0,176.04,151.33,1.22,0.53,1,0,distinct,rejected
+aka2026sxqjdq,2026-09-24T04:16:00.35Z,1.49,reviewed,aka2026sxqjos,1.67,reviewed,manual,scolv:djgossett,earthquake,29.6,457.3,66.9,21,0,18.12,-16.24,0.46,0.3,20,0,distinct,both reviewed
+aka2026sxqjdq,2026-09-24T04:16:00.35Z,1.49,reviewed,aka2026sxqkqn,1.2,reviewed,manual,scolv:djgossett,earthquake,100.5,244.0,78.6,12,0,78.26,77.83,0.33,0.3,0,0,distinct,both reviewed
+aka2026sxqjos,2026-09-24T04:16:29.97Z,1.67,reviewed,aka2026sxqkqn,1.2,reviewed,manual,scolv:djgossett,earthquake,70.9,222.0,11.6,12,0,54.74,54.35,0.33,0.46,0,0,distinct,both reviewed
+aka2026sxrnsb,2026-09-24T04:51:13.85Z,1.72,reviewed,aka2026sxrotv,2.89,reviewed,manual,scolv:djgossett,earthquake,160.7,358.6,-41.2,97,0,165.46,162.64,0.63,0.36,0,0,distinct,both reviewed
+aka2026sxtqdi,2026-09-24T05:54:00.51Z,1.6,reviewed,aka2026sxtrnh,5.05,rejected,automatic,scautoloc_global:AEC,,96.5,370.9,-56.8,8,0,124.5,121.35,2.46,0.4,0,0,distinct,rejected
+aka2026sxwklz,2026-09-24T07:17:26.84Z,1.64,reviewed,aka2026sxwmcz,2.03,rejected,automatic,scanloc_state:AEC,,114.3,123.4,-68.4,7,0,124.46,124.41,1.16,0.28,0,0,distinct,rejected
+aka2026sxwopr,2026-09-24T07:22:15.91Z,3.78,reviewed,aka2026sxwmcz,2.03,rejected,automatic,scanloc_state:AEC,,-174.8,852.9,-4.1,7,0,279.43,-279.42,1.16,1.29,7,0,distinct,rejected
+aka2026sxxdfz,2026-09-24T07:39:06.79Z,2.4,reviewed,aka2026sxxewf,5.24,confirmed,automatic,scautoloc_global:AEC,,113.0,8935.0,-55.4,59,0,731.74,724.2,1.76,0.79,0,0,distinct,
+aka2026syadyo,2026-09-24T09:10:51.41Z,2.73,reviewed,aka2026syafks,1.62,rejected,automatic,scanloc_state:AEC,,42.6,815.1,-77.8,6,0,55.36,-55.34,0.73,0.42,6,0,distinct,rejected
+aka2026syadyo,2026-09-24T09:10:51.41Z,2.73,reviewed,aka2026syagos,1.78,rejected,automatic,scanloc_state:AEC,,127.5,609.6,-61.9,10,0,85.94,74.76,0.4,0.42,0,0,distinct,rejected
+aka2026sybrit,2026-09-24T09:55:04.36Z,3.21,reviewed,aka2026sybrvw,3.3,rejected,automatic,scanloc_state:AEC,,48.9,368.5,100.7,10,0,0.57,0.43,0.33,0.96,0,0,split,rejected
+aka2026sycjyr,2026-09-24T10:16:46.55Z,1.05,reviewed,aka2026syckuq,1.75,reviewed,manual,scolv:djgossett,earthquake,58.0,383.0,-7.1,14,0,27.79,25.73,0.59,0.27,0,0,distinct,both reviewed
+aka2026syhcrx,2026-09-24T12:38:19.80Z,1.9,reviewed,aka2026syhbwx,2.1,rejected,automatic,scanloc_state:AEC,,-55.9,124.7,-25.9,7,0,48.21,-47.74,1.0,0.5,7,0,distinct,rejected
+aka2026syhham,2026-09-24T12:43:19.78Z,1.64,reviewed,aka2026syhhzm,1.23,reviewed,manual,scolv:djgossett,earthquake,69.7,356.3,-4.8,21,0,33.46,32.3,0.35,0.61,0,0,distinct,both reviewed
+aka2026sykhse,2026-09-24T14:14:05.72Z,2.91,reviewed,aka2026sykhmd,1.63,rejected,automatic,scanloc_state:AEC,,-17.7,715.5,3.0,10,2,88.54,-74.98,0.63,1.27,8,0,distinct,rejected
+aka2026sykxja,2026-09-24T14:32:07.26Z,1.49,reviewed,aka2026sykywt,2.7,reviewed,manual,scolv:djgossett,earthquake,105.9,348.9,-47.3,102,0,92.42,89.2,0.86,0.39,0,0,distinct,both reviewed
+aka2026syqove,2026-09-24T17:22:11.85Z,1.56,reviewed,aka2026syqqmr,1.76,reviewed,manual,scolv:djgossett,earthquake,106.8,588.1,-13.3,11,0,48.63,47.39,0.33,0.74,0,0,distinct,both reviewed
+aka2026syrpcd,2026-09-24T17:52:17.46Z,2.69,reviewed,aka2026syroeu,4.92,rejected,automatic,scanloc_state:AEC,,-50.4,730.2,58.5,10,2,40.37,16.74,1.14,0.71,1,0,distinct,rejected
+aka2026syxshm,2026-09-24T20:56:04.07Z,1.79,reviewed,aka2026syxtmn,0.97,reviewed,manual,scolv:djgossett,earthquake,84.7,118.4,39.3,11,0,80.72,80.67,0.22,0.66,0,0,distinct,both reviewed
+aka2026szfmha,2026-09-25T00:48:50.26Z,3.31,reviewed,aka2026szfniv,1.7,rejected,automatic,scolv:abakken,not existing,85.3,795.2,-13.5,4,0,6.23,-4.44,0.36,0.64,3,0,ambiguous,rejected
+aka2026szfmha,2026-09-25T00:48:50.26Z,3.31,reviewed,aka2026szfoer,1.64,rejected,automatic,scanloc_state:AEC,not existing,146.4,1184.9,10.9,8,0,0.66,-0.55,0.3,0.64,0,0,split,rejected
+aka2026szmsvi,2026-09-25T04:26:15.38Z,3.09,reviewed,aka2026szmtvn,5.3,confirmed,automatic,scautoloc_global:AEC,,85.6,9392.5,-4.9,17,0,661.97,659.21,2.54,0.26,0,0,distinct,
+aka2026szodju,2026-09-25T05:08:43.09Z,2.07,reviewed,aka2026szoffz,3.5,preliminary,manual,scolv:afozkos,earthquake,121.8,2028.7,-27.0,27,0,107.07,-106.61,0.52,0.55,27,0,distinct,both reviewed
+aka2026szpaiq,2026-09-25T05:35:08.95Z,1.55,reviewed,aka2026szpbdv,1.59,reviewed,manual,scolv:abakken,earthquake,56.4,433.1,7.3,22,0,13.47,9.16,0.47,0.71,0,0,distinct,both reviewed
+aka2026szpedj,2026-09-25T05:39:30.94Z,1.89,reviewed,aka2026szpfmt,2.06,reviewed,manual,scolv:abakken,earthquake,94.3,681.1,11.7,25,0,35.06,32.81,0.54,0.65,0,0,distinct,both reviewed
+aka2026tabbrw,2026-09-25T11:36:33.80Z,1.74,reviewed,aka2026tabdqg,2.36,reviewed,manual,scolv:abakken,earthquake,133.2,436.9,-14.3,12,0,117.22,114.9,0.43,0.37,0,0,distinct,both reviewed
+aka2026tadcql,2026-09-25T12:37:32.90Z,3.8,preliminary,aka2026taddfn,1.97,rejected,automatic,scanloc_state:AEC,not existing,43.8,1373.0,-7.8,6,0,124.94,-124.93,0.17,1.03,6,0,distinct,rejected
+aka2026tafpkc,2026-09-25T13:52:05.85Z,2.96,reviewed,aka2026tafpkh,1.85,reviewed,manual,scolv:abakken,earthquake,15.9,1627.8,-15.2,19,0,167.32,-167.02,0.78,0.44,19,0,distinct,both reviewed
+aka2026tafpkc,2026-09-25T13:52:05.85Z,2.96,reviewed,aka2026tafqko,2.23,reviewed,manual,scolv:abakken,earthquake,71.3,1399.7,71.1,40,0,79.58,-77.09,0.47,0.44,40,0,distinct,both reviewed
+aka2026tafpkh,2026-09-25T13:52:21.74Z,1.85,reviewed,aka2026tafqko,2.23,reviewed,manual,scolv:abakken,earthquake,55.5,574.4,86.3,40,0,20.91,8.41,0.47,0.78,13,0,distinct,both reviewed
+aka2026tamcpb,2026-09-25T17:07:23.72Z,2.54,reviewed,aka2026tamedp,1.89,reviewed,manual,scolv:abakken,earthquake,109.3,360.1,44.2,32,0,79.25,78.23,0.51,0.36,0,0,distinct,both reviewed
+aka2026tamedp,2026-09-25T17:09:13.01Z,1.89,reviewed,aka2026tamgpl,1.48,reviewed,manual,scolv:abakken,earthquake,170.5,631.7,-96.0,11,0,109.0,108.65,0.49,0.51,0,0,distinct,both reviewed
+aka2026tankot,2026-09-25T17:46:38.10Z,1.73,reviewed,aka2026tanlrk,1.5,reviewed,manual,scolv:abakken,earthquake,76.3,3.8,5.7,9,0,76.18,76.18,0.73,0.44,0,0,distinct,both reviewed
+aka2026tatjbm,2026-09-25T20:44:47.69Z,2.28,reviewed,aka2026tatlio,2.14,reviewed,manual,scolv:abakken,earthquake,156.9,1167.9,7.7,14,0,24.84,23.92,0.36,0.45,0,0,distinct,both reviewed
+aka2026tatvgi,2026-09-25T20:58:51.00Z,1.78,reviewed,aka2026tatxnk,5.09,confirmed,automatic,scanloc_global_assoc:AEC,,162.6,7824.1,46.0,38,0,773.96,773.19,0.32,1.01,0,0,distinct,
+aka2026taupfj,2026-09-25T21:21:58.35Z,3.31,reviewed,aka2026tauqjb,6.48,confirmed,automatic,scanloc_global_assoc:AEC,,70.3,8505.5,17.1,131,0,653.77,651.69,1.97,0.49,0,0,distinct,
+aka2026tawoqs,2026-09-25T22:21:11.36Z,2.1,reviewed,aka2026tawqyh,2.53,reviewed,manual,scolv:abakken,earthquake,158.8,151.6,79.6,56,0,157.64,157.02,0.64,0.59,0,0,distinct,both reviewed
+aka2026tawqyh,2026-09-25T22:23:50.19Z,2.53,reviewed,aka2026tawtcn,2.68,reviewed,manual,scolv:abakken,earthquake,142.6,1074.9,93.1,18,0,62.51,51.98,0.5,0.64,0,0,distinct,both reviewed
+aka2026tawzcx,2026-09-25T22:33:17.09Z,1.89,reviewed,aka2026tawzrb,1.34,reviewed,manual,scolv:abakken,quarry blast,39.9,622.1,-5.2,13,0,35.68,-34.85,0.31,0.86,13,0,distinct,both reviewed
+aka2026tawzrb,2026-09-25T22:33:56.98Z,1.34,reviewed,aka2026taxceu,2.4,reviewed,manual,scolv:abakken,earthquake,155.6,177.1,125.5,28,0,147.98,147.03,0.5,0.31,0,0,distinct,both reviewed
+aka2026tazfxf,2026-09-25T23:41:04.68Z,1.98,reviewed,aka2026tazewm,5.64,confirmed,automatic,scanloc_global_assoc:AEC,,-77.0,10050.7,-18.7,5,0,541.13,533.16,1.84,0.51,0,0,distinct,
+aka2026tbkydj,2026-09-26T05:32:01.18Z,2.92,reviewed,aka2026tblaok,2.04,rejected,automatic,scanloc_state:AEC,not existing,163.8,866.4,-2.3,6,0,122.72,97.22,0.75,0.22,0,0,distinct,rejected
+aka2026tbpkpz,2026-09-26T07:46:18.01Z,1.96,reviewed,aka2026tbpmup,1.96,rejected,automatic,scanloc_state:AEC,not existing,150.5,260.5,0.6,6,0,142.17,141.05,0.37,0.52,0,0,distinct,rejected
+aka2026tbthkx,2026-09-26T09:42:30.86Z,1.64,reviewed,aka2026tbtimd,2.34,reviewed,manual,scolv:abakken,earthquake,75.2,203.0,51.2,53,0,75.52,73.37,0.48,0.43,0,0,distinct,both reviewed
+aka2026tbtqeh,2026-09-26T09:52:30.71Z,2.47,reviewed,aka2026tbtpru,2.75,rejected,automatic,scanloc_state:AEC,not existing,-25.5,861.5,182.4,8,0,68.43,-56.43,0.56,0.94,6,0,distinct,rejected
+aka2026tbxmml,2026-09-26T11:48:20.63Z,1.9,reviewed,aka2026tbxouj,2.18,reviewed,manual,scolv:abakken,earthquake,157.6,677.8,-55.6,17,0,104.36,103.06,0.77,0.36,0,0,distinct,both reviewed
+aka2026tcaewn,2026-09-26T13:09:31.59Z,1.83,reviewed,aka2026tcaeba,4.18,rejected,automatic,scanloc_state:AEC,not existing,-61.6,1131.9,-22.8,7,0,36.41,-7.73,1.04,0.9,2,0,distinct,rejected
+aka2026tcahsv,2026-09-26T13:12:50.20Z,2.3,reviewed,aka2026tcaisc,2.03,reviewed,manual,scolv:abakken,earthquake,66.3,363.6,-34.1,13,0,29.67,28.86,0.38,0.82,0,0,distinct,both reviewed
+aka2026tcasvt,2026-09-26T13:25:39.45Z,2.02,reviewed,aka2026tcaryy,1.94,rejected,automatic,scolv:abakken,not existing,-62.4,688.0,-11.3,6,0,126.18,-125.78,0.06,0.52,6,0,distinct,rejected
+aka2026tcezgi,2026-09-26T15:32:57.94Z,1.93,reviewed,aka2026tcfbvg,1.87,reviewed,manual,scolv:abakken,earthquake,178.0,901.3,-21.8,10,0,101.31,98.78,0.84,0.7,0,0,distinct,both reviewed
+aka2026tcfgwi,2026-09-26T15:42:17.32Z,2.44,reviewed,aka2026tcfiis,0.79,rejected,automatic,scolv:abakken,not existing,69.9,311.2,-118.3,5,0,32.68,32.56,0.31,0.55,0,0,distinct,rejected
+aka2026tcfkpt,2026-09-26T15:46:04.31Z,1.27,reviewed,aka2026tcfiis,0.79,rejected,automatic,scolv:abakken,not existing,-157.0,440.2,4.2,5,0,212.55,-212.48,0.31,0.55,5,0,distinct,rejected
+aka2026tcguzq,2026-09-26T16:27:59.18Z,1.92,reviewed,aka2026tcgvnf,1.82,reviewed,manual,scolv:abakken,earthquake,38.6,919.7,-84.9,8,0,50.98,-46.57,0.82,0.52,8,0,distinct,both reviewed
+aka2026tchabp,2026-09-26T16:33:52.06Z,1.92,reviewed,aka2026tcgzyk,5.59,confirmed,automatic,scautoloc_global:AEC,,-7.5,11666.1,-5.4,7,0,617.47,610.79,2.38,0.86,0,0,distinct,
+aka2026tchgjl,2026-09-26T16:41:08.68Z,2.01,reviewed,aka2026tchimz,3.27,reviewed,manual,scolv:abakken,earthquake,149.7,1735.6,-131.1,26,0,40.13,-37.93,0.44,0.26,26,0,distinct,both reviewed
+aka2026tcibyo,2026-09-26T17:06:07.99Z,1.94,reviewed,aka2026tcibwm,,rejected,automatic,scolv:abakken,not existing,-11.7,519.2,76.0,17,0,42.82,-33.19,1.1,0.55,14,0,distinct,rejected
+aka2026tciimr,2026-09-26T17:13:39.47Z,1.49,reviewed,aka2026tcikas,2.04,reviewed,manual,scolv:abakken,earthquake,102.4,754.6,12.5,12,0,18.32,15.01,0.37,0.23,0,0,distinct,both reviewed
+aka2026tdamgz,2026-09-27T02:17:42.07Z,1.73,reviewed,aka2026tdamcz,1.7,rejected,automatic,scanloc_state:AEC,,-10.7,569.3,-7.6,6,0,70.49,-53.24,1.17,0.32,4,0,distinct,rejected
+aka2026tdbbzi,2026-09-27T02:35:16.19Z,2.76,reviewed,aka2026tdbcvl,2.1,rejected,automatic,scanloc_state:AEC,,91.5,925.2,15.7,5,0,13.94,-13.05,1.02,0.91,5,0,distinct,rejected
+aka2026tdcmgf,2026-09-27T03:17:40.96Z,2.46,reviewed,aka2026tdcnwn,2.2,reviewed,manual,scolv:djgossett,earthquake,109.4,1205.0,-79.5,41,0,22.96,-15.3,0.96,0.74,32,0,distinct,both reviewed
+aka2026tdcmgf,2026-09-27T03:17:40.96Z,2.46,reviewed,aka2026tdcodg,2.36,reviewed,manual,scolv:djgossett,earthquake,127.2,741.1,-63.3,12,0,62.4,61.36,0.4,0.74,0,0,distinct,both reviewed
+aka2026tdcnwn,2026-09-27T03:19:30.37Z,2.2,reviewed,aka2026tdcodg,2.36,reviewed,manual,scolv:djgossett,earthquake,17.8,609.3,16.2,12,0,35.87,-27.15,0.4,0.96,11,0,distinct,both reviewed
+aka2026tdczdt,2026-09-27T03:32:30.42Z,2.0,reviewed,aka2026tddbbq,2.84,rejected,automatic,scanloc_state:AEC,,136.3,1706.5,-79.4,7,0,63.69,-63.44,0.79,0.46,7,0,distinct,rejected
+aka2026tdfwcu,2026-09-27T04:58:58.77Z,2.1,reviewed,aka2026tdfwkt,2.03,reviewed,manual,scolv:djgossett,earthquake,18.9,533.0,83.5,28,0,38.15,-35.35,0.5,0.76,27,0,distinct,both reviewed
+aka2026tdfwcu,2026-09-27T04:58:58.77Z,2.1,reviewed,aka2026tdfynt,2.04,reviewed,manual,scolv:djgossett,earthquake,168.3,422.4,43.0,33,0,127.36,126.91,0.66,0.76,0,0,distinct,both reviewed
+aka2026tdfwkt,2026-09-27T04:59:17.63Z,2.03,reviewed,aka2026tdfynt,2.04,reviewed,manual,scolv:djgossett,earthquake,149.5,143.1,-40.6,33,0,142.96,142.57,0.66,0.5,0,0,distinct,both reviewed
+aka2026tdguku,2026-09-27T05:27:22.56Z,3.6,reviewed,aka2026tdgtvg,,rejected,automatic,scolv:djgossett,not existing,26.6,1224.4,0.0,11,0,88.82,-88.15,0.62,0.67,11,0,distinct,rejected
+aka2026tdguku,2026-09-27T05:27:22.56Z,3.6,reviewed,aka2026tdgvon,2.54,reviewed,manual,scolv:djgossett,earthquake,58.1,1770.4,66.9,18,0,152.52,-152.26,0.67,0.67,18,0,distinct,both reviewed
+aka2026tdgvon,2026-09-27T05:28:20.69Z,2.54,reviewed,aka2026tdgtvg,,rejected,automatic,scolv:djgossett,not existing,-31.6,624.1,-66.9,11,0,72.33,-72.12,0.62,0.67,11,0,distinct,rejected
+aka2026tdlmve,2026-09-27T07:48:12.35Z,4.97,reviewed,aka2026tdllsj,2.34,rejected,automatic,scanloc_state:AEC,,-78.3,1986.4,90.0,6,0,295.99,-295.87,0.33,0.42,6,0,distinct,rejected
+aka2026tdmeiy,2026-09-27T08:08:24.02Z,1.84,reviewed,aka2026tdmdtr,0.75,rejected,automatic,scanloc_state:AEC,,-40.8,817.9,-13.5,9,0,140.52,-140.3,0.34,0.95,9,0,distinct,rejected
+aka2026tdmeiy,2026-09-27T08:08:24.02Z,1.84,reviewed,aka2026tdmgnl,2.62,reviewed,manual,scolv:djgossett,earthquake,150.6,2472.8,46.7,25,0,118.65,-117.05,0.26,0.95,25,0,distinct,both reviewed
+aka2026tdmgnl,2026-09-27T08:10:54.62Z,2.62,reviewed,aka2026tdmhko,1.58,reviewed,manual,scolv:djgossett,earthquake,61.0,2270.8,-60.7,14,0,195.72,-195.52,0.31,0.26,14,0,distinct,both reviewed
+aka2026tdpjia,2026-09-27T09:44:05.11Z,1.8,reviewed,aka2026tdplae,2.67,rejected,automatic,scolv:djgossett,not existing,117.2,1761.6,13.0,5,0,77.14,-76.88,0.3,0.36,5,0,distinct,rejected
+aka2026tdqxmf,2026-09-27T10:30:26.39Z,4.55,reviewed,aka2026tdqyku,3.13,rejected,automatic,scolv:djgossett,not existing,80.3,733.1,-15.9,11,6,2.73,2.54,1.0,1.19,0,0,ambiguous,rejected
+aka2026tdqxmf,2026-09-27T10:30:26.39Z,4.55,reviewed,aka2026tdralr,,rejected,automatic,scanloc_state:AEC,,108.2,898.2,342.6,26,22,1.71,1.05,1.12,1.19,0,0,split,rejected
+aka2026tdyykj,2026-09-27T14:31:21.14Z,1.64,reviewed,aka2026tdyzrj,2.35,reviewed,manual,scolv:djgossett,earthquake,85.6,371.4,8.0,15,0,61.32,60.06,1.01,0.8,0,0,distinct,both reviewed
+aka2026tdyzrj,2026-09-27T14:32:46.71Z,2.35,reviewed,aka2026tdzceh,1.28,reviewed,manual,scolv:djgossett,earthquake,175.9,215.9,89.5,18,0,159.59,159.29,0.36,1.01,0,0,distinct,both reviewed
+aka2026tebhwe,2026-09-27T15:42:14.31Z,2.68,reviewed,aka2026tebiel,2.92,reviewed,manual,scolv:djgossett,earthquake,25.1,1367.5,-0.5,54,0,99.16,-94.11,0.57,0.84,53,0,distinct,both reviewed
+aka2026teblsd,2026-09-27T15:47:18.79Z,2.84,reviewed,aka2026tebmli,1.97,reviewed,manual,scolv:djgossett,earthquake,31.2,1926.2,97.8,36,0,186.32,-172.27,0.44,0.34,35,0,distinct,both reviewed
+aka2026teblsd,2026-09-27T15:47:18.79Z,2.84,reviewed,aka2026tebohj,2.88,reviewed,manual,scolv:djgossett,earthquake,152.0,61.6,-9.8,17,0,153.44,153.32,0.66,0.34,0,0,distinct,both reviewed
+aka2026tebmli,2026-09-27T15:47:50.01Z,1.97,reviewed,aka2026tebohj,2.88,reviewed,manual,scolv:djgossett,earthquake,120.8,1973.0,-107.6,17,0,85.14,-83.59,0.66,0.44,17,0,distinct,both reviewed
+aka2026tedtqt,2026-09-27T16:55:37.22Z,2.17,reviewed,aka2026tedvrp,2.67,reviewed,manual,scolv:djgossett,earthquake,151.0,210.9,24.0,117,0,151.91,150.84,0.66,0.63,0,0,distinct,both reviewed
+aka2026tedvrp,2026-09-27T16:58:08.18Z,2.67,reviewed,aka2026tedxgn,2.33,rejected,automatic,scanloc_state:AEC,,110.6,452.7,-122.9,9,0,88.09,78.48,0.8,0.66,0,0,distinct,rejected
+aka2026tefcyi,2026-09-27T17:36:38.48Z,1.27,reviewed,aka2026tefdjw,2.01,reviewed,manual,scolv:djgossett,earthquake,23.2,726.4,-12.6,11,0,46.72,-45.04,0.81,0.28,11,0,distinct,both reviewed
+aka2026temlyl,2026-09-27T21:16:48.05Z,2.27,reviewed,aka2026temmhr,2.6,reviewed,manual,scolv:djgossett,earthquake,25.2,2110.8,82.5,86,0,190.93,-187.09,0.58,0.22,86,0,distinct,both reviewed
+aka2026tencgw,2026-09-27T21:36:20.69Z,3.47,reviewed,aka2026tencpw,2.55,rejected,automatic,scolv:afozkos,not existing,30.8,230.2,13.2,8,0,1.03,0.77,0.28,0.78,0,0,split,rejected
+aka2026teoana,2026-09-27T22:03:35.27Z,3.12,reviewed,aka2026teocxy,1.97,reviewed,manual,scolv:djgossett,earthquake,167.3,1526.2,66.0,31,0,17.93,5.0,0.26,0.39,14,0,distinct,both reviewed
+aka2026teocxy,2026-09-27T22:06:22.57Z,1.97,reviewed,aka2026teoffn,3.55,reviewed,manual,scolv:djgossett,earthquake,159.4,1621.4,-92.8,30,0,25.24,-19.39,0.41,0.26,29,0,distinct,both reviewed
+aka2026tetyzu,2026-09-28T01:01:45.19Z,1.06,reviewed,aka2026tetzyx,5.64,rejected,automatic,scanloc_state:AEC,not existing,67.2,589.4,100.3,6,0,130.47,130.12,0.67,0.46,0,0,distinct,rejected
+aka2026tetyzu,2026-09-28T01:01:45.19Z,1.06,reviewed,aka2026teuaqx,3.09,reviewed,manual,scolv:odsimonds,earthquake,114.2,213.0,133.3,154,0,103.53,101.61,0.78,0.46,0,0,distinct,both reviewed
+aka2026tetyzu,2026-09-28T01:01:45.19Z,1.06,reviewed,aka2026teubol,2.44,rejected,automatic,scolv:odsimonds,not existing,177.8,476.9,5.3,6,0,120.8,120.71,1.1,0.46,0,0,distinct,rejected
+aka2026teuaqx,2026-09-28T01:03:39.34Z,3.09,reviewed,aka2026tetzyx,5.64,rejected,automatic,scanloc_state:AEC,not existing,-46.9,697.2,-32.9,6,2,28.53,23.24,0.67,0.78,0,0,distinct,rejected
+aka2026teuaqx,2026-09-28T01:03:39.34Z,3.09,reviewed,aka2026teubol,2.44,rejected,automatic,scolv:odsimonds,not existing,63.6,266.5,-128.0,6,0,33.12,32.9,1.1,0.78,0,0,distinct,rejected
+aka2026teucga,2026-09-28T01:07:21.69Z,2.0,reviewed,aka2026teubol,2.44,rejected,automatic,scolv:odsimonds,not existing,-158.7,62.0,-55.3,6,0,164.96,-164.95,1.1,0.52,6,0,distinct,rejected
+aka2026texejf,2026-09-28T02:39:52.92Z,2.05,reviewed,aka2026texhvs,1.89,reviewed,manual,scolv:odsimonds,earthquake,123.9,183.6,-59.0,21,0,109.47,109.05,0.39,0.34,0,0,distinct,both reviewed
+aka2026texhvs,2026-09-28T02:41:56.84Z,1.89,reviewed,aka2026texivg,1.44,reviewed,manual,scolv:odsimonds,earthquake,68.1,169.7,42.2,10,0,55.03,54.87,0.11,0.39,0,0,distinct,both reviewed
+aka2026teynqk,2026-09-28T03:18:36.30Z,1.85,reviewed,aka2026teynpj,1.85,reviewed,manual,scolv:odsimonds,earthquake,169.5,220.1,76.8,29,0,154.67,154.27,0.28,0.84,0,0,distinct,both reviewed
+aka2026teynpj,2026-09-28T03:21:25.77Z,1.85,reviewed,aka2026teyrxj,2.07,reviewed,manual,scolv:odsimonds,earthquake,126.2,176.3,-59.9,48,0,121.53,120.73,0.77,0.28,0,0,distinct,both reviewed
+aka2026teyrxj,2026-09-28T03:23:31.96Z,2.07,reviewed,aka2026teytso,2.12,reviewed,manual,scolv:odsimonds,earthquake,125.4,264.3,105.5,15,0,107.39,106.66,0.35,0.77,0,0,distinct,both reviewed
+aka2026tezcrz,2026-09-28T03:35:57.61Z,1.4,reviewed,aka2026tezbsd,1.9,rejected,automatic,scanloc_state:AEC,not existing,-68.9,250.3,-7.5,5,0,90.07,-89.79,1.21,0.71,5,0,distinct,rejected
+aka2026tezzsl,2026-09-28T04:02:49.71Z,1.35,reviewed,aka2026tezwon,,rejected,automatic,scautoloc_global:AEC,not existing,-49.2,200.0,742.8,19,0,11.11,0.36,33.06,0.31,8,0,distinct,rejected
+aka2026tezzsl,2026-09-28T04:02:49.71Z,1.35,reviewed,aka2026tezvbk,2.52,rejected,automatic,scolv:odsimonds,not existing,25.6,2267.9,-2.2,7,0,239.25,-239.25,0.39,0.31,7,0,distinct,rejected
+aka2026tfcwab,2026-09-28T05:28:10.56Z,2.29,reviewed,aka2026tfcxaf,2.1,reviewed,manual,scolv:odsimonds,earthquake,72.2,302.5,-53.3,22,0,62.91,61.7,0.52,0.57,0,0,distinct,both reviewed
+aka2026tfdfhc,2026-09-28T05:38:53.40Z,2.77,reviewed,aka2026tfdgpz,2.09,rejected,automatic,scanloc_state:AEC,not existing,94.2,385.8,-147.5,9,0,53.32,52.58,0.82,0.52,0,0,distinct,rejected
+aka2026tfhmir,2026-09-28T07:47:17.93Z,2.69,reviewed,aka2026tfhkaw,0.6,rejected,automatic,scanloc_state:AEC,not existing,-179.0,1906.3,-14.8,7,1,385.47,-356.73,1.33,0.37,6,0,distinct,rejected
+aka2026tfkovw,2026-09-28T09:19:47.25Z,1.57,preliminary,aka2026tfkqty,2.02,rejected,automatic,scanloc_state:AEC,not existing,134.5,145.4,15.3,7,0,126.24,126.12,1.01,1.06,0,0,distinct,rejected
+aka2026tfpvcg,2026-09-28T11:56:57.37Z,2.01,reviewed,aka2026tfpwrc,1.39,reviewed,manual,scolv:odsimonds,earthquake,108.5,1.1,-0.5,21,0,108.49,108.49,0.25,0.38,0,0,distinct,both reviewed
+aka2026tfukyq,2026-09-28T14:14:51.75Z,1.29,reviewed,aka2026tfumbw,1.89,reviewed,manual,scolv:odsimonds,earthquake,98.2,2050.5,-51.8,24,0,118.97,-117.55,0.78,0.35,24,0,distinct,both reviewed
+aka2026tfuskf,2026-09-28T14:24:47.90Z,1.02,reviewed,aka2026tfuuvy,2.06,reviewed,manual,scolv:odsimonds,earthquake,105.6,977.8,-18.9,14,0,21.44,17.93,0.69,0.14,1,0,distinct,both reviewed
+aka2026tfuuvy,2026-09-28T14:26:33.48Z,2.06,reviewed,aka2026tfuwjf,1.74,reviewed,manual,scolv:odsimonds,earthquake,105.9,377.9,38.8,15,0,67.83,67.48,0.34,0.69,0,0,distinct,both reviewed
+aka2026tfuwjf,2026-09-28T14:28:19.43Z,1.74,reviewed,aka2026tfuxum,2.53,reviewed,manual,scolv:odsimonds,earthquake,100.6,1373.5,-29.5,11,0,52.26,-50.39,0.26,0.34,11,0,distinct,both reviewed
+aka2026tfwcav,2026-09-28T15:04:51.50Z,2.23,reviewed,aka2026tfwenq,1.65,rejected,automatic,scanloc_state:AEC,not existing,174.0,327.2,114.3,7,0,155.95,155.81,0.41,0.93,0,0,distinct,rejected
+aka2026tgbbtz,2026-09-28T17:34:30.46Z,2.18,reviewed,aka2026tgbcma,2.81,reviewed,manual,scolv:odsimonds,earthquake,36.0,1447.2,59.6,111,0,110.76,-104.94,0.61,0.26,111,0,distinct,both reviewed
+aka2026tgbuia,2026-09-28T17:55:53.28Z,2.67,reviewed,aka2026tgbunv,2.64,reviewed,manual,scolv:odsimonds,earthquake,16.0,1680.7,-31.4,12,0,174.43,-174.41,0.42,0.6,12,0,distinct,both reviewed
+aka2026tgcpxx,2026-09-28T18:20:48.17Z,1.99,reviewed,aka2026tgcpwh,5.01,rejected,automatic,scolv:odsimonds,not existing,2.9,7583.0,11.0,42,0,572.23,570.83,0.36,0.42,0,0,distinct,rejected
+aka2026tgcpxx,2026-09-28T18:20:48.17Z,1.99,reviewed,aka2026tgcrze,2.25,reviewed,manual,scolv:odsimonds,earthquake,143.2,41.4,11.2,55,0,141.66,141.63,0.56,0.42,0,0,distinct,both reviewed
+aka2026tgcpxx,2026-09-28T18:20:48.17Z,1.99,reviewed,aka2026tgcsco,2.36,reviewed,manual,scolv:odsimonds,earthquake,152.1,1878.1,-11.9,21,0,61.44,-60.67,0.3,0.42,21,0,distinct,both reviewed
+aka2026tgcrze,2026-09-28T18:23:11.39Z,2.25,reviewed,aka2026tgcpwh,5.01,rejected,automatic,scolv:odsimonds,not existing,-140.3,7565.1,-0.1,42,0,432.97,431.16,0.36,0.56,0,0,distinct,rejected
+aka2026tgcrze,2026-09-28T18:23:11.39Z,2.25,reviewed,aka2026tgcsco,2.36,reviewed,manual,scolv:odsimonds,earthquake,8.9,1881.0,-23.1,21,0,203.72,-203.5,0.3,0.56,21,0,distinct,both reviewed
+aka2026tgcsco,2026-09-28T18:23:20.27Z,2.36,reviewed,aka2026tgcpwh,5.01,rejected,automatic,scolv:odsimonds,not existing,-149.2,5977.5,22.9,39,0,238.06,237.03,0.36,0.3,0,0,distinct,rejected
+aka2026tgdgrz,2026-09-28T18:40:08.95Z,1.81,reviewed,aka2026tgdenq,1.82,rejected,automatic,scanloc_state:AEC,not existing,-149.3,90.7,-58.6,6,0,157.23,-157.16,0.31,0.31,6,0,distinct,rejected
+aka2026tgidxu,2026-09-28T21:06:53.44Z,1.63,reviewed,aka2026tgiezl,1.83,reviewed,manual,scolv:odsimonds,earthquake,76.9,384.9,-36.7,38,0,45.85,43.88,0.58,0.28,0,0,distinct,both reviewed
+aka2026tgiezl,2026-09-28T21:08:10.34Z,1.83,reviewed,aka2026tgihdd,1.68,reviewed,manual,scolv:odsimonds,earthquake,146.1,408.8,72.0,26,0,121.08,120.46,0.21,0.58,0,0,distinct,both reviewed
+aka2026tgihdd,2026-09-28T21:10:36.44Z,1.68,reviewed,aka2026tgijiv,1.78,reviewed,manual,scolv:odsimonds,earthquake,152.5,437.8,-69.6,32,0,114.22,113.7,0.34,0.21,0,0,distinct,both reviewed
+aka2026tgijiv,2026-09-28T21:13:08.96Z,1.78,reviewed,aka2026tgikit,0.65,reviewed,manual,scolv:odsimonds,earthquake,68.6,385.4,-44.3,6,0,19.77,19.73,0.15,0.34,0,0,distinct,both reviewed
+aka2026tgmzgs,2026-09-28T23:31:27.52Z,2.04,reviewed,aka2026tgnbgw,2.12,rejected,automatic,scanloc_state:AEC,not existing,136.3,1255.2,200.1,7,0,24.76,21.32,0.74,0.3,0,0,distinct,rejected
+aka2026tgncwg,2026-09-28T23:35:36.97Z,1.61,reviewed,aka2026tgnbgw,2.12,rejected,automatic,scanloc_state:AEC,not existing,-113.2,532.2,197.6,7,0,135.8,-135.15,0.74,0.33,7,0,distinct,rejected
+aka2026tgpkkt,2026-09-29T00:44:16.77Z,2.88,reviewed,aka2026tgpkof,2.19,reviewed,manual,scolv:abakken,earthquake,9.8,768.6,-3.1,27,0,73.83,-73.35,0.61,0.43,27,0,distinct,both reviewed
+aka2026thbxjg,2026-09-29T06:59:03.17Z,1.49,reviewed,aka2026thbvoj,,rejected,automatic,scautoloc_global:AEC,not existing,-124.8,686.2,742.1,12,0,109.74,-107.15,34.18,1.0,12,0,distinct,rejected
+aka2026thbxjg,2026-09-29T06:59:03.17Z,1.49,reviewed,aka2026thbwzf,1.06,rejected,manual,scolv:abakken,not existing,-28.1,905.2,10.0,9,0,134.65,-134.4,1.23,1.0,9,0,distinct,rejected
+aka2026thbxjg,2026-09-29T06:59:03.17Z,1.49,reviewed,aka2026thbzin,2.13,reviewed,manual,scolv:abakken,earthquake,138.5,858.3,24.6,64,0,63.64,56.59,0.74,1.0,0,0,distinct,both reviewed
+aka2026thbzin,2026-09-29T07:01:21.64Z,2.13,reviewed,aka2026thbwzf,1.06,rejected,manual,scolv:abakken,not existing,-166.5,147.7,-14.6,9,0,178.53,-178.42,1.23,0.74,9,0,distinct,rejected
+aka2026thcdom,2026-09-29T07:06:13.33Z,2.66,reviewed,aka2026thcdqs,1.36,rejected,automatic,scolv:abakken,not existing,5.4,2068.8,-7.2,7,0,234.48,-234.44,0.35,0.34,7,0,distinct,rejected
+aka2026thcdom,2026-09-29T07:06:13.33Z,2.66,reviewed,aka2026thcern,1.76,reviewed,manual,scolv:abakken,earthquake,75.9,1017.1,-19.8,15,0,48.15,-47.5,0.23,0.34,15,0,distinct,both reviewed
+aka2026thcdom,2026-09-29T07:06:13.33Z,2.66,reviewed,aka2026thcfup,1.83,reviewed,manual,scolv:abakken,earthquake,153.9,2645.9,-32.7,17,0,127.54,-127.01,0.89,0.34,17,0,distinct,both reviewed
+aka2026thcern,2026-09-29T07:07:29.23Z,1.76,reviewed,aka2026thcdqs,1.36,rejected,automatic,scolv:abakken,not existing,-70.5,1151.8,12.6,7,0,204.72,-204.63,0.35,0.23,7,0,distinct,rejected
+aka2026thcern,2026-09-29T07:07:29.23Z,1.76,reviewed,aka2026thcfup,1.83,reviewed,manual,scolv:abakken,earthquake,78.0,1675.2,-13.0,17,0,106.92,-106.14,0.89,0.23,17,0,distinct,both reviewed
+aka2026thcern,2026-09-29T07:07:29.23Z,1.76,reviewed,aka2026thcgpn,2.03,reviewed,manual,scolv:abakken,earthquake,133.7,1320.7,-12.1,39,0,18.27,-4.09,0.68,0.23,23,0,distinct,both reviewed
+aka2026thcfup,2026-09-29T07:08:47.18Z,1.83,reviewed,aka2026thcdqs,1.36,rejected,automatic,scolv:abakken,not existing,-148.5,609.7,25.6,7,0,223.94,-223.94,0.35,0.89,7,0,distinct,rejected
+aka2026thcfup,2026-09-29T07:08:47.18Z,1.83,reviewed,aka2026thcgpn,2.03,reviewed,manual,scolv:abakken,earthquake,55.7,569.9,0.9,39,0,22.48,6.46,0.68,0.89,18,0,distinct,both reviewed
+aka2026thcpft,2026-09-29T07:19:41.34Z,1.65,reviewed,aka2026thcrlf,1.81,reviewed,manual,scolv:abakken,earthquake,156.3,185.2,-56.4,40,0,146.41,145.93,0.66,0.32,0,0,distinct,both reviewed
+aka2026thdgem,2026-09-29T07:39:12.21Z,1.88,reviewed,aka2026thdgbx,2.43,rejected,automatic,scanloc_state:AEC,not existing,-6.6,964.8,-58.7,7,0,120.52,-120.48,1.11,0.22,7,0,distinct,rejected
+aka2026thdgem,2026-09-29T07:39:12.21Z,1.88,reviewed,aka2026thdhig,2.11,reviewed,manual,scolv:abakken,earthquake,64.0,1622.6,178.4,13,0,114.58,-114.41,0.79,0.22,13,0,distinct,both reviewed
+aka2026thdhig,2026-09-29T07:40:16.23Z,2.11,reviewed,aka2026thdgbx,2.43,rejected,automatic,scanloc_state:AEC,not existing,-70.6,706.4,-237.1,7,1,118.95,-110.01,1.11,0.79,6,0,distinct,rejected
+aka2026thecye,2026-09-29T08:05:26.60Z,1.58,reviewed,aka2026thedql,1.69,reviewed,manual,scolv:abakken,earthquake,49.8,1915.2,35.4,12,0,173.89,-173.72,0.42,0.21,12,0,distinct,both reviewed
+aka2026themvs,2026-09-29T08:16:52.26Z,1.94,reviewed,aka2026thenke,2.61,reviewed,manual,scolv:abakken,earthquake,55.9,1663.5,47.6,43,0,128.53,-126.02,0.53,0.33,43,0,distinct,both reviewed
+aka2026themvs,2026-09-29T08:16:52.26Z,1.94,reviewed,aka2026thenwt,2.34,reviewed,manual,scolv:abakken,earthquake,71.5,1145.1,11.8,10,0,57.74,-57.19,0.33,0.33,10,0,distinct,both reviewed
+aka2026themvs,2026-09-29T08:16:52.26Z,1.94,reviewed,aka2026thepgr,1.97,reviewed,manual,scolv:abakken,earthquake,168.6,1983.8,70.2,31,0,56.22,-54.06,0.7,0.33,30,0,distinct,both reviewed
+aka2026thenke,2026-09-29T08:17:48.19Z,2.61,reviewed,aka2026thenwt,2.34,reviewed,manual,scolv:abakken,earthquake,15.6,572.5,-35.9,10,0,41.23,-40.97,0.33,0.53,10,0,distinct,both reviewed
+aka2026thenke,2026-09-29T08:17:48.19Z,2.61,reviewed,aka2026thepgr,1.97,reviewed,manual,scolv:abakken,earthquake,112.7,517.0,22.5,31,0,75.1,73.1,0.7,0.53,0,0,distinct,both reviewed
+aka2026thenwt,2026-09-29T08:18:03.79Z,2.34,reviewed,aka2026thepgr,1.97,reviewed,manual,scolv:abakken,earthquake,97.1,1031.2,58.4,31,0,19.39,-8.51,0.7,0.33,21,0,distinct,both reviewed
+aka2026thepgr,2026-09-29T08:19:40.91Z,1.97,reviewed,aka2026therkh,4.65,confirmed,automatic,scanloc_global_assoc:AEC,,147.4,7000.2,13.6,12,0,668.24,656.89,0.77,0.7,0,0,distinct,
+aka2026thfljq,2026-09-29T08:45:18.74Z,1.78,reviewed,aka2026thfmdb,1.84,reviewed,manual,scolv:abakken,earthquake,43.4,669.3,-53.1,13,0,18.45,-6.74,0.7,0.46,7,0,distinct,both reviewed
+aka2026thisbh,2026-09-29T10:22:49.40Z,1.83,reviewed,aka2026thitnz,3.86,preliminary,manual,scolv:afozkos,earthquake,104.8,1033.2,-50.2,197,0,142.28,105.82,1.13,0.38,47,0,distinct,both reviewed
+aka2026thitnz,2026-09-29T10:24:34.20Z,3.86,preliminary,aka2026thiuub,2.64,rejected,automatic,scolv:abakken,not existing,88.9,720.2,63.3,55,52,9.17,1.29,1.05,1.13,1,0,distinct,rejected
+aka2026thitnz,2026-09-29T10:24:34.20Z,3.86,preliminary,aka2026thiula,2.18,rejected,automatic,scanloc_state:AEC,not existing,119.8,965.6,31.3,11,11,1.34,0.99,0.58,1.13,0,0,split,rejected
+aka2026thlgth,2026-09-29T11:39:45.33Z,1.41,reviewed,aka2026thlefa,4.71,rejected,automatic,scautoloc_global:AEC,,-179.4,2842.5,8.8,9,0,156.18,10.86,0.86,0.75,3,0,distinct,rejected
+aka2026thrafk,2026-09-29T14:32:08.19Z,1.97,reviewed,aka2026thrbbu,1.75,reviewed,manual,scolv:abakken,earthquake,59.7,2583.7,-70.3,6,0,211.9,-210.96,0.8,0.16,6,0,distinct,both reviewed
+aka2026thrhkz,2026-09-29T14:40:27.58Z,1.37,reviewed,aka2026thrjxp,1.87,reviewed,manual,scolv:abakken,earthquake,172.0,1462.9,13.7,9,0,11.19,-4.54,0.17,0.4,6,0,distinct,both reviewed
+aka2026thrjxp,2026-09-29T14:43:19.63Z,1.87,reviewed,aka2026thrlmk,2.05,reviewed,manual,scolv:abakken,earthquake,111.7,1746.3,113.2,40,0,85.1,-84.19,0.6,0.17,40,0,distinct,both reviewed
+aka2026thszph,2026-09-29T15:31:33.73Z,2.54,reviewed,aka2026thtarl,1.76,reviewed,manual,scolv:abakken,earthquake,64.9,1649.0,-53.5,7,0,100.83,-98.5,0.72,0.44,7,0,distinct,both reviewed
+aka2026thubtz,2026-09-29T16:03:54.21Z,1.44,reviewed,aka2026thuddl,2.76,reviewed,manual,scolv:abakken,earthquake,92.3,2246.9,-20.8,27,0,152.28,-151.9,0.43,0.36,27,0,distinct,both reviewed
+aka2026thuddl,2026-09-29T16:05:26.52Z,2.76,reviewed,aka2026thufkr,2.02,rejected,automatic,scanloc_state:AEC,not existing,160.6,2161.6,-9.2,6,0,90.53,-89.77,0.78,0.43,6,0,distinct,rejected
+aka2026thxhjc,2026-09-29T17:40:06.36Z,2.66,reviewed,aka2026thxgmu,0.85,rejected,automatic,scanloc_state:AEC,not existing,-48.1,1506.6,-154.5,6,0,224.1,-224.09,0.21,0.25,6,0,distinct,rejected
+aka2026thxzev,2026-09-29T18:00:51.77Z,1.71,reviewed,aka2026thxzvi,2.06,reviewed,manual,scolv:abakken,earthquake,44.1,2099.5,4.8,10,0,200.72,-200.6,0.63,0.46,10,0,distinct,both reviewed
+aka2026thykim,2026-09-29T18:13:46.33Z,2.03,reviewed,aka2026thylub,2.19,reviewed,manual,scolv:abakken,earthquake,95.0,263.4,21.4,55,0,80.82,78.96,0.72,0.31,0,0,distinct,both reviewed
+aka2026thzmss,2026-09-29T18:48:33.59Z,2.76,reviewed,aka2026thzpuw,1.4,reviewed,manual,scolv:abakken,earthquake,86.2,2274.9,-3.8,15,0,176.13,-175.96,0.66,0.79,15,0,distinct,both reviewed
+aka2026tidmbo,2026-09-29T20:45:38.75Z,1.31,reviewed,aka2026tidoms,1.05,reviewed,manual,scolv:abakken,ice quake,166.3,192.8,-65.0,9,0,146.42,146.35,0.53,0.32,0,0,distinct,both reviewed
+aka2026tiefdx,2026-09-29T21:07:40.72Z,1.69,reviewed,aka2026tiegwo,2.71,rejected,automatic,scanloc_state:AEC,not existing,116.4,407.8,115.3,7,0,149.17,149.17,0.32,0.36,0,0,distinct,rejected
+aka2026tieiso,2026-09-29T21:11:47.84Z,2.49,reviewed,aka2026tiegwo,2.71,rejected,automatic,scanloc_state:AEC,not existing,-130.7,1358.6,-40.8,7,0,270.08,-270.07,0.32,0.24,7,0,distinct,rejected
+aka2026tigzew,2026-09-29T22:30:30.82Z,2.14,reviewed,aka2026tigxxy,1.44,rejected,automatic,scanloc_state:AEC,not existing,-73.9,1238.7,-215.8,6,0,214.25,-214.13,0.7,0.39,6,0,distinct,rejected
+aka2026tihycs,2026-09-29T22:59:31.23Z,1.95,reviewed,aka2026tiiart,1.28,reviewed,manual,scolv:abakken,earthquake,176.2,1210.9,-2.3,14,0,33.17,31.87,0.45,0.41,0,0,distinct,both reviewed
+aka2026tiiisz,2026-09-29T23:11:47.52Z,1.74,reviewed,aka2026tiikly,1.64,reviewed,manual,scolv:abakken,earthquake,149.0,178.5,-5.1,29,0,139.41,139.13,0.5,0.18,0,0,distinct,both reviewed
+aka2026tikfou,2026-09-30T00:07:16.53Z,2.32,reviewed,aka2026tikgds,1.87,reviewed,manual,scolv:djgossett,earthquake,83.6,1184.4,96.5,24,0,49.37,-47.71,0.43,1.14,24,0,distinct,both reviewed
+aka2026tikrme,2026-09-30T00:21:47.04Z,1.64,reviewed,aka2026tikstr,1.53,rejected,manual,scolv:djgossett,not existing,90.4,652.7,-17.4,7,0,17.32,15.1,0.35,0.8,0,0,distinct,rejected
+aka2026tilpqd,2026-09-30T00:49:31.73Z,1.96,reviewed,aka2026tilnia,2.11,rejected,automatic,scanloc_state:AEC,,-153.3,199.4,-120.1,6,0,161.65,-161.62,0.17,0.48,6,0,distinct,rejected
+aka2026tiomyi,2026-09-30T02:16:29.86Z,1.49,reviewed,aka2026tiopjb,2.26,reviewed,manual,scolv:djgossett,earthquake,167.2,984.4,13.7,7,0,85.91,80.74,0.43,0.73,0,0,distinct,both reviewed
+aka2026tiowjc,2026-09-30T02:27:22.67Z,2.41,reviewed,aka2026tiougm,1.98,rejected,manual,scolv:djgossett,not existing,-146.5,8.0,-1.3,8,0,145.53,-145.53,0.64,0.8,8,0,distinct,rejected
+aka2026tiowjc,2026-09-30T02:27:22.67Z,2.41,reviewed,aka2026tiowpb,2.28,reviewed,manual,scolv:djgossett,earthquake,11.4,1010.7,91.6,26,0,99.91,-99.27,0.36,0.8,26,0,distinct,both reviewed
+aka2026tiowpb,2026-09-30T02:27:34.03Z,2.28,reviewed,aka2026tiougm,1.98,rejected,manual,scolv:djgossett,not existing,-157.8,1017.8,-92.9,8,0,262.7,-262.38,0.64,0.36,8,0,distinct,rejected
+aka2026tisemh,2026-09-30T04:06:34.58Z,1.62,reviewed,aka2026tisgfq,1.7,reviewed,manual,scolv:djgossett,earthquake,125.8,655.7,-86.3,11,0,73.59,71.47,1.38,0.45,0,0,distinct,both reviewed
+aka2026titsjx,2026-09-30T04:52:42.69Z,1.32,reviewed,aka2026titthq,,rejected,automatic,scanloc_state:AEC,,70.6,841.3,300.9,8,0,55.04,52.01,0.75,0.33,0,0,distinct,rejected
+aka2026titvla,2026-09-30T04:56:12.72Z,2.95,reviewed,aka2026titthq,,rejected,automatic,scanloc_state:AEC,,-139.4,1063.2,299.1,8,0,261.45,-261.44,0.75,0.47,8,0,distinct,rejected
+aka2026tiujou,2026-09-30T05:12:32.23Z,2.63,reviewed,aka2026tiuhji,,rejected,automatic,scanloc_state:AEC,,-157.6,1447.1,569.3,20,1,293.19,-285.67,20.73,0.43,19,0,distinct,rejected
+aka2026tiujou,2026-09-30T05:12:32.23Z,2.63,reviewed,aka2026tiuhqx,,rejected,automatic,scanloc_state:AEC,,-132.8,2059.5,620.8,6,0,335.99,-335.99,24.26,0.43,6,0,distinct,rejected
+aka2026tiujou,2026-09-30T05:12:32.23Z,2.63,reviewed,aka2026tiuirw,2.6,rejected,automatic,scanloc_state:AEC,,-60.3,712.4,-8.2,9,1,124.15,-106.95,0.39,0.43,7,0,distinct,rejected
+aka2026tiuyhu,2026-09-30T05:29:30.05Z,1.76,reviewed,aka2026tiuzhv,1.98,reviewed,manual,scolv:djgossett,earthquake,71.7,654.4,56.7,34,0,22.47,11.13,0.43,0.78,8,0,distinct,both reviewed
+aka2026tiwizv,2026-09-30T06:11:50.97Z,1.23,reviewed,aka2026tiwhgh,2.38,rejected,automatic,scanloc_state:AEC,,-116.5,527.3,-39.9,7,0,133.87,-133.86,1.08,0.38,7,0,distinct,rejected
+aka2026tixbgl,2026-09-30T06:32:54.71Z,1.13,reviewed,aka2026tixcfs,1.98,reviewed,manual,scolv:djgossett,earthquake,67.0,488.5,-10.0,31,0,26.77,21.87,0.49,0.39,0,0,distinct,both reviewed
+aka2026tixgvf,2026-09-30T06:39:18.96Z,1.41,reviewed,aka2026tixlym,,rejected,automatic,scanloc_state:AEC,,114.0,2131.9,-97.3,14,0,355.7,355.62,1.45,0.29,0,0,distinct,rejected
+aka2026tixsma,2026-09-30T06:52:25.71Z,2.45,reviewed,aka2026tixsxk,,rejected,automatic,scanloc_state:AEC,,49.8,1780.8,225.6,6,0,85.36,81.05,0.73,0.39,0,0,distinct,rejected
+aka2026tixuxt,2026-09-30T06:55:35.55Z,1.46,reviewed,aka2026tixsxk,,rejected,automatic,scanloc_state:AEC,,-140.0,1323.5,234.5,6,1,60.09,-53.95,0.73,0.61,5,0,distinct,rejected
+aka2026tixztw,2026-09-30T07:01:10.50Z,1.59,reviewed,aka2026tixztd,1.94,rejected,automatic,scanloc_state:AEC,,-3.6,957.0,-4.3,7,0,103.26,-102.18,0.62,1.49,7,0,distinct,rejected
+aka2026tiygwf,2026-09-30T07:10:46.12Z,1.45,reviewed,aka2026tiykct,2.3,reviewed,manual,scolv:djgossett,earthquake,140.7,1390.9,77.6,28,0,19.25,-15.81,0.33,0.46,27,0,distinct,both reviewed
+aka2026tizcep,2026-09-30T07:33:55.86Z,0.93,reviewed,aka2026tizdpk,1.66,reviewed,manual,scolv:djgossett,earthquake,99.3,266.5,49.2,29,0,79.35,78.53,0.49,0.2,0,0,distinct,both reviewed
+aka2026tjaexe,2026-09-30T08:07:03.47Z,1.7,reviewed,aka2026tjadqm,1.46,rejected,automatic,scanloc_state:AEC,,-86.8,473.5,3.7,6,0,133.27,-133.19,0.39,0.73,6,0,distinct,rejected
+aka2026tjaexe,2026-09-30T08:07:03.47Z,1.7,reviewed,aka2026tjagfl,1.4,reviewed,manual,scolv:djgossett,earthquake,80.4,359.9,15.9,20,0,43.65,42.39,0.48,0.73,0,0,distinct,both reviewed
+aka2026tjagfl,2026-09-30T08:08:23.85Z,1.4,reviewed,aka2026tjadqm,1.46,rejected,automatic,scanloc_state:AEC,,-167.2,389.3,-12.2,6,0,210.32,-210.31,0.39,0.48,6,0,distinct,rejected
+aka2026tjamrr,2026-09-30T08:16:02.49Z,1.59,reviewed,aka2026tjapcg,5.11,confirmed,automatic,scanloc_global_assoc:AEC,,-38.8,8657.0,-31.6,53,0,609.8,608.14,0.43,0.32,0,0,distinct,
+aka2026tjamrr,2026-09-30T08:16:02.49Z,1.59,reviewed,aka2026tjaoql,2.26,reviewed,manual,scolv:djgossett,earthquake,135.5,407.9,-23.6,17,0,120.83,118.2,0.69,0.32,0,0,distinct,both reviewed
+aka2026tjaoql,2026-09-30T08:18:17.98Z,2.26,reviewed,aka2026tjapcg,5.11,confirmed,automatic,scanloc_global_assoc:AEC,,-174.3,8277.3,-8.0,53,0,441.77,439.76,0.43,0.69,0,0,distinct,
+aka2026tjcgyk,2026-09-30T09:09:23.69Z,0.83,reviewed,aka2026tjcikn,2.11,rejected,manual,scolv:djgossett,not existing,96.9,1777.0,149.5,9,0,98.39,-98.28,0.27,0.36,9,0,distinct,rejected
+aka2026tjddvt,2026-09-30T09:35:48.29Z,1.58,reviewed,aka2026tjdfed,1.93,reviewed,manual,scolv:djgossett,earthquake,93.0,49.5,-17.6,33,0,92.4,92.38,0.42,0.5,0,0,distinct,both reviewed
+aka2026tjduau,2026-09-30T09:54:33.58Z,1.49,reviewed,aka2026tjdvsn,0.92,reviewed,manual,scolv:djgossett,earthquake,111.3,115.6,-25.5,13,0,102.3,102.25,0.23,0.45,0,0,distinct,both reviewed
+aka2026tjfhrd,2026-09-30T10:40:09.49Z,1.74,reviewed,aka2026tjfkdc,1.69,reviewed,manual,scolv:djgossett,earthquake,171.8,1011.5,4.2,5,0,69.87,66.14,0.76,0.84,0,0,distinct,both reviewed
+aka2026tjgggz,2026-09-30T11:08:34.01Z,2.31,reviewed,aka2026tjggts,,rejected,automatic,scanloc_state:AEC,,38.5,658.2,313.9,9,0,27.57,23.17,1.95,0.7,1,0,distinct,rejected
+aka2026tjikvn,2026-09-30T12:13:34.59Z,2.73,reviewed,aka2026tjinaz,2.49,reviewed,manual,scolv:djgossett,earthquake,167.2,449.6,3.3,15,0,117.76,117.51,0.28,0.57,0,0,distinct,both reviewed
+aka2026tjmimu,2026-09-30T14:11:03.89Z,1.56,reviewed,aka2026tjmgha,1.41,rejected,automatic,scanloc_state:AEC,not existing,-95.6,82.1,27.6,9,0,98.87,-98.78,1.08,0.37,9,0,distinct,rejected
+aka2026tjnpfk,2026-09-30T14:48:50.17Z,1.8,reviewed,aka2026tjnpge,2.92,reported,manual,scolv:djgossett,earthquake,-14.5,577.6,124.1,20,0,44.06,-36.33,0.59,0.77,19,0,distinct,
+aka2026tjnpfk,2026-09-30T14:48:50.17Z,1.8,reviewed,aka2026tjnqlh,2.89,reviewed,manual,scolv:djgossett,earthquake,137.6,1960.3,186.3,34,0,60.52,-50.74,0.5,0.77,31,0,distinct,both reviewed
+aka2026tjnqlh,2026-09-30T14:51:07.74Z,2.89,reviewed,aka2026tjnpge,2.92,reported,manual,scolv:djgossett,earthquake,-152.1,2313.3,-62.3,20,0,330.53,-329.65,0.59,0.5,20,0,distinct,
+aka2026tjpksh,2026-09-30T15:43:33.95Z,2.7,reviewed,aka2026tjplbb,0.6,reviewed,manual,scolv:djgossett,earthquake,22.9,1437.2,-45.4,13,0,149.76,-149.73,0.25,0.25,13,0,distinct,both reviewed
+aka2026tjqsbr,2026-09-30T16:22:02.95Z,1.75,reviewed,aka2026tjqtce,1.4,reviewed,manual,scolv:djgossett,earthquake,94.5,88.1,16.3,20,0,86.62,86.52,0.27,0.61,0,0,distinct,both reviewed
+aka2026tjqtce,2026-09-30T16:23:37.48Z,1.4,reviewed,aka2026tjquoj,1.45,reviewed,manual,scolv:djgossett,earthquake,123.3,568.2,-7.7,12,0,68.15,67.74,0.41,0.27,0,0,distinct,both reviewed
+aka2026tjroze,2026-09-30T16:48:26.96Z,1.49,reviewed,aka2026tjrqmh,1.72,reviewed,manual,scolv:djgossett,earthquake,108.7,303.3,-77.9,20,0,98.46,97.29,0.5,0.22,0,0,distinct,both reviewed
+aka2026tjtyjz,2026-09-30T17:59:16.95Z,1.41,reviewed,aka2026tjtzvm,2.45,reviewed,manual,scolv:djgossett,earthquake,99.8,590.9,-10.4,14,0,87.01,80.42,0.74,0.73,0,0,distinct,both reviewed
+aka2026tjumzo,2026-09-30T18:16:07.78Z,1.31,reviewed,aka2026tjuoem,2.07,reviewed,manual,scolv:djgossett,earthquake,82.2,580.0,150.7,69,0,63.38,45.56,0.45,0.68,0,0,distinct,both reviewed
+aka2026tjumzo,2026-09-30T18:16:07.78Z,1.31,reviewed,aka2026tjupbw,1.85,rejected,automatic,scanloc_state:AEC,,143.6,427.0,73.0,8,0,101.79,101.57,0.79,0.68,0,0,distinct,rejected
+aka2026tjuoem,2026-09-30T18:17:30.00Z,2.07,reviewed,aka2026tjupbw,1.85,rejected,automatic,scanloc_state:AEC,,61.4,239.7,-77.8,8,0,40.08,37.77,0.79,0.45,0,0,distinct,rejected
+aka2026tjvehn,2026-09-30T18:36:03.74Z,2.09,reviewed,aka2026tjvenw,4.97,rejected,automatic,scautoloc_global:AEC,,18.3,1564.3,-12.3,20,0,125.89,100.3,2.07,0.42,2,0,distinct,rejected
+aka2026tjvehn,2026-09-30T18:36:03.74Z,2.09,reviewed,aka2026tjvfhs,,rejected,automatic,scanloc_state:AEC,,70.8,2046.2,415.8,8,0,98.61,-95.47,10.17,0.42,8,0,distinct,rejected
+aka2026tjwhfb,2026-09-30T19:09:23.98Z,2.51,reviewed,aka2026tjwhtq,4.21,reviewed,manual,scolv:djgossett,earthquake,45.6,1417.0,24.5,77,0,130.48,31.62,0.78,0.76,42,0,distinct,both reviewed
+aka2026tjwhfb,2026-09-30T19:09:23.98Z,2.51,reviewed,aka2026tjwjdf,3.86,rejected,manual,scolv:aaholland3,not existing,82.6,1127.2,152.6,22,0,94.08,90.75,0.52,0.76,0,0,distinct,rejected
+aka2026tjwhtq,2026-09-30T19:10:09.54Z,4.21,reviewed,aka2026tjwjdf,3.86,rejected,manual,scolv:aaholland3,not existing,37.1,488.6,128.2,22,3,1.53,1.35,0.52,0.78,0,0,split,rejected
+aka2026tjwhtq,2026-09-30T19:10:09.54Z,4.21,reviewed,aka2026tjwkif,1.85,rejected,automatic,scolv:djgossett,not existing,171.5,1428.3,-51.3,6,1,0.95,-0.63,0.35,0.78,0,0,split,rejected
+aka2026tjxrvj,2026-09-30T19:51:37.34Z,2.94,reviewed,aka2026tjxsbn,1.22,rejected,automatic,scolv:djgossett,not existing,17.1,892.8,-71.6,6,0,92.98,-92.98,0.15,0.2,6,0,distinct,rejected
+aka2026tkcgnr,2026-09-30T22:08:24.39Z,3.28,reviewed,aka2026tkcfmj,1.8,rejected,manual,scolv:djgossett,not existing,-62.6,2301.6,-5.0,12,0,315.51,-315.2,0.83,0.78,12,0,distinct,rejected
+aka2026tkcwtp,2026-09-30T22:27:18.21Z,1.15,reviewed,aka2026tkczhe,0.72,rejected,manual,scolv:djgossett,not existing,173.4,340.2,-24.8,7,0,127.88,127.86,1.32,0.47,0,0,distinct,rejected
