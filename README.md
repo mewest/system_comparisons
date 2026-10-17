@@ -53,8 +53,8 @@ number of picks in common (same pick ID) is reported too. It runs as part of `ru
 `docs/data/splits.json`. Travel times come from `scripts/ak135_tt.npz`, a table precomputed with obspy.taup
 (first P and S, 0–30°, 0–300 km), so obspy is not needed to run it.
 
-Pairs with |Δt₀| < 10 s also get a waveform record section, `docs/rs/<reviewed>_<test>.png`, linked from the
-"P arrivals" column: vertical traces from the dev FDSN dataselect service (1–10 Hz, downsampled by distance),
+Pairs with |Δt₀| < 30 s also get a waveform record section, `docs/rs/<reviewed>_<test>.png`, shown at the bottom
+of the page when the pair is selected: vertical traces from the dev FDSN dataselect service (3–8 Hz, downsampled by distance),
 arrivals of both events from the onsite FDSN event service, and ak135 P/S from the reviewed hypocenter
 (`scripts/recsec.py`; miniSEED decoded by `scripts/mseed.py`, numpy only).
 

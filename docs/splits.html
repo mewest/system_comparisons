@@ -20,11 +20,17 @@
   section h2 { margin:0 0 8px; font-size:20px; font-weight:600; }
   p.method { max-width:900px; font-size:15px; line-height:1.45; margin:8px 0; }
   .plot { width:100%; height:480px; }
-  .examples { display:flex; gap:16px; flex-wrap:wrap; }
-  .examples .excol { flex:1 1 420px; min-width:0; }
+  .pairgrid { display:block; }
+  .pairgrid .side { margin-top:16px; min-width:0; }
+  @media (min-width: 1250px) {
+    .pairgrid { display:grid; grid-template-columns:auto minmax(520px, 1fr); gap:24px; align-items:start; }
+    .pairgrid .side { margin-top:0; position:sticky; top:8px; }
+    .pairgrid .tablewrap { max-height:calc(100vh - 40px); }
+  }
   .ex { height:500px; min-width:0; }
   .exmap { height:420px; min-width:0; margin-top:4px; }
-  #ex-selected-box { margin-top:16px; }
+  th.w { white-space:normal; width:72px; min-width:60px; vertical-align:bottom; line-height:1.2; }
+  #rs-img { max-width:100%; height:auto; border:1px solid var(--line); }
   .key { font-weight:700; }
   .key.rev { color:#444; }
   .key.tst { color:#ff1a1a; }
@@ -76,24 +82,25 @@
 </section>
 <section>
   <h2>Pair details</h2>
-  <div class="tablewrap"><table id="pairs"></table></div>
-</section>
-<section>
-  <h2>How the RMS test works</h2>
   <p class="method">
-    Each panel shows one pair as a record section. The <b>black line</b> is the P arrival time predicted with ak135
-    from the reviewed event's hypocenter, at each distance from it. <span class="key rev">○</span> are the reviewed
-    event's own P picks, <span class="key tst">●</span> the test event's P picks, and the thin vertical lines their
-    residuals (observed − predicted). <b>RMS</b> is the root-mean-square length of those lines. For a split, the test
-    event's picks fall on the reviewed event's curve; for a distinct event they sit off it, typically shifted by the
-    difference in origin time and scattered by the difference in location. Click a row in <i>Pair details</i> to plot
-    that pair here.
+    Click a row to plot that pair. The <b>black line</b> is the P arrival time predicted with ak135 from the reviewed
+    event's hypocenter. <span class="key rev">○</span> are the reviewed event's own P picks,
+    <span class="key tst">●</span> the test event's P picks, and the thin vertical lines their residuals
+    (observed − predicted); <b>RMS</b> is the root-mean-square length of those lines. For a split the test event's
+    picks fall on the curve; for a distinct event they sit off it. Hover over a test event for its status and author.
   </p>
-  <div class="examples">
-    <div class="excol"><div class="ex" id="ex-split"></div><div class="exmap" id="ex-split-map"></div></div>
-    <div class="excol"><div class="ex" id="ex-distinct"></div><div class="exmap" id="ex-distinct-map"></div></div>
+  <div class="pairgrid">
+    <div class="tablewrap"><table id="pairs"></table></div>
+    <div class="side" id="ex-selected-box" hidden>
+      <div class="ex" id="ex-selected"></div><div class="exmap" id="ex-selected-map"></div>
+      <p class="meta" id="rs-note"></p>
+    </div>
   </div>
-  <div class="excol" id="ex-selected-box" hidden><div class="ex" id="ex-selected"></div><div class="exmap" id="ex-selected-map"></div></div>
+</section>
+<section id="rs-box" hidden>
+  <h2>Waveform record section</h2>
+  <p class="method" id="rs-cap"></p>
+  <img id="rs-img" alt="Waveform record section of the selected pair">
 </section>
 </main>
 <script>
@@ -113,14 +120,15 @@ const CLASS_DEF = p => ({
 const COLS = [
   {k: "cls", t: "Class", l: true, f: v => `<span class="chip ${v}">${v}</span>`},
   {k: "a_evid", t: "Reviewed", l: true, s: r => r.a_mag, f: (v, r) => `<a href="${r.url_a}" target="_blank" rel="noopener">${evLabel(v, r.a_mag)}</a>`},
-  {k: "b_evid", t: "Test →", l: true, c: "sep", s: r => r.b_mag, f: (v, r) => `<a href="${r.url_b}" target="_blank" rel="noopener">${evLabel(v, r.b_mag)}</a>`},
-  {k: "n_p", t: "P arrivals", f: (v, r) => r.rs ? `<a href="${r.rs}" target="_blank" rel="noopener" title="Waveform record section">${v}</a>` : v},
-  {k: "shared", t: "Picks in common"},
-  {k: "rms_a", t: "RMS (s)", f: v => fx(v, 1)},
-  {k: "dt0_s", t: "Δt₀ (s)", f: v => v == null ? "–" : Math.round(v)},
-  {k: "b_status", t: "Status", l: true, f: (v, r) => `${v || "–"}${r.b_mode ? " (" + r.b_mode + ")" : ""}`},
-  {k: "b_author", t: "Author", l: true},
+  {k: "b_evid", t: "Test →", l: true, c: "sep", s: r => r.b_mag,
+   f: (v, r) => `<a href="${r.url_b}" target="_blank" rel="noopener" title="${testInfo(r)}">${evLabel(v, r.b_mag)}</a>`},
+  {k: "n_p", t: "P arrivals", c: "w"},
+  {k: "shared", t: "Picks in common", c: "w"},
+  {k: "rms_a", t: "RMS (s)", c: "w", f: v => fx(v, 1)},
+  {k: "dt0_s", t: "Δt₀ (s)", c: "w", f: v => v == null ? "–" : Math.round(v)},
 ];
+const esc = s => String(s ?? "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+const testInfo = r => esc(`status: ${r.b_status || "–"}${r.b_mode ? " (" + r.b_mode + ")" : ""}\nauthor: ${r.b_author || "–"}`);
 const evLabel = (e, m) => `${m == null ? "M-.-" : "M" + Number(m).toFixed(1)} (${e})`;
 const fx = (v, n) => v == null ? "–" : Number(v).toFixed(n);
 let data = null, selected = null, sortKey = "a_time", sortDir = 1;
@@ -235,26 +243,6 @@ function pairMap(id, p, col) {
   Plotly.react(id, traces, layout, {staticPlot: true, responsive: true});
 }
 
-function examples(d) {
-  // examples where the reviewed and test events have comparable numbers of P picks (ratio >= 0.5),
-  // preferring the most picks; the distinct example also prefers a moderate RMS (5-60 s)
-  const ratio = p => { const a = p.a_picks.length, b = p.picks.length; return Math.min(a, b) / Math.max(a, b, 1); };
-  const pick = (cands, extra = () => true) => {
-    cands = cands.filter(p => p.picks && p.picks.length && p.a_picks && p.a_picks.length);
-    const good = cands.filter(p => ratio(p) >= 0.5);
-    return good.filter(extra).sort((a, b) => b.n_p - a.n_p)[0] || good.sort((a, b) => b.n_p - a.n_p)[0]
-        || cands.sort((a, b) => ratio(b) - ratio(a))[0];
-  };
-  const sp = pick(d.pairs.filter(p => p.cls === "split"));
-  const ds = pick(d.pairs.filter(p => p.cls === "distinct"), p => p.rms_a >= 5 && p.rms_a <= 60);
-  const show = (id, p, what) => {
-    const el = document.getElementById(id);
-    if (p) pairPlot(id, p, what); else document.getElementById(id + "-map").hidden = true, el.innerHTML = `<p class="meta">No ${what.split(" ")[0]} pair in this window.</p>`;
-  };
-  show("ex-split", sp, "split example");
-  show("ex-distinct", ds, "distinct example");
-}
-
 function table() {
   const rows = [...data.pairs];
   rows.sort((a, b) => {
@@ -269,17 +257,34 @@ function table() {
   const t = document.getElementById("pairs");
   t.innerHTML = `<thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
   t.querySelectorAll("tbody tr").forEach(tr => tr.onclick = () => {
-    selected = +tr.dataset.i;
     t.querySelectorAll("tbody tr.sel").forEach(x => x.classList.remove("sel"));
     tr.classList.add("sel");
-    const el = document.getElementById("ex-selected-box");
-    el.hidden = false;
-    pairPlot("ex-selected", data.pairs[selected], "selected pair");
-    el.scrollIntoView({behavior: "smooth", block: "center"});
+    select(+tr.dataset.i, true);
   });
   t.querySelectorAll("th[data-k]").forEach(th => th.onclick = () => {
     const k = th.dataset.k; sortDir = k === sortKey ? -sortDir : 1; sortKey = k; table();
   });
+}
+
+function select(i, scroll) {
+  selected = i;
+  const p = data.pairs[i], el = document.getElementById("ex-selected-box");
+  el.hidden = false;
+  pairPlot("ex-selected", p, "selected pair");
+  const box = document.getElementById("rs-box"), note = document.getElementById("rs-note"), lim = data.params.rs_dt0_s;
+  if (p.rs) {
+    const b = data.params.rs_band_hz || [];
+    document.getElementById("rs-img").src = p.rs;
+    document.getElementById("rs-cap").textContent = `Reviewed ${evLabel(p.a_evid, p.a_mag)} and test ${evLabel(p.b_evid, p.b_mag)}: ` +
+      `vertical waveforms from dev${b.length ? `, ${b[0]}–${b[1]} Hz` : ""}, by distance from the reviewed epicenter; ` +
+      `arrivals of both events from onsite.`;
+    box.hidden = false;
+    note.innerHTML = `<a href="#rs-box">Waveform record section below ↓</a>`;
+  } else {
+    box.hidden = true;
+    note.textContent = lim ? `No waveform record section (made only for |Δt₀| < ${lim} s).` : "";
+  }
+  if (scroll && window.innerWidth < 1250) el.scrollIntoView({behavior: "smooth", block: "start"});
 }
 
 fetch("data/splits.json", {cache: "no-store"}).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
@@ -288,7 +293,9 @@ fetch("data/splits.json", {cache: "no-store"}).then(r => { if (!r.ok) throw new 
     document.getElementById("meta").textContent =
       `${d.start} to ${d.end} · generated ${d.generated} · ${d.n_anchors} reviewed events · ${d.pairs.length} pairs`;
     d.pairs.forEach((p, i) => p._i = i);
-    summary(d); plots(d); table(); examples(d);
+    summary(d); plots(d); table();
+    const first = document.querySelector("#pairs tbody tr");
+    if (first) { first.classList.add("sel"); select(+first.dataset.i, false); }
   })
   .catch(e => { const el = document.getElementById("error"); el.textContent = `Could not load results: ${e.message}`; el.hidden = false; });
 </script>

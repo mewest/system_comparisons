@@ -20,12 +20,12 @@ import numpy as np
 from . import mseed
 from .config import DOCS_DIR
 
-MAX_DT0_S = 10.0
+MAX_DT0_S = 30.0
 EVENT_WS = "http://dispatchon.aec.alaska.edu/fdsnws/event/1/query"
 STATION_WS = "http://dispatchon.aec.alaska.edu/fdsnws/station/1/query"
 DATA_WS = "http://dispatchdev.aec.alaska.edu/fdsnws/dataselect/1/query"
-N_BINS = 45              # distance bins; each keeps <= 1 reviewed-event and 1 test-event station
-BAND = (1.0, 10.0)       # bandpass (Hz)
+N_BINS = 80              # distance bins; each keeps <= 1 reviewed-event and 1 test-event station
+BAND = (3.0, 8.0)         # bandpass (Hz)
 PRE_S, POST_S = 20.0, 30.0
 MAX_LEN_S = 360.0
 P_PHASES = {"P", "p", "Pn", "Pg", "Pb"}
@@ -158,7 +158,7 @@ def plot_pair(row, tt, sta_xy):
     st = _pick_traces(sorted(st.values(), key=lambda s: s["km"]))
 
     tmax = max(t for s in st for _, t in s["a"] + s["b"]) - A["t0"] + POST_S
-    tmin = min(-PRE_S, min(t for s in st for _, t in s["a"] + s["b"]) - A["t0"] - PRE_S)
+    tmin = min(-PRE_S, B["t0"] - A["t0"] - 10, min(t for s in st for _, t in s["a"] + s["b"]) - A["t0"] - PRE_S)
     tmax = min(tmax, tmin + MAX_LEN_S)
     t1, t2 = A["t0"] + tmin - 10, A["t0"] + tmax + 10      # 10 s extra for the filter taper
 
@@ -167,7 +167,7 @@ def plot_pair(row, tt, sta_xy):
 
     dmin, dmax = min(s["km"] for s in st), max(s["km"] for s in st)
     span = max(dmax - dmin, 20.0)
-    amp = 0.7 * span / N_BINS                               # half-width of a trace (km)
+    amp = 1.3 * span / N_BINS                               # half-width of a trace (km)
     plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": FONT, "font.size": 15, "mathtext.default": "regular"})
     fig, ax = plt.subplots(figsize=(13, 9))
     nwf = 0
@@ -191,7 +191,8 @@ def plot_pair(row, tt, sta_xy):
     for ph in ("P", "S"):
         ax.plot(grid, tt(ph, grid / KM_PER_DEG, A["depth"]), color=COL["a" + ph], lw=0.9, zorder=3,
                 ls="-" if ph == "P" else "--")
-    ax.axhline(B["t0"] - A["t0"], color=COL["bP"], lw=0.8, ls=":", zorder=1)
+    ax.axhline(0, color=COL["aP"], lw=1.1, ls=(0, (2, 2)), zorder=1)
+    ax.axhline(B["t0"] - A["t0"], color=COL["bP"], lw=1.1, ls=(0, (2, 2)), zorder=1)
     ax.set_xlim(max(0, dmin - 2 * amp), dmax + 2 * amp)
     ax.set_ylim(tmin, tmax)
     ax.set_xlabel("Distance from reviewed epicenter (km)")
@@ -202,11 +203,12 @@ def plot_pair(row, tt, sta_xy):
                  f"{nwf} vertical traces (dev), {BAND[0]:g}–{BAND[1]:g} Hz", fontsize=15)
     h = [plt.Line2D([], [], color=COL["aP"], lw=2.6, label="Reviewed P"),
          plt.Line2D([], [], color=COL["aS"], lw=2.6, label="Reviewed S"),
+         plt.Line2D([], [], color=COL["aP"], lw=0.9, label="Predicted P"),
+         plt.Line2D([], [], color=COL["aS"], lw=0.9, ls="--", label="Predicted S"),
          plt.Line2D([], [], color=COL["bP"], lw=2.6, label="Test P"),
          plt.Line2D([], [], color=COL["bS"], lw=2.6, label="Test S"),
-         plt.Line2D([], [], color=COL["aP"], lw=0.9, label="ak135 P (reviewed)"),
-         plt.Line2D([], [], color=COL["aS"], lw=0.9, ls="--", label="ak135 S (reviewed)"),
-         plt.Line2D([], [], color=COL["bP"], lw=0.8, ls=":", label="Test origin time")]
+         plt.Line2D([], [], color=COL["aP"], lw=1.6, ls=(0, (2, 2)), label="Reviewed origin time"),
+         plt.Line2D([], [], color=COL["bP"], lw=1.6, ls=(0, (2, 2)), label="Test origin time")]
     ax.legend(handles=h, loc="upper left", bbox_to_anchor=(1.01, 1), frameon=False, fontsize=13)
     ax.grid(alpha=0.25)
     fig.tight_layout()

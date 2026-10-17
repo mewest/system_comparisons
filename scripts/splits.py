@@ -211,7 +211,7 @@ def run(start, end, out=OUTPUT_DIR):
                 **plot,
             })
     try:
-        recsec.make(rows, tt)            # waveform record sections for pairs with |dt0| < 10 s -> docs/rs/
+        recsec.make(rows, tt)            # waveform record sections for pairs with |dt0| < recsec.MAX_DT0_S -> docs/rs/
     except Exception as e:
         print(f"  record sections skipped: {e}")
     df = pd.DataFrame(rows)
@@ -220,7 +220,8 @@ def run(start, end, out=OUTPUT_DIR):
            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
            "n_anchors": int(len(anchors)),
            "params": {"window_s": WINDOW_S, "min_p": MIN_P, "split_rms": SPLIT_RMS,
-                      "distinct_rms": DISTINCT_RMS, "early_s": EARLY_S},
+                      "distinct_rms": DISTINCT_RMS, "early_s": EARLY_S,
+                      "rs_dt0_s": recsec.MAX_DT0_S, "rs_band_hz": list(recsec.BAND)},
            "pairs": rows}
     path = DOCS_DIR / "data" / "splits.json"
     path.write_text(json.dumps(doc, separators=(",", ":")))
