@@ -65,6 +65,13 @@ def write_latency(system, start, end, pref=None, error=None):
     return path
 
 
+def clear_site():
+    """Delete the previous run's web data (docs/data/*.json and docs/rs/*.png) so only this run is published."""
+    for pat in ("data/*.json", "rs/*.png"):
+        for f in DOCS_DIR.glob(pat):
+            f.unlink()
+
+
 def write_region():
     """docs/data/region.json: mission region outline (lon in -180..180) for the web map."""
     pts = [[round((lon + 180) % 360 - 180, 4), lat] for lon, lat in MISSION_POLY]

@@ -38,7 +38,8 @@ The map also shows AK events outside the mission region in grey (same symbols an
 show mission-region events only. Events within ±3 min of the selected one are ringed in yellow on every plot
 where they appear.
 Magnitudes are stored and plotted with 2 decimals; text (hover, panel, links) shows 1 decimal.
-Each run overwrites `docs/data/{onsite,offsite,dev}.json` and `docs/data/region.json`, so the site always shows the
+Each run first deletes the previous page data (`docs/data/*.json`, `docs/rs/*.png`), then writes
+`docs/data/{onsite,offsite,dev}.json` and `docs/data/region.json`, so the site always shows the
 latest window only; push to publish. GitHub Pages: Settings → Pages → Deploy from branch `main`, folder `/docs`.
 Plotly is loaded from jsDelivr; map coastlines come from `docs/topojson/world_50m.json` (sane-topojson).
 

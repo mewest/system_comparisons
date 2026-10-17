@@ -21,9 +21,8 @@ SYSTEM = "onsite"
 ANCHOR_STATUS = {"preliminary", "reviewed", "final"}
 WINDOW_S = 180          # pair events within +-3 min of an anchor
 MAX_DIST_DEG = 30.0     # travel-time table limit
-MIN_P = 5               # fewer B P picks -> ambiguous
 SPLIT_RMS = 2.0         # RMS_A <= this (s) -> split
-DISTINCT_RMS = 3.0      # RMS_A > this (s) -> distinct
+DISTINCT_RMS = 5.0      # RMS_A > this (s) -> distinct
 EARLY_S = 2.0           # B P pick this much before A's predicted P is "early"
 S_WIN = 2.0             # B P pick within this of A's predicted S is flagged (anchors M >= BIG_MAG)
 BIG_MAG = 4.0
@@ -109,8 +108,8 @@ def _rms(r):
 
 
 def _classify(n, rms_a, rms_b):
-    """Entirely RMS-based (no pick-matching screen)."""
-    if n < MIN_P or rms_a is None:
+    """RMS only (no pick-count or pick-matching screen); no RMS (no usable P picks) -> ambiguous."""
+    if rms_a is None:
         return "ambiguous"
     if rms_a <= SPLIT_RMS:
         return "split"
@@ -219,7 +218,7 @@ def run(start, end, out=OUTPUT_DIR):
     doc = {"system": SYSTEM, "start": start, "end": end,
            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
            "n_anchors": int(len(anchors)),
-           "params": {"window_s": WINDOW_S, "min_p": MIN_P, "split_rms": SPLIT_RMS,
+           "params": {"window_s": WINDOW_S, "split_rms": SPLIT_RMS,
                       "distinct_rms": DISTINCT_RMS, "early_s": EARLY_S,
                       "rs_dt0_s": recsec.MAX_DT0_S, "rs_band_hz": list(recsec.BAND)},
            "pairs": rows}

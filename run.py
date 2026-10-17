@@ -69,6 +69,7 @@ def main():
     out = config.OUTPUT_DIR            # one set of files, overwritten every run
     out.mkdir(parents=True, exist_ok=True)
 
+    web.clear_site()                   # remove the previous run's page data and record sections
     web.write_region()
     stats = {}
     for system in config.SYSTEMS:

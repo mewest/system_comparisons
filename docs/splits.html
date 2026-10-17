@@ -34,7 +34,7 @@
   }
   .selhead { font-size:14px; line-height:1.4; margin:0 0 6px; }
   .exmap { height:330px; min-width:0; }
-  #rs-img { display:block; width:100%; max-width:924px; height:auto; margin-top:10px; border:1px solid var(--line); }
+  #rs-img { display:block; width:100%; height:auto; margin-top:10px; border:1px solid var(--line); }
   #pairs tbody tr { cursor:pointer; }
   #pairs tbody tr:hover { background:#f3f6ff; }
   #pairs tbody tr.sel { background:#fff3c4; }
@@ -76,8 +76,6 @@
       <p><b>RMS</b> is the root-mean-square of those residuals in seconds. If it is small, the reviewed event already
       explains the test event's picks and the test event is likely a split (duplicate solution). If it is large, the
       test event needs its own source.</p>
-      <p>Labels for checking the thresholds: <i>rejected</i> (test event rejected on onsite) and <i>reviewed</i> (the
-      test event is also a reviewed event, so the analyst kept both).</p>
     </div>
   </div>
 </section>
@@ -111,9 +109,9 @@ const GROUPS = [                                                 // stacking ord
 ];
 const CLASSES = ["split", "ambiguous", "distinct"];
 const CLASS_DEF = p => ({
-  split: `RMS ≤ ${p.split_rms} s (with ≥ ${p.min_p} P picks): the reviewed event explains the test event's picks, so the test event is likely a duplicate solution`,
-  distinct: `RMS > ${p.distinct_rms} s (with ≥ ${p.min_p} P picks): the test event's picks need their own source, so it is a separate event`,
-  ambiguous: `RMS between ${p.split_rms} and ${p.distinct_rms} s, or fewer than ${p.min_p} P picks`,
+  split: `RMS ≤ ${p.split_rms} s: the reviewed event explains the test event's picks, so the test event is likely a duplicate solution`,
+  distinct: `RMS > ${p.distinct_rms} s: the test event's picks need their own source, so it is a separate event`,
+  ambiguous: `RMS between ${p.split_rms} and ${p.distinct_rms} s (or no RMS: no usable P picks)`,
 });
 const evLabel = (e, m) => `${m == null ? "M-.-" : "M" + Number(m).toFixed(1)} (${e})`;
 const fx = (v, n) => v == null ? "–" : Number(v).toFixed(n);
