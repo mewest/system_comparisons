@@ -1,4 +1,4 @@
-"""Waveform record sections for split-test pairs with |dt0| < MAX_DT0_S.
+"""Waveform record sections for split-test pairs with |dt0| <= MAX_DT0_S (all pairs by default).
 
 Vertical-component waveforms come from the dev FDSN dataselect service; event hypocenters, arrivals and picks come
 from the onsite FDSN event service, station coordinates from the onsite station service. Traces are placed by
@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
+from functools import lru_cache
 from datetime import datetime, timezone
 
 import matplotlib
@@ -20,7 +21,7 @@ import numpy as np
 from . import mseed
 from .config import DOCS_DIR
 
-MAX_DT0_S = 30.0
+MAX_DT0_S = 180.0        # = the pairing window, so every pair gets one
 EVENT_WS = "http://dispatchon.aec.alaska.edu/fdsnws/event/1/query"
 STATION_WS = "http://dispatchon.aec.alaska.edu/fdsnws/station/1/query"
 DATA_WS = "http://dispatchdev.aec.alaska.edu/fdsnws/dataselect/1/query"
@@ -31,7 +32,8 @@ MAX_LEN_S = 360.0
 P_PHASES = {"P", "p", "Pn", "Pg", "Pb"}
 S_PHASES = {"S", "s", "Sn", "Sg", "Sb"}
 KM_PER_DEG = 111.195
-COL = {"aP": "#d62728", "aS": "#ff7f0e", "bP": "#0055ff", "bS": "#17becf"}
+# reviewed = blue, test = red (the first-origin plot shades); S phases in lighter tints
+COL = {"aP": "#0000cd", "aS": "#4fa3ff", "bP": "#b22222", "bS": "#ff8a5c"}
 FONT = ["Helvetica Neue", "TeX Gyre Heros", "Helvetica", "Arial", "DejaVu Sans"]
 
 RS_DIR = DOCS_DIR / "rs"
@@ -55,6 +57,7 @@ def _epoch(s):
     return datetime.strptime(s[:26], fmt).replace(tzinfo=timezone.utc).timestamp()
 
 
+@lru_cache(maxsize=256)
 def event(evid):
     """Preferred origin of an onsite event: hypocenter plus arrivals joined to their picks."""
     xml = _get(f"{EVENT_WS}?eventid={evid}&includearrivals=true&includepicks=true&formatted=true")
@@ -168,8 +171,9 @@ def plot_pair(row, tt, sta_xy):
     dmin, dmax = min(s["km"] for s in st), max(s["km"] for s in st)
     span = max(dmax - dmin, 20.0)
     amp = 1.3 * span / N_BINS                               # half-width of a trace (km)
-    plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": FONT, "font.size": 15, "mathtext.default": "regular"})
-    fig, ax = plt.subplots(figsize=(13, 9))
+    plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": FONT, "font.size": 12, "mathtext.default": "regular"})
+    fig = plt.figure(figsize=(8.4, 8.6))
+    ax = fig.add_axes([0.1, 0.235, 0.875, 0.75])
     nwf = 0
     for s, w in zip(st, wf):
         x = s["km"]
@@ -181,11 +185,11 @@ def plot_pair(row, tt, sta_xy):
                 m = (tt_ >= tmin) & (tt_ <= tmax)
                 if m.sum() > 10:
                     yf = yf[m] / (np.max(np.abs(yf[m])) or 1)
-                    ax.plot(x + amp * yf, tt_[m], color="0.25", lw=0.6, zorder=2)
+                    ax.plot(x + amp * yf, tt_[m], color="0.25", lw=0.5, zorder=2)
                     nwf += 1
         for who in ("a", "b"):
             for ph, t in s[who]:
-                ax.plot([x - amp, x + amp], [t - A["t0"]] * 2, color=COL[who + ph], lw=2.6, zorder=4,
+                ax.plot([x - amp, x + amp], [t - A["t0"]] * 2, color=COL[who + ph], lw=2.4, zorder=4,
                         solid_capstyle="butt")
     grid = np.linspace(0, dmax + amp * 2, 200)
     for ph in ("P", "S"):
@@ -196,34 +200,37 @@ def plot_pair(row, tt, sta_xy):
     ax.set_xlim(max(0, dmin - 2 * amp), dmax + 2 * amp)
     ax.set_ylim(tmin, tmax)
     ax.set_xlabel("Distance from reviewed epicenter (km)")
-    ax.set_ylabel(f"Time after reviewed origin time (s)")
-    lbl = lambda e, m: f"{'M-.-' if m is None else f'M{m:.1f}'} ({e})"
-    ax.set_title(f"Reviewed {lbl(row['a_evid'], row['a_mag'])}   Test {lbl(row['b_evid'], row['b_mag'])}\n"
-                 f"{row['a_time'][:19].replace('T', ' ')} UTC,  $\\Delta t_0$ = {row['dt0_s']:+.1f} s,  "
-                 f"{nwf} vertical traces (dev), {BAND[0]:g}–{BAND[1]:g} Hz", fontsize=15)
-    h = [plt.Line2D([], [], color=COL["aP"], lw=2.6, label="Reviewed P"),
-         plt.Line2D([], [], color=COL["aS"], lw=2.6, label="Reviewed S"),
+    ax.set_ylabel("Time since reviewed origin (s)")
+    ax.text(0.01, 0.012, f"0 s = {_iso(A['t0'])[:22].replace('T', ' ')} UTC", transform=ax.transAxes, fontsize=9,
+            ha="left", va="bottom", color="0.2", bbox=dict(facecolor="white", edgecolor="none", pad=1.5, alpha=0.85), zorder=6)
+    ax.grid(alpha=0.25)
+    h = [plt.Line2D([], [], color=COL["aP"], lw=2.4, label="Reviewed P"),
+         plt.Line2D([], [], color=COL["aS"], lw=2.4, label="Reviewed S"),
          plt.Line2D([], [], color=COL["aP"], lw=0.9, label="Predicted P"),
          plt.Line2D([], [], color=COL["aS"], lw=0.9, ls="--", label="Predicted S"),
-         plt.Line2D([], [], color=COL["bP"], lw=2.6, label="Test P"),
-         plt.Line2D([], [], color=COL["bS"], lw=2.6, label="Test S"),
-         plt.Line2D([], [], color=COL["aP"], lw=1.6, ls=(0, (2, 2)), label="Reviewed origin time"),
-         plt.Line2D([], [], color=COL["bP"], lw=1.6, ls=(0, (2, 2)), label="Test origin time")]
-    ax.legend(handles=h, loc="upper left", bbox_to_anchor=(1.01, 1), frameon=False, fontsize=13)
-    ax.grid(alpha=0.25)
-    fig.tight_layout()
+         plt.Line2D([], [], color=COL["bP"], lw=2.4, label="Test P"),
+         plt.Line2D([], [], color=COL["bS"], lw=2.4, label="Test S"),
+         plt.Line2D([], [], color=COL["aP"], lw=1.4, ls=(0, (2, 2)), label="Reviewed origin time"),
+         plt.Line2D([], [], color=COL["bP"], lw=1.4, ls=(0, (2, 2)), label="Test origin time")]
+    fig.legend(handles=h, loc="upper center", bbox_to_anchor=(0.5, 0.155), ncol=4, frameon=False, fontsize=11,
+               handlelength=2.2, columnspacing=1.4)
+    lbl = lambda e, m: f"{'M-.-' if m is None else f'M{m:.1f}'} ({e})"
+    fig.text(0.5, 0.012, f"Reviewed {lbl(row['a_evid'], row['a_mag'])},  test {lbl(row['b_evid'], row['b_mag'])},  "
+             f"$\\Delta t_0$ = {row['dt0_s']:+.1f} s\n{nwf} vertical traces from dev, {BAND[0]:g}–{BAND[1]:g} Hz; "
+             f"arrivals from onsite; predicted times ak135 from the reviewed hypocenter",
+             ha="center", va="bottom", fontsize=9.5, color="0.3", linespacing=1.5)
     name = f"{row['a_evid']}_{row['b_evid']}.png"
-    fig.savefig(RS_DIR / name, dpi=100)
+    fig.savefig(RS_DIR / name, dpi=110)
     plt.close(fig)
     return f"rs/{name}"
 
 
 def make(rows, tt):
-    """Write record sections for pairs with |dt0| < MAX_DT0_S; set row['rs'] to the PNG path (relative to docs/)."""
+    """Write record sections for pairs with |dt0| <= MAX_DT0_S; set row['rs'] to the PNG path (relative to docs/)."""
     RS_DIR.mkdir(parents=True, exist_ok=True)
     for f in RS_DIR.glob("*.png"):
         f.unlink()
-    todo = [r for r in rows if r.get("dt0_s") is not None and abs(r["dt0_s"]) < MAX_DT0_S]
+    todo = [r for r in rows if r.get("dt0_s") is not None and abs(r["dt0_s"]) <= MAX_DT0_S]
     if not todo:
         return
     t = datetime.fromisoformat(todo[0]["a_time"].replace("Z", "+00:00")).timestamp()

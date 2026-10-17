@@ -16,24 +16,25 @@
   .meta { color:var(--muted); font-size:14px; }
   nav { margin:8px 0 0; font-size:15px; }
   a { color:var(--accent); }
+  .error { color:#b00020; }
   section { border-top:1px solid var(--line); padding-top:10px; margin:14px 0; }
   section h2 { margin:0 0 8px; font-size:20px; font-weight:600; }
   p.method { max-width:900px; font-size:15px; line-height:1.45; margin:8px 0; }
-  .plot { width:100%; height:480px; }
+  .sumrow { display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; }
+  .infobox { flex:1 1 320px; max-width:560px; background:var(--panel); border:1px solid var(--line); border-radius:6px;
+             padding:10px 14px; font-size:14px; line-height:1.45; }
+  .infobox p { margin:0 0 6px; } .infobox p:last-child { margin:0; }
+  #p-hist { width:100%; max-width:720px; height:360px; }
   .pairgrid { display:block; }
   .pairgrid .side { margin-top:16px; min-width:0; }
   @media (min-width: 1250px) {
-    .pairgrid { display:grid; grid-template-columns:auto minmax(520px, 1fr); gap:24px; align-items:start; }
-    .pairgrid .side { margin-top:0; position:sticky; top:8px; }
+    .pairgrid { display:grid; grid-template-columns:auto minmax(480px, 1fr); gap:24px; align-items:start; }
+    .pairgrid .side { margin-top:0; }
     .pairgrid .tablewrap { max-height:calc(100vh - 40px); }
   }
-  .ex { height:500px; min-width:0; }
-  .exmap { height:420px; min-width:0; margin-top:4px; }
-  th.w { white-space:normal; width:72px; min-width:60px; vertical-align:bottom; line-height:1.2; }
-  #rs-img { max-width:100%; height:auto; border:1px solid var(--line); }
-  .key { font-weight:700; }
-  .key.rev { color:#444; }
-  .key.tst { color:#ff1a1a; }
+  .selhead { font-size:14px; line-height:1.4; margin:0 0 6px; }
+  .exmap { height:330px; min-width:0; }
+  #rs-img { display:block; width:100%; max-width:924px; height:auto; margin-top:10px; border:1px solid var(--line); }
   #pairs tbody tr { cursor:pointer; }
   #pairs tbody tr:hover { background:#f3f6ff; }
   #pairs tbody tr.sel { background:#fff3c4; }
@@ -43,15 +44,16 @@
   th { background:#fafafa; cursor:pointer; user-select:none; }
   th.l, td.l { text-align:left; }
   th.sep, td.sep { border-left:2px solid #888; }
-  td.def { white-space:normal; color:var(--muted); min-width:320px; max-width:560px; }
+  th.w { white-space:normal; width:72px; min-width:60px; vertical-align:bottom; line-height:1.2; }
+  td.def { white-space:normal; color:var(--muted); min-width:280px; max-width:460px; }
   th .arrow { color:var(--muted); font-size:11px; }
   .summary td, .summary th { cursor:default; }
   .chip { font-weight:600; }
-  .split { color:#8a3b00; }
-  .distinct { color:#0b3d91; }
-  .ambiguous { color:#555; }
+  .split { color:#ff7f0e; }
+  .distinct { color:#000; font-weight:700; }
+  .ambiguous { color:#b0b0b0; }
   .tablewrap { max-height:75vh; overflow:auto; border:1px solid var(--line); border-radius:6px; }
-  @media (max-width: 860px) { header, main { padding:0 16px; } header { padding-top:16px; } .plot { height:420px; } }
+  @media (max-width: 860px) { header, main { padding:0 16px; } header { padding-top:16px; } #p-hist { height:320px; } }
 </style>
 </head>
 <body>
@@ -61,55 +63,51 @@
   <nav><a href="index.html">← First origin latency</a></nav>
 </header>
 <main>
-<p class="method">
-  <b>Reviewed</b> events are analyst-reviewed onsite events (status preliminary, reviewed or final). Every other
-  onsite event within ±3 min of a reviewed event is a <b>test</b> event: its first-arriving P picks are compared
-  with the arrival times predicted from the reviewed event's hypocenter (ak135). <b>RMS</b> is the root-mean-square
-  of those residuals in seconds. If it is small, the reviewed event already explains the test event's picks and the
-  test event is likely a split (duplicate solution). If it is large, the test event needs its own source.
-  Labels for checking the thresholds: <i>rejected</i> (test event rejected on onsite) and <i>both reviewed</i> (the test event is also a
-  reviewed event, so the analyst kept both).
-</p>
 <div class="error" id="error" hidden></div>
 
 <section>
   <h2>Summary</h2>
-  <table class="summary" id="summary"></table>
-</section>
-<section>
-  <h2>traveltime RMS of test event to the reviewed hypocenter</h2>
-  <div class="plot" id="p-hist"></div>
-</section>
-<section>
-  <h2>Pair details</h2>
-  <p class="method">
-    Click a row to plot that pair. The <b>black line</b> is the P arrival time predicted with ak135 from the reviewed
-    event's hypocenter. <span class="key rev">○</span> are the reviewed event's own P picks,
-    <span class="key tst">●</span> the test event's P picks, and the thin vertical lines their residuals
-    (observed − predicted); <b>RMS</b> is the root-mean-square length of those lines. For a split the test event's
-    picks fall on the curve; for a distinct event they sit off it. Hover over a test event for its status and author.
-  </p>
-  <div class="pairgrid">
-    <div class="tablewrap"><table id="pairs"></table></div>
-    <div class="side" id="ex-selected-box" hidden>
-      <div class="ex" id="ex-selected"></div><div class="exmap" id="ex-selected-map"></div>
-      <p class="meta" id="rs-note"></p>
+  <div class="sumrow">
+    <table class="summary" id="summary"></table>
+    <div class="infobox">
+      <p><b>Reviewed</b> events are analyst-reviewed onsite events (status preliminary, reviewed or final). Every other
+      onsite event within ±3 min of a reviewed event is a <b>test</b> event: its first-arriving P picks are compared
+      with the arrival times predicted from the reviewed event's hypocenter (ak135).</p>
+      <p><b>RMS</b> is the root-mean-square of those residuals in seconds. If it is small, the reviewed event already
+      explains the test event's picks and the test event is likely a split (duplicate solution). If it is large, the
+      test event needs its own source.</p>
+      <p>Labels for checking the thresholds: <i>rejected</i> (test event rejected on onsite) and <i>reviewed</i> (the
+      test event is also a reviewed event, so the analyst kept both).</p>
     </div>
   </div>
 </section>
-<section id="rs-box" hidden>
-  <h2>Waveform record section</h2>
-  <p class="method" id="rs-cap"></p>
-  <img id="rs-img" alt="Waveform record section of the selected pair">
+<section>
+  <h2>traveltime RMS of test event to the reviewed hypocenter</h2>
+  <div id="p-hist"></div>
+</section>
+<section>
+  <h2>Pair details</h2>
+  <p class="method">Click a row to show the pair's map and waveform record section. Hover over a test event for its
+    status and author.</p>
+  <div class="pairgrid">
+    <div class="tablewrap"><table id="pairs"></table></div>
+    <div class="side" id="sel-box" hidden>
+      <div class="selhead" id="sel-head"></div>
+      <div class="exmap" id="sel-map"></div>
+      <img id="rs-img" alt="Waveform record section of the selected pair">
+      <p class="meta" id="rs-note"></p>
+    </div>
+  </div>
 </section>
 </main>
 <script>
 Plotly.setPlotConfig({topojsonURL: "topojson/"});
 const FONT = '"Helvetica Neue","TeX Gyre Heros",Helvetica,Arial,sans-serif';
-const GROUPS = [
-  {key: "rejected", name: "rejected", color: "#f2c200"},
-  {key: "both reviewed", name: "reviewed", color: "#d62728"},
-  {key: "", name: "unlabelled", color: "#9a9a9a"},
+const BLUE = "#0000cd", GREY = "#a0a0a0", RED = "#b22222";      // shades of the first-origin plot
+const GROUPS = [                                                 // stacking order, bottom to top
+  {key: "both reviewed", name: "reviewed", color: BLUE},
+  {key: "", name: "unlabelled", color: GREY},
+  {key: "rejected", name: "rejected", color: RED},
 ];
 const CLASSES = ["split", "ambiguous", "distinct"];
 const CLASS_DEF = p => ({
@@ -117,6 +115,10 @@ const CLASS_DEF = p => ({
   distinct: `RMS > ${p.distinct_rms} s (with ≥ ${p.min_p} P picks): the test event's picks need their own source, so it is a separate event`,
   ambiguous: `RMS between ${p.split_rms} and ${p.distinct_rms} s, or fewer than ${p.min_p} P picks`,
 });
+const evLabel = (e, m) => `${m == null ? "M-.-" : "M" + Number(m).toFixed(1)} (${e})`;
+const fx = (v, n) => v == null ? "–" : Number(v).toFixed(n);
+const esc = s => String(s ?? "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+const testInfo = r => esc(`status: ${r.b_status || "–"}${r.b_mode ? " (" + r.b_mode + ")" : ""}\nauthor: ${r.b_author || "–"}`);
 const COLS = [
   {k: "cls", t: "Class", l: true, f: v => `<span class="chip ${v}">${v}</span>`},
   {k: "a_evid", t: "Reviewed", l: true, s: r => r.a_mag, f: (v, r) => `<a href="${r.url_a}" target="_blank" rel="noopener">${evLabel(v, r.a_mag)}</a>`},
@@ -127,10 +129,6 @@ const COLS = [
   {k: "rms_a", t: "RMS (s)", c: "w", f: v => fx(v, 1)},
   {k: "dt0_s", t: "Δt₀ (s)", c: "w", f: v => v == null ? "–" : Math.round(v)},
 ];
-const esc = s => String(s ?? "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-const testInfo = r => esc(`status: ${r.b_status || "–"}${r.b_mode ? " (" + r.b_mode + ")" : ""}\nauthor: ${r.b_author || "–"}`);
-const evLabel = (e, m) => `${m == null ? "M-.-" : "M" + Number(m).toFixed(1)} (${e})`;
-const fx = (v, n) => v == null ? "–" : Number(v).toFixed(n);
 let data = null, selected = null, sortKey = "a_time", sortDir = 1;
 
 function summary(d) {
@@ -145,102 +143,75 @@ function summary(d) {
      <tr><td class="l"><b>Total</b></td>${tot.map(n => `<td><b>${n}</b></td>`).join("")}<td><b>${d.pairs.length}</b></td><td></td></tr>`;
 }
 
-function refLines(axis) {
-  const p = data.params;
-  const v = (x, txt) => ({type: "line", [axis + "ref"]: axis, [axis + "0"]: x, [axis + "1"]: x,
-                          [(axis === "x" ? "y" : "x") + "ref"]: "paper", [(axis === "x" ? "y" : "x") + "0"]: 0,
-                          [(axis === "x" ? "y" : "x") + "1"]: 1, line: {color: "#444", dash: "dash", width: 1}});
-  return [v(p.split_rms), v(p.distinct_rms)];
-}
-
-function plots(d) {
-  const layoutBase = {font: {family: FONT, size: 14, color: "#1a1a1a"}, paper_bgcolor: "white", plot_bgcolor: "white",
-                      margin: {l: 70, r: 20, t: 20, b: 60}, legend: {x: 0.99, xanchor: "right", y: 0.99,
-                      bordercolor: "#000", borderwidth: 1, bgcolor: "rgba(255,255,255,0.9)"}, hovermode: "closest"};
-  const grid = {showgrid: true, gridcolor: "#eee", showline: true, mirror: true, linecolor: "#9a9a9a"};
-  // histogram on log-spaced bins
+function hist(d) {
+  const p = d.params;
   const edges = []; for (let e = -1; e <= 3.0001; e += 0.1) edges.push(10 ** e);
-  const hist = GROUPS.map(g => {
-    const v = d.pairs.filter(p => p.label === g.key && p.rms_a != null).map(p => p.rms_a);
+  const traces = GROUPS.map(g => {
+    const v = d.pairs.filter(q => q.label === g.key && q.rms_a != null).map(q => q.rms_a);
     const counts = edges.slice(0, -1).map((lo, i) => v.filter(x => x >= lo && (x < edges[i + 1] || (i === edges.length - 2 && x >= edges[i + 1]))).length);
     return {type: "bar", name: `${g.name} (${v.length})`, x: edges.slice(0, -1).map((lo, i) => Math.sqrt(lo * edges[i + 1])),
             width: edges.slice(0, -1).map((lo, i) => edges[i + 1] - lo), y: counts, marker: {color: g.color, line: {color: "white", width: 0.5}},
             hovertemplate: "%{y} pairs<extra>" + g.name + "</extra>"};
   });
-  const ann = (x, t) => ({x: Math.log10(x), y: 1, yref: "paper", text: t, showarrow: false, yanchor: "bottom", font: {size: 12}});
-  Plotly.react("p-hist", hist, {...layoutBase, barmode: "stack", legend: {...layoutBase.legend, traceorder: "normal"},
-    xaxis: {...grid, type: "log", title: {text: "RMS (s): test event's P picks vs reviewed event's hypocenter"}, range: [-1, 3]},
-    yaxis: {...grid, title: {text: "number of pairs"}}, shapes: refLines("x"), margin: {...layoutBase.margin, t: 30},
-    annotations: [ann(d.params.split_rms, `split ≤ ${d.params.split_rms} s`), ann(d.params.distinct_rms, `distinct > ${d.params.distinct_rms} s`)]},
-    {responsive: true, displaylogo: false});
-}
-
-const CLS_COLOR = {split: "#ff1a1a", distinct: "#0055ff", ambiguous: "#555"};   // bright, to stand out from the grey reviewed picks
-function pairPlot(id, p, what) {
-  const col = CLS_COLOR[p.cls] || "#555";
-  const seg = {x: [], y: []};
-  p.picks.forEach(([d, t, tp]) => { seg.x.push(d, d, null); seg.y.push(t, tp, null); });
-  const lbl = evLabel;
-  const narrow = document.getElementById(id).clientWidth < 600;
-  const traces = [
-    {type: "scatter", mode: "lines", name: "predicted P from reviewed hypocenter", x: p.curve.map(c => c[0]),
-     y: p.curve.map(c => c[1]), line: {color: "#000", width: 2}, hoverinfo: "skip"},
-    {type: "scatter", mode: "markers", name: "reviewed event P picks", x: p.a_picks.map(c => c[0]), y: p.a_picks.map(c => c[1]),
-     marker: {symbol: "circle-open", size: 11, color: "#444", line: {width: 1.5}},
-     hovertemplate: "reviewed pick<br>%{x:.0f} km, %{y:.1f} s<extra></extra>"},
-    {type: "scatter", mode: "lines", name: "residual", x: seg.x, y: seg.y, line: {color: col, width: 1}, hoverinfo: "skip",
-     showlegend: false},
-    {type: "scatter", mode: "markers", name: "test event P picks", x: p.picks.map(c => c[0]), y: p.picks.map(c => c[1]),
-     customdata: p.picks.map(c => [c[3], c[1] - c[2]]), marker: {size: 6, color: col},
-     hovertemplate: "%{customdata[0]}<br>%{x:.0f} km, %{y:.1f} s<br>residual %{customdata[1]:.2f} s<extra></extra>"},
-  ];
-  const layout = {
+  const minors = [], minorLbl = [];
+  for (let e = -1; e < 3; e++) for (let m = 2; m <= 9; m++) {
+    minors.push(m * 10 ** e);
+    if (m === 2 || m === 5) minorLbl.push({x: Math.log10(m * 10 ** e), y: 0, xref: "x", yref: "paper", text: String(m),
+      showarrow: false, yanchor: "top", yshift: -3, font: {size: 9, color: "#555"}});
+  }
+  const line = x => ({type: "line", xref: "x", x0: x, x1: x, yref: "paper", y0: 0, y1: 1, line: {color: "#444", dash: "dash", width: 1}});
+  const ann = (x, t, side) => ({x: Math.log10(x), y: 1, yref: "paper", text: t, showarrow: false, yanchor: "bottom",
+                                xanchor: side, xshift: side === "right" ? -3 : 3, font: {size: 13}});
+  const axis = {showgrid: true, gridcolor: "#eee", showline: true, mirror: true, linecolor: "#9a9a9a",
+                tickfont: {size: 15}, title: {font: {size: 17}}};
+  Plotly.react("p-hist", traces, {
     font: {family: FONT, size: 14, color: "#1a1a1a"}, paper_bgcolor: "white", plot_bgcolor: "white",
-    title: {text: `<b>${what}</b>: <span style="color:${col}">${p.cls}</span>, RMS ${fx(p.rms_a, 1)} s<br>` +
-                  `<span style="font-size:13px">reviewed ${lbl(p.a_evid, p.a_mag)} →${narrow ? "<br>" : " "}test ` +
-                  `${lbl(p.b_evid, p.b_mag)}, ${p.n_p} P picks</span>`, font: {size: 16}, x: 0.02, xanchor: "left"},
-    margin: {l: 70, r: 20, t: narrow ? 90 : 70, b: narrow ? 150 : 110},
-    xaxis: {showgrid: true, gridcolor: "#eee", showline: true, mirror: true, linecolor: "#9a9a9a", rangemode: "tozero",
-            title: {text: "distance from reviewed hypocenter (km)"}},
-    yaxis: {showgrid: true, gridcolor: "#eee", showline: true, mirror: true, linecolor: "#9a9a9a", zeroline: false,
-            title: {text: "time after reviewed origin time (s)"}},
-    legend: {orientation: "h", x: 0, xanchor: "left", y: narrow ? -0.32 : -0.22, yanchor: "top", font: {size: 12}},
-    hovermode: "closest",
-  };
-  Plotly.react(id, traces, layout, {responsive: true, displaylogo: false});
-  pairMap(id + "-map", p, col);
+    margin: {l: 70, r: 20, t: 30, b: 60}, barmode: "stack", hovermode: "closest",
+    legend: {x: 0.99, xanchor: "right", y: 0.99, traceorder: "reversed", bordercolor: "#000", borderwidth: 1,
+             bgcolor: "rgba(255,255,255,0.9)", font: {size: 14}},
+    xaxis: {...axis, type: "log", range: [-1, 3], tickvals: [0.1, 1, 10, 100, 1000], ticktext: ["0.1", "1", "10", "100", "1000"],
+            minor: {tickvals: minors, ticks: "outside", ticklen: 4, showgrid: false}, ticks: "outside", ticklen: 7,
+            title: {...axis.title, text: "RMS (s)", standoff: 14}},
+    yaxis: {...axis, title: {...axis.title, text: "number of pairs"}},
+    shapes: [line(p.split_rms), line(p.distinct_rms)],
+    annotations: [ann(p.split_rms, `split ≤ ${p.split_rms} s`, "right"), ann(p.distinct_rms, `distinct > ${p.distinct_rms} s`, "left"), ...minorLbl],
+  }, {responsive: true, displaylogo: false});
 }
 
-// static map of the stations in the record section, same symbols and colours
-function pairMap(id, p, col) {
+// static map: reviewed P arrivals (blue dots), test P arrivals (red open circles), both epicenters
+function pairMap(id, p) {
   const L = lon => lon > 0 ? lon - 360 : lon;           // keep the Aleutians continuous across 180°
   const tp = p.picks.filter(c => c[4] != null), ap = p.a_picks.filter(c => c[2] != null);
   const lats = [...tp.map(c => c[4]), ...ap.map(c => c[2]), p.a_lat, p.b_lat];
   const lons = [...tp.map(c => L(c[5])), ...ap.map(c => L(c[3])), L(p.a_lon), L(p.b_lon)];
   const pad = (a, b, f, m) => { const d = Math.max((b - a) * f, m); return [a - d, b + d]; };
-  const [la0, la1] = pad(Math.min(...lats), Math.max(...lats), 0.12, 1);
-  const [lo0, lo1] = pad(Math.min(...lons), Math.max(...lons), 0.12, 2);
+  let [la0, la1] = pad(Math.min(...lats), Math.max(...lats), 0.15, 1);
+  let [lo0, lo1] = pad(Math.min(...lons), Math.max(...lons), 0.15, 2);
+  // stretch the shorter side so the map fills the box (and the legend sits inside the map)
+  const el = document.getElementById(id), aspect = el.clientWidth / el.clientHeight;
+  const k = Math.cos((la0 + la1) / 2 * Math.PI / 180), w = (lo1 - lo0) * k, h = la1 - la0;
+  if (w / h < aspect) { const d = (h * aspect / k - (lo1 - lo0)) / 2; lo0 -= d; lo1 += d; }
+  else { const d = (w / aspect - h) / 2; la0 -= d; la1 += d; }
   const star = (lat, lon, color, name) => ({type: "scattergeo", mode: "markers", name, lat: [lat], lon: [L(lon)],
-    marker: {symbol: "star", size: 18, color, line: {color: "#000", width: 1}}});
+    marker: {symbol: "star", size: 17, color, line: {color: "#000", width: 1}}});
   const traces = [
-    {type: "scattergeo", mode: "markers", name: "reviewed event P picks", lat: ap.map(c => c[2]), lon: ap.map(c => L(c[3])),
-     marker: {symbol: "circle-open", size: 11, color: "#444", line: {width: 1.5}}},
-    {type: "scattergeo", mode: "markers", name: "test event P picks", lat: tp.map(c => c[4]), lon: tp.map(c => L(c[5])),
-     marker: {size: 6, color: col}},
-    star(p.a_lat, p.a_lon, "#fff", "reviewed epicenter"),
-    star(p.b_lat, p.b_lon, col, "test epicenter"),
+    {type: "scattergeo", mode: "markers", name: "Reviewed P arrivals", lat: ap.map(c => c[2]), lon: ap.map(c => L(c[3])),
+     marker: {size: 7, color: BLUE}},
+    {type: "scattergeo", mode: "markers", name: "Test P arrivals", lat: tp.map(c => c[4]), lon: tp.map(c => L(c[5])),
+     marker: {symbol: "circle-open", size: 11, color: RED, line: {width: 1.6}}},
+    star(p.a_lat, p.a_lon, BLUE, "Reviewed epicenter"),
+    star(p.b_lat, p.b_lon, RED, "Test epicenter"),
   ];
-  const layout = {
-    font: {family: FONT, size: 12, color: "#1a1a1a"}, paper_bgcolor: "white",
-    margin: {l: 4, r: 4, t: 4, b: document.getElementById(id).clientWidth < 600 ? 64 : 40},
-    showlegend: true, legend: {orientation: "h", x: 0, y: -0.01, yanchor: "top", font: {size: 11}},
+  Plotly.react(id, traces, {
+    font: {family: FONT, size: 12, color: "#1a1a1a"}, paper_bgcolor: "white", margin: {l: 2, r: 2, t: 2, b: 2},
+    showlegend: true, legend: {x: 0.01, xanchor: "left", y: 0.99, yanchor: "top", bgcolor: "rgba(255,255,255,0.9)",
+                               bordercolor: "#000", borderwidth: 1, font: {size: 12}},
     geo: {projection: {type: "conic conformal", parallels: [55, 65], rotation: {lon: (lo0 + lo1) / 2}},
           lataxis: {range: [la0, la1]}, lonaxis: {range: [lo0, lo1]}, resolution: 50,
           showland: true, landcolor: "#ececec", showocean: true, oceancolor: "white", showcoastlines: true,
           coastlinecolor: "#555", coastlinewidth: 0.5, showcountries: true, countrycolor: "#888", countrywidth: 0.5,
           showlakes: false, showframe: true, framecolor: "#9a9a9a", bgcolor: "white"},
-  };
-  Plotly.react(id, traces, layout, {staticPlot: true, responsive: true});
+  }, {staticPlot: true, responsive: true});
 }
 
 function table() {
@@ -256,7 +227,7 @@ function table() {
   const body = rows.map(r => `<tr data-i="${r._i}" class="${selected === r._i ? "sel" : ""}">${COLS.map(c => `<td class="${c.l ? "l" : ""} ${c.c || ""}">${c.f ? c.f(r[c.k], r) : (r[c.k] ?? "–")}</td>`).join("")}</tr>`).join("");
   const t = document.getElementById("pairs");
   t.innerHTML = `<thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
-  t.querySelectorAll("tbody tr").forEach(tr => tr.onclick = () => {
+  t.querySelectorAll("tbody tr").forEach(tr => tr.onclick = e => {
     t.querySelectorAll("tbody tr.sel").forEach(x => x.classList.remove("sel"));
     tr.classList.add("sel");
     select(+tr.dataset.i, true);
@@ -268,23 +239,16 @@ function table() {
 
 function select(i, scroll) {
   selected = i;
-  const p = data.pairs[i], el = document.getElementById("ex-selected-box");
-  el.hidden = false;
-  pairPlot("ex-selected", p, "selected pair");
-  const box = document.getElementById("rs-box"), note = document.getElementById("rs-note"), lim = data.params.rs_dt0_s;
-  if (p.rs) {
-    const b = data.params.rs_band_hz || [];
-    document.getElementById("rs-img").src = p.rs;
-    document.getElementById("rs-cap").textContent = `Reviewed ${evLabel(p.a_evid, p.a_mag)} and test ${evLabel(p.b_evid, p.b_mag)}: ` +
-      `vertical waveforms from dev${b.length ? `, ${b[0]}–${b[1]} Hz` : ""}, by distance from the reviewed epicenter; ` +
-      `arrivals of both events from onsite.`;
-    box.hidden = false;
-    note.innerHTML = `<a href="#rs-box">Waveform record section below ↓</a>`;
-  } else {
-    box.hidden = true;
-    note.textContent = lim ? `No waveform record section (made only for |Δt₀| < ${lim} s).` : "";
-  }
-  if (scroll && window.innerWidth < 1250) el.scrollIntoView({behavior: "smooth", block: "start"});
+  const p = data.pairs[i], box = document.getElementById("sel-box");
+  box.hidden = false;
+  document.getElementById("sel-head").innerHTML =
+    `<b>Selected:</b> reviewed ${evLabel(p.a_evid, p.a_mag)} → test ${evLabel(p.b_evid, p.b_mag)} · ` +
+    `<span class="chip ${p.cls}">${p.cls}</span>, RMS ${fx(p.rms_a, 1)} s, ${p.n_p} P arrivals, Δt₀ ${p.dt0_s == null ? "–" : Math.round(p.dt0_s)} s`;
+  pairMap("sel-map", p);
+  const img = document.getElementById("rs-img"), note = document.getElementById("rs-note");
+  if (p.rs) { img.src = p.rs; img.hidden = false; note.textContent = ""; }
+  else { img.hidden = true; img.removeAttribute("src"); note.textContent = "No waveform record section for this pair."; }
+  if (scroll && window.innerWidth < 1250) box.scrollIntoView({behavior: "smooth", block: "start"});
 }
 
 fetch("data/splits.json", {cache: "no-store"}).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
@@ -293,7 +257,7 @@ fetch("data/splits.json", {cache: "no-store"}).then(r => { if (!r.ok) throw new 
     document.getElementById("meta").textContent =
       `${d.start} to ${d.end} · generated ${d.generated} · ${d.n_anchors} reviewed events · ${d.pairs.length} pairs`;
     d.pairs.forEach((p, i) => p._i = i);
-    summary(d); plots(d); table();
+    summary(d); hist(d); table();
     const first = document.querySelector("#pairs tbody tr");
     if (first) { first.classList.add("sel"); select(+first.dataset.i, false); }
   })
