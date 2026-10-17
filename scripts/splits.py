@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, timezone
 import numpy as np
 import pandas as pd
 
-from . import db
+from . import db, recsec
 from .config import DOCS_DIR, OUTPUT_DIR, PKG_DIR
 from .web import EVENT_URL, HOSTS
 
@@ -210,8 +210,12 @@ def run(start, end, out=OUTPUT_DIR):
                 "url_b": EVENT_URL.format(host=HOSTS[SYSTEM], evid=b.evid),
                 **plot,
             })
+    try:
+        recsec.make(rows, tt)            # waveform record sections for pairs with |dt0| < 10 s -> docs/rs/
+    except Exception as e:
+        print(f"  record sections skipped: {e}")
     df = pd.DataFrame(rows)
-    df.drop(columns=["url_a", "url_b", "picks", "a_picks", "curve"], errors="ignore").to_csv(out / "split_pairs.csv", index=False)
+    df.drop(columns=["url_a", "url_b", "picks", "a_picks", "curve", "rs"], errors="ignore").to_csv(out / "split_pairs.csv", index=False)
     doc = {"system": SYSTEM, "start": start, "end": end,
            "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
            "n_anchors": int(len(anchors)),

@@ -48,10 +48,15 @@ Plotly is loaded from jsDelivr; map coastlines come from `docs/topojson/world_50
 (status preliminary, reviewed or final) are split events, i.e. duplicate solutions of it. For each pair, the second
 event's first-arriving P picks are compared with arrival times predicted from the reviewed event's hypocenter (ak135),
 and the RMS of those residuals (seconds) is reported: small means a likely split, large means a separate event. The
-pick overlap (same station within 0.5 s) is reported too. It runs as part of `run.py`, or on its own with
+number of picks in common (same pick ID) is reported too. It runs as part of `run.py`, or on its own with
 `python splits.py` (default: the window of the current web data). Outputs: `output/split_pairs.csv`,
 `docs/data/splits.json`. Travel times come from `scripts/ak135_tt.npz`, a table precomputed with obspy.taup
 (first P and S, 0–30°, 0–300 km), so obspy is not needed to run it.
+
+Pairs with |Δt₀| < 10 s also get a waveform record section, `docs/rs/<reviewed>_<test>.png`, linked from the
+"P arrivals" column: vertical traces from the dev FDSN dataselect service (1–10 Hz, downsampled by distance),
+arrivals of both events from the onsite FDSN event service, and ak135 P/S from the reviewed hypocenter
+(`scripts/recsec.py`; miniSEED decoded by `scripts/mseed.py`, numpy only).
 
 ## Layout
 
@@ -63,6 +68,8 @@ scripts/metrics.py  classification, latencies, stats
 scripts/comcat.py   QuakeML parsing, catalog matching, cleaning filters
 scripts/web.py      web page data (docs/data/*.json)
 scripts/splits.py   split-event test (onsite); splits.py runs it on its own
+scripts/recsec.py   record sections for split-test pairs (docs/rs/*.png)
+scripts/mseed.py    minimal miniSEED reader (Steim1/2, numpy)
 scripts/ak135_tt.npz ak135 first-P/S travel-time table
 docs/index.html     web page
 docs/splits.html    split-event test page

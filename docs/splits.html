@@ -114,7 +114,7 @@ const COLS = [
   {k: "cls", t: "Class", l: true, f: v => `<span class="chip ${v}">${v}</span>`},
   {k: "a_evid", t: "Reviewed", l: true, s: r => r.a_mag, f: (v, r) => `<a href="${r.url_a}" target="_blank" rel="noopener">${evLabel(v, r.a_mag)}</a>`},
   {k: "b_evid", t: "Test →", l: true, c: "sep", s: r => r.b_mag, f: (v, r) => `<a href="${r.url_b}" target="_blank" rel="noopener">${evLabel(v, r.b_mag)}</a>`},
-  {k: "n_p", t: "P picks"},
+  {k: "n_p", t: "P arrivals", f: (v, r) => r.rs ? `<a href="${r.rs}" target="_blank" rel="noopener" title="Waveform record section">${v}</a>` : v},
   {k: "shared", t: "Picks in common"},
   {k: "rms_a", t: "RMS (s)", f: v => fx(v, 1)},
   {k: "dt0_s", t: "Δt₀ (s)", f: v => v == null ? "–" : Math.round(v)},
