@@ -1,9 +1,9 @@
-idx,onsite,offsite
-total_events,6104,6317
-in_mission,5829,6024
-auto_confirm,787,2159
-auto_reject,428,1715
-auto_uneval,431,1758
-man_confirm,2855,0
-man_reject,697,0
-generated,2026-10-20 15:57:01 UTC,2026-10-20 15:57:19 UTC
+idx,onsite,offsite,dev
+total_events,1304,1352,1410
+in_mission,1265,1301,1365
+auto_confirm,327,454,487
+auto_reject,179,405,333
+auto_uneval,216,375,328
+man_confirm,329,0,1
+man_reject,112,0,0
+generated,2026-10-20 16:23:45 UTC,2026-10-20 16:23:46 UTC,2026-10-20 16:23:48 UTC
