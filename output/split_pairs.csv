@@ -1,5 +1,4 @@
 a_evid,a_time,a_mag,a_status,b_evid,b_mag,b_status,b_mode,b_author,b_type,dt0_s,dist_km,ddepth_km,n_p,shared,rms_a,mean_a,rms_b,rms_a_own,n_early,n_on_a_s,cls,label,a_lat,a_lon,b_lat,b_lon
-aka2026ujcyxy,2026-10-14T11:20:55.34Z,3.83,reviewed,aka2026ujcxyx,1.0,rejected,automatic,scanloc_state:AEC,,-67.8,2068.5,3.0,7,0,315.82,-315.68,0.84,0.63,7,0,distinct,rejected,51.418,177.029,59.623,-153.06
 aka2026ukdjtx,2026-10-15T00:33:19.34Z,1.84,reviewed,aka2026ukdleb,,rejected,automatic,scanloc_state:AEC,not existing,80.3,1571.5,-72.4,6,0,272.94,272.93,1.36,0.38,0,0,distinct,rejected,60.367,-151.799,50.032,-134.699
 aka2026ukdwzb,2026-10-15T00:48:16.16Z,2.15,reviewed,aka2026ukdyqx,2.29,reviewed,manual,scolv:abakken,earthquake,118.6,158.9,21.2,30,0,108.18,107.51,0.9,0.86,0,0,distinct,both reviewed,60.458,-139.822,60.176,-142.651
 aka2026ukgaxy,2026-10-15T01:53:03.16Z,2.29,reviewed,aka2026ukgdow,2.19,reviewed,manual,scolv:abakken,earthquake,169.3,584.9,5.0,24,0,126.66,125.42,0.9,0.66,0,0,distinct,both reviewed,65.446,-144.021,60.393,-147.239
@@ -156,6 +155,12 @@ aka2026urwqzr,2026-10-19T05:08:39.82Z,1.36,reviewed,aka2026urwswy,3.51,rejected,
 aka2026urwrdu,2026-10-19T05:08:42.14Z,3.92,preliminary,aka2026urwrrt,3.72,rejected,automatic,scolv:aaholland3,not existing,43.4,344.8,100.7,107,12,3.47,0.39,1.41,0.65,18,0,ambiguous,rejected,51.529,-168.517,53.583,-164.694
 aka2026urwrdu,2026-10-19T05:08:42.14Z,3.92,preliminary,aka2026urwswy,3.51,rejected,automatic,scolv:aaholland3,not existing,78.4,639.3,151.2,55,0,2.0,-0.38,0.93,0.65,14,0,split,rejected,51.529,-168.517,55.224,-161.121
 aka2026urzbea,2026-10-19T06:20:20.50Z,2.42,reviewed,aka2026urzdiy,2.74,reviewed,manual,scolv:abakken,earthquake,148.6,1133.3,-101.7,20,0,46.88,44.46,0.5,0.56,0,0,distinct,both reviewed,63.139,-150.452,54.405,-160.685
+aka2026usbhey,2026-10-19T07:27:16.39Z,2.24,reviewed,aka2026usbfmg,0.85,rejected,automatic,scanloc_state:AEC,not existing,-119.0,1820.9,-14.3,6,0,337.32,-337.26,1.42,0.18,6,0,distinct,rejected,51.482,-177.19,60.554,-152.469
+aka2026uscgsl,2026-10-19T07:56:41.77Z,2.14,reviewed,aka2026uscfuk,5.5,confirmed,automatic,scanloc_global_assoc:AEC,,-58.8,9704.0,40.8,33,0,564.33,549.29,1.32,0.72,0,0,distinct,,65.094,-145.502,-14.093,165.593
+aka2026uscmqb,2026-10-19T08:03:29.23Z,2.25,reviewed,aka2026uscmbk,4.14,rejected,automatic,scanloc_state:AEC,not existing,-37.1,1586.2,4.7,10,0,160.04,-17.87,1.33,0.85,5,0,distinct,rejected,60.236,-140.747,56.538,-167.244
+aka2026uscmqb,2026-10-19T08:03:29.23Z,2.25,reviewed,aka2026uscmes,3.48,confirmed,automatic,scanloc_state:AEC,earthquake,17.5,690.8,125.4,207,0,52.42,-15.12,0.76,0.85,124,0,distinct,,60.236,-140.747,59.821,-153.173
+aka2026uscmqb,2026-10-19T08:03:29.23Z,2.25,reviewed,aka2026uscobq,2.47,,automatic,scanloc_state:AEC,,102.0,356.5,4.7,7,0,79.1,77.66,1.44,0.85,0,0,distinct,,60.236,-140.747,60.485,-147.213
+aka2026uscmqb,2026-10-19T08:03:29.23Z,2.25,reviewed,aka2026uscpcw,3.31,rejected,automatic,scanloc_state:AEC,,174.4,2108.0,222.8,8,0,60.35,-60.34,0.26,0.85,8,0,distinct,rejected,60.236,-140.747,51.648,-171.396
 aka2026usjwdz,2026-10-19T11:44:29.88Z,3.6,preliminary,aka2026usjuhi,1.49,rejected,automatic,scanloc_state:AEC,,-134.3,1434.1,-18.0,8,2,263.67,-228.48,0.87,0.77,6,0,distinct,rejected,52.009,-169.632,60.582,-152.092
 aka2026usjwdz,2026-10-19T11:44:29.88Z,3.6,preliminary,aka2026usjwxe,1.11,rejected,automatic,scanloc_state:AEC,,46.8,1403.1,-18.0,6,0,120.57,-86.1,1.13,0.77,5,0,distinct,rejected,52.009,-169.632,60.55,-152.737
 aka2026usthoq,2026-10-19T16:27:44.38Z,4.51,preliminary,aka2026ustjaf,4.84,rejected,automatic,scanloc_state:AEC,,59.0,1107.8,289.6,11,9,5.58,1.33,1.28,1.56,1,0,distinct,rejected,51.354,178.218,47.429,-167.679
@@ -165,3 +170,16 @@ aka2026uuvbyq,2026-10-20T19:20:14.58Z,1.59,preliminary,aka2026uuvckt,2.08,prelim
 aka2026uuvbyq,2026-10-20T19:20:14.58Z,1.59,preliminary,aka2026uuvelx,1.98,confirmed,automatic,scanloc_state:AEC,,173.3,166.6,-4.4,17,0,169.89,169.32,0.85,0.34,0,0,distinct,,64.439,-147.374,65.429,-150.029
 aka2026uuvckt,2026-10-20T19:20:47.04Z,2.08,preliminary,aka2026uuvelx,1.98,confirmed,automatic,scanloc_state:AEC,,140.9,706.5,-71.1,17,0,80.7,78.42,0.85,0.51,0,0,distinct,,59.222,-152.972,65.429,-150.029
 aka2026uuxhaw,2026-10-20T20:26:02.10Z,2.87,preliminary,aka2026uuxfmb,2.09,confirmed,automatic,scolv:mewest,,-89.4,1416.6,108.5,22,0,257.62,-257.61,0.65,0.41,22,0,distinct,,50.52,-174.335,57.917,-156.464
+aka2026uvwrnm,2026-10-21T09:08:03.73Z,0.52,preliminary,aka2026uvwqgw,2.05,rejected,automatic,scanloc_state:AEC,,-99.8,103.4,110.7,10,0,91.17,-90.19,0.2,0.21,10,0,distinct,rejected,60.058,-153.1,59.165,-153.613
+aka2026uvzyoa,2026-10-21T10:46:01.94Z,3.99,preliminary,aka2026uvzyib,0.96,,automatic,scanloc_state:AEC,,-24.5,1140.8,-24.5,8,0,160.61,-160.25,0.37,0.76,8,0,distinct,,53.05,-163.452,61.287,-152.076
+aka2026uvzyoa,2026-10-21T10:46:01.94Z,3.99,preliminary,aka2026uvzzud,2.4,rejected,automatic,scolv:mewest,not existing,74.6,598.0,14.5,16,15,10.87,3.19,0.52,0.76,0,0,distinct,rejected,53.05,-163.452,57.259,-157.581
+aka2026uwcoet,2026-10-21T12:03:58.75Z,4.29,preliminary,aka2026uwcphn,3.03,rejected,automatic,scolv:mewest,not existing,69.6,580.7,68.9,49,48,6.32,0.71,0.78,1.4,6,1,distinct,rejected,53.458,-163.519,57.441,-157.552
+aka2026uwdanz,2026-10-21T12:18:10.17Z,3.24,preliminary,aka2026uwdaec,2.22,confirmed,automatic,scanloc_state:AEC,,-27.4,1394.6,-0.8,17,0,184.74,-184.11,0.8,0.83,17,0,distinct,,53.429,-163.593,64.691,-152.676
+aka2026uwdanz,2026-10-21T12:18:10.17Z,3.24,preliminary,aka2026uwdchl,3.26,preliminary,manual,scolv:mewest,earthquake,47.1,7.9,10.3,55,0,45.74,45.73,0.92,0.83,0,0,distinct,both reviewed,53.429,-163.593,53.499,-163.572
+aka2026uwdanz,2026-10-21T12:18:10.17Z,3.24,preliminary,aka2026uwdbxi,1.83,rejected,automatic,scanloc_state:AEC,,91.2,965.8,125.1,10,0,26.19,-9.71,0.73,0.83,8,0,distinct,rejected,53.429,-163.593,59.967,-153.124
+aka2026uwdchl,2026-10-21T12:18:57.31Z,3.26,preliminary,aka2026uwdaec,2.22,confirmed,automatic,scanloc_state:AEC,,-74.6,1386.8,-11.0,17,0,229.61,-229.1,0.8,0.92,17,0,distinct,,53.499,-163.572,64.691,-152.676
+aka2026uwdchl,2026-10-21T12:18:57.31Z,3.26,preliminary,aka2026uwdbxi,1.83,rejected,automatic,scanloc_state:AEC,,44.1,958.7,114.9,10,0,59.94,-54.77,0.73,0.92,9,0,distinct,rejected,53.499,-163.572,59.967,-153.124
+aka2026uwgyji,2026-10-21T14:15:33.55Z,2.32,preliminary,aka2026uwgync,1.12,,automatic,scanloc_state:AEC,,11.6,1680.0,-0.8,8,0,192.45,-192.11,1.08,0.19,8,0,distinct,,51.795,-173.637,61.363,-152.121
+aka2026uwgyji,2026-10-21T14:15:33.55Z,2.32,preliminary,aka2026uwhaus,2.2,confirmed,automatic,scanloc_state:AEC,,167.9,92.5,15.1,14,0,160.6,160.42,0.23,0.19,0,0,distinct,,51.795,-173.637,51.582,-174.935
+aka2026uwmfvh,2026-10-21T16:54:09.10Z,2.25,preliminary,aka2026uwmglw,1.01,confirmed,automatic,scanloc_state:AEC,,42.2,1093.1,5.0,13,0,94.84,-94.78,0.28,1.76,13,0,distinct,,52.598,-169.151,58.265,-154.928
+aka2026uwtkpf,2026-10-21T20:29:33.94Z,2.64,preliminary,aka2026uwtlhl,2.57,confirmed,automatic,scanloc_state:AEC,,46.4,719.5,50.5,76,4,33.86,0.32,0.57,0.82,35,0,distinct,,56.898,-154.118,63.129,-150.606
