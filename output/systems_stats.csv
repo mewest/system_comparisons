@@ -1,9 +1,9 @@
 idx,onsite,offsite,dev
-total_events,1020,1002,821
-in_mission,970,954,772
-auto_confirm,189,322,162
-auto_reject,108,306,38
-auto_uneval,153,267,501
-man_confirm,319,0,0
-man_reject,139,0,0
-generated,2026-11-05 02:29:37 UTC,2026-11-05 02:29:39 UTC,2026-11-05 02:29:39 UTC
+total_events,778,768,775
+in_mission,739,730,726
+auto_confirm,109,239,141
+auto_reject,70,244,31
+auto_uneval,86,196,494
+man_confirm,285,0,0
+man_reject,133,0,0
+generated,2026-11-05 02:35:33 UTC,2026-11-05 02:35:34 UTC,2026-11-05 02:35:34 UTC
